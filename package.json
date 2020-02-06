@@ -1,0 +1,12 @@
+{
+  "name": "@ingresse/core",
+  "version": "1.0.0",
+  "description": "Ingresse JavaScript development core tools",
+  "repository": "https://github.com/ingresse/js-core",
+  "author": "Ingresse <frontend@ingresse.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
