@@ -1,7 +1,8 @@
 /**
  * Base
  */
-const handler = require('./handler.util');
+const post = require('./post');
+
 /**
  * Request JSONP
  *
@@ -10,11 +11,14 @@ const handler = require('./handler.util');
  * @param {object} body
  * @param {object} settings
  */
-function jsonp(url = '', query = {}, body = {}, settings = {}) {
-    return handler(url, {
+function jsonp(
+    url      = '',
+    query    = {},
+    body     = {},
+    settings = {}
+) {
+    return post(url, query, body, {
         method: 'JSONP',
-        query : query,
-        body  : body,
         ...settings,
     });
 }

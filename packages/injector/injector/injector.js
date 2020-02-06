@@ -9,7 +9,7 @@
  *
  * @return {Promise} injection status
  */
-function handler({
+function injector({
         tag     = '',
         id      = '',
         src     = '',
@@ -50,7 +50,7 @@ function handler({
             });
         }
 
-        let elementFound = document.querySelector(`#${id}`);
+        let elementFound = (!id ? null : document.querySelector(`#${id}`));
         let elementChild = (!content ? '' : document.createTextNode(content));
         let elementRef   = (elementFound || document.createElement(tag));
 
@@ -62,8 +62,12 @@ function handler({
             elementRef.id = id;
         }
 
-        if (isSourceURL && src.includes('//')) {
+        if (isSourceURL) {
             elementRef.src = src;
+        }
+
+        if (isHrefURL) {
+            elementRef.href = href;
         }
 
         if (elementChild) {
@@ -79,4 +83,4 @@ function handler({
 /**
  * Exporting
  */
-module.exports = handler;
+module.exports = injector;

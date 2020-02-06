@@ -1,19 +1,24 @@
 /**
  * Base
  */
-const handler = require('./handler.util');
+const post = require('./post');
 
 /**
- * Request POST
+ * Request PUT
  *
  * @param {string} url
  * @param {object} query
  * @param {object} body
  * @param {object} settings
  */
-function post(url = '', query = {}, body = {}, settings = {}) {
-    return handler(url, {
-        method: 'POST',
+function put(
+    url      = '',
+    query    = {},
+    body     = {},
+    settings = {}
+) {
+    return post(url, {
+        method: 'PUT',
         query : query,
         body  : body,
         ...settings,
@@ -23,4 +28,4 @@ function post(url = '', query = {}, body = {}, settings = {}) {
 /**
  * Exporting
  */
-module.exports = post;
+module.exports = put;

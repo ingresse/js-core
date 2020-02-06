@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const handler = require('./handler.util');
+const injector = require('../injector');
 
 /**
  * Browser JS Injection
@@ -19,7 +19,7 @@ function js({
     content = undefined,
     ...rest
 }) {
-    return handler({
+    return injector({
         tag    : 'script',
         content: content,
         id,

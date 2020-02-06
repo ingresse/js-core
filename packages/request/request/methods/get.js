@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const handler = require('./handler.util');
+const request = require('../request');
 
 /**
  * Request GET
@@ -10,8 +10,12 @@ const handler = require('./handler.util');
  * @param {object} query
  * @param {object} settings
  */
-function get(url = '', query = {}, settings = {}) {
-    return handler(url, {
+function get(
+    url      = '',
+    query    = {},
+    settings = {}
+) {
+    return request(url, {
         method: 'GET',
         query : query,
         ...settings,

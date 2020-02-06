@@ -11,13 +11,12 @@
   "author": "Ingresse <frontend@ingresse.com>",
   "homepage": "https://ingresse.github.io/js-core",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "linters/index.js",
   "directories": {
-    "lib": "src",
-    "test": "__tests__"
+    "lib": "linters"
   },
   "files": [
-    "src"
+    "linters"
   ],
   "publishConfig": {
     "access": "public"

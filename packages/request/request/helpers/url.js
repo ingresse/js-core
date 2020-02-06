@@ -6,7 +6,10 @@
  *
  * @return {string} request URL
  */
-function URLBuilder(url = '', query = {}) {
+function URLBuilder(
+    url   = '',
+    query = {}
+) {
     const paramsString  = (!url || !url.includes('?') ? '' : url.split('?').pop().replace('?', ''));
     const resourceURL   = new URL(url);
     const resourceQuery = new URLSearchParams(paramsString);

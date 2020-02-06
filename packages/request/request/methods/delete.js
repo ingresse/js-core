@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const handler = require('./handler.util');
+const request = require('../request');
 
 /**
  * Request DELETE
@@ -10,8 +10,12 @@ const handler = require('./handler.util');
  * @param {object} query
  * @param {object} settings
  */
-function del(url = '', query = {}, settings = {}) {
-    return handler(url, {
+function del(
+    url      = '',
+    query    = {},
+    settings = {}
+) {
+    return request(url, {
         method: 'DELETE',
         query : query,
         ...settings,

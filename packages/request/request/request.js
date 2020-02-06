@@ -1,7 +1,8 @@
 /**
  * Utilities
  */
-const URLBuilder = require('./url.util');
+const URLBuilder  = require('./helpers/url');
+const transformer = require('./handlers/response');
 
 /**
  * Requests Handler
@@ -11,7 +12,10 @@ const URLBuilder = require('./url.util');
  *
  * @return {Promise}
  */
-function request(url = '', settings = {}) {
+function request(
+    url      = '',
+    settings = {}
+) {
     return new Promise((resolve, reject) => {
         if (!url) {
             return reject({
@@ -31,24 +35,28 @@ function request(url = '', settings = {}) {
             body,
             query,
             type,
+            transform,
             ...rest
         } = (settings || {});
 
         const requestURL      = URLBuilder(url, query);
         const requestSettings = {
-            mode   : 'cors',
-            cache  : 'default',
+            mode : 'cors',
+            cache: 'default',
+            ...(!body ? {} : {
+                body: JSON.stringify(body),
+            }),
             ...rest
         };
 
         fetch(requestURL, requestSettings)
         .catch(reject)
-        .then(response => {
-            if ((typeof response !== 'object') || !response) {
-                return response;
-            }
-
-            return (response[type] ? response[type]() : response.json());
+        .then((response) => {
+            return transformer(
+                (type || transform),
+                reject,
+                response
+            );
         })
         .then(resolve);
     });

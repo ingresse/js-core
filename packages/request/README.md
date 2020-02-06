@@ -1,20 +1,20 @@
 # `@ingresse/request`
 
-#### Facility to use [Fetch API]().
+#### Facility to use [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
 
 
 ## Usage
 
 #### Install as development dependency:
 ```
-yarn add -D @ingresse/request`
+yarn add -D @ingresse/request
 ```
 
-#### Usage example
+#### Example
 ```js
 import { get } from '@ingresse/request';
 
-const term = '@ingresse';
+const term = 'ingresse';
 const api  = 'https://npmsearch.com/query';
 
 get(api, {
