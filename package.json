@@ -9,12 +9,11 @@
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {
-    "unit": "jest --watch --collectCoverage",
-    "test": "jest",
-    "test:ci": "jest --collectCoverage"
-  },
   "devDependencies": {
     "jest": "^25.1.0"
+  },
+  "scripts": {
+    "unit": "jest --collectCoverage --watch",
+    "test": "CI=1 jest --collectCoverage"
   }
 }

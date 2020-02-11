@@ -25,10 +25,14 @@
     "type": "git",
     "url": "git+https://github.com/ingresse/js-core.git"
   },
-  "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
-  },
   "bugs": {
     "url": "https://github.com/ingresse/js-core/issues"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  },
+  "scripts": {
+    "unit": "jest --collectCoverage --watch",
+    "test": "CI=1 jest --collectCoverage"
   }
 }

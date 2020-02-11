@@ -7,6 +7,9 @@
 
 # testing
 /coverage
+*/coverage
+*/*/coverage
+*/*/*/coverage
 
 # production
 /build

@@ -25,18 +25,20 @@
     "type": "git",
     "url": "git+https://github.com/ingresse/js-core.git"
   },
-  "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
-  },
   "bugs": {
     "url": "https://github.com/ingresse/js-core/issues"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-react-app": "^5.2.0"
+    "eslint-config-react-app": "^5.2.0",
+    "jest": "^25.1.0"
   },
   "peerDependencies": {
     "eslint": ">= 6",
     "eslint-config-react-app": ">= 5"
+  },
+  "scripts": {
+    "unit": "jest --collectCoverage --watch",
+    "test": "CI=1 jest --collectCoverage"
   }
 }
