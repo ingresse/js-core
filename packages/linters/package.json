@@ -2,6 +2,8 @@
   "name": "@ingresse/linters",
   "version": "1.0.0",
   "description": "Ingresse linters configurations",
+  "main": "dist/linters.cjs.js",
+  "module": "dist/linters.esm.js",
   "keywords": [
     "ingresse",
     "lint",
@@ -11,12 +13,12 @@
   "author": "Ingresse <frontend@ingresse.com>",
   "homepage": "https://ingresse.github.io/js-core",
   "license": "MIT",
-  "main": "linters/index.js",
   "directories": {
-    "lib": "linters"
+    "lib": "src"
   },
   "files": [
-    "linters"
+    "dist",
+    "src"
   ],
   "publishConfig": {
     "access": "public"

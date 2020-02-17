@@ -2,6 +2,8 @@
   "name": "@ingresse/request",
   "version": "1.0.0",
   "description": "Ingresse Requests utilities based on Fetch API",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "keywords": [
     "ingresse",
     "lint",
@@ -11,12 +13,12 @@
   "author": "Ingresse <frontend@ingresse.com>",
   "homepage": "https://ingresse.github.io/js-core",
   "license": "MIT",
-  "main": "request/index.js",
   "directories": {
-    "lib": "request"
+    "lib": "src"
   },
   "files": [
-    "request"
+    "dist",
+    "src"
   ],
   "publishConfig": {
     "access": "public"

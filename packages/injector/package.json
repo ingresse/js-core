@@ -2,6 +2,8 @@
   "name": "@ingresse/injector",
   "version": "1.0.0",
   "description": "Ingresse Script Injector utility",
+  "main": "dist/injector.cjs.js",
+  "module": "dist/injector.esm.js",
   "keywords": [
     "ingresse",
     "utility",
@@ -12,12 +14,12 @@
   "author": "Ingresse <frontend@ingresse.com>",
   "homepage": "https://ingresse.github.io/js-core",
   "license": "MIT",
-  "main": "injector/index.js",
   "directories": {
-    "lib": "injector"
+    "lib": "src"
   },
   "files": [
-    "injector"
+    "dist",
+    "src"
   ],
   "publishConfig": {
     "access": "public"

@@ -10,14 +10,14 @@
  * @return {Promise} injection status
  */
 function injector({
-        tag     = '',
-        id      = '',
-        src     = '',
-        href    = '',
-        content = undefined,
-        target  = 'body',
-        ...rest
-    }) {
+    tag     = '',
+    id      = '',
+    src     = '',
+    href    = '',
+    content = undefined,
+    target  = 'body',
+    ...rest
+}) {
     return new Promise((resolve, reject) => {
         if (!document ||
             (typeof document !== 'object') ||
