@@ -1,3 +1,5 @@
+import key from './key.js';
+
 /**
  * Concat cookie name
  *
@@ -6,10 +8,7 @@
  * @return {string}
  */
 function _cookieName(cname) {
-    const _getKeyRef = require('./key.js');
-    const _getKey    = _getKeyRef();
-
-    return _getKey(encodeURIComponent(cname || ''));
+    return key(encodeURIComponent(cname || ''));
 }
 
 /**
@@ -107,11 +106,13 @@ function remove(cname) {
     return true;
 }
 
-/**
- * Exporting
- */
-module.exports = {
+const cookies = {
     get,
     set,
     remove,
 };
+
+/**
+ * Exporting
+ */
+export default cookies;

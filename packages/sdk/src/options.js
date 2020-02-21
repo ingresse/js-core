@@ -37,4 +37,4 @@ options.set = (newOptions = {}) => {
 /**
  * Exporting
  */
-module.exports = () => options;
+export default options;

@@ -1,3 +1,5 @@
+import options from '../options.js';
+
 /**
  * Messages Translations
  *
@@ -7,8 +9,6 @@
  * @return {string} message
  */
 function translator(msgKey = '', msgContent = '') {
-    const optionsRef = require('../options.js');
-    const options    = optionsRef();
     const {
         locale,
         messages,
@@ -32,4 +32,4 @@ function translator(msgKey = '', msgContent = '') {
 /**
  * Exporting
  */
-module.exports = translator;
+export default translator;

@@ -1,3 +1,5 @@
+import translator from './translator.js';
+
 /**
  * Error handler
  *
@@ -6,7 +8,6 @@
  * @param {object} adapted error
  */
 function handler(error) {
-    const translator = require('./translator.js');
     const {
         code,
         message,
@@ -22,4 +23,4 @@ function handler(error) {
 /**
  * Exporting
  */
-module.exports = handler;
+export default handler;

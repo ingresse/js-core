@@ -65,4 +65,4 @@ function request(
 /**
  * Exporting
  */
-module.exports = request;
+export default request;

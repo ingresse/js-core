@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const request = require('../request/request.js');
+import { request } from '../request/request.js';
 
 /**
  * User API Getter
@@ -20,9 +20,11 @@ function get(id = '', query = {}) {
     });
 }
 
+const user = {
+    get,
+}
+
 /**
  * Exporting
  */
-module.exports = {
-    get,
-};
+export default user;

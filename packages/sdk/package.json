@@ -6,14 +6,26 @@
   "author": "Ingresse <frontend@ingresse.com>",
   "license": "MIT",
   "private": false,
-  "main": "src/index.js",
+  "main": "./dist/index.js",
   "directories": {
     "lib": "src"
   },
   "files": [
-    "src"
+    "dist"
   ],
+  "scripts": {
+    "dev": "yarn start",
+    "build": "webpack"
+  },
   "dependencies": {
-    "@ingresse/request": "file:../request"
+    "@ingresse/request": "file:../request",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   }
 }
