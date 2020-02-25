@@ -1,9 +1,7 @@
-'use strict';
-
 /**
  * Resources
  */
-const js = require('./js');
+import js from './js';
 
 /**
  * Unit Tests

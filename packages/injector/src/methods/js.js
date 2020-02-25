@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const injector = require('../injector');
+import injector from'../injector';
 
 /**
  * Browser JS Injection
@@ -12,24 +12,26 @@ const injector = require('../injector');
  *
  * @return {Promise} injection status
  */
-function js({
-    id      = '',
-    target  = 'head',
-    src     = undefined,
-    content = undefined,
-    ...rest
-}) {
+function js(options) {
+    const {
+        id      = '',
+        target  = 'head',
+        src     = undefined,
+        content = undefined,
+        ...rest
+    } = (options || {});
+
     return injector({
         tag    : 'script',
         content: content,
         id,
         target,
         src,
-        ...rest
+        ...(rest || {})
     });
 }
 
 /**
  * Exporting
  */
-module.exports = js;
+export default js;

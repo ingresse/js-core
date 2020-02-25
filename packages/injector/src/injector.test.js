@@ -1,9 +1,7 @@
-'use strict';
-
 /**
  * Resources
  */
-const injector = require('./injector');
+import injector from './injector';
 
 /**
  * Unit Tests

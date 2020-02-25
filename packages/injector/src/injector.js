@@ -9,15 +9,17 @@
  *
  * @return {Promise} injection status
  */
-function injector({
-    tag     = '',
-    id      = '',
-    src     = '',
-    href    = '',
-    content = undefined,
-    target  = 'body',
-    ...rest
-}) {
+function injector(options) {
+    const {
+        tag     = '',
+        id      = '',
+        src     = '',
+        href    = '',
+        content = undefined,
+        target  = 'body',
+        ...rest
+    } = (options || {});
+
     return new Promise((resolve, reject) => {
         if (!document ||
             (typeof document !== 'object') ||
@@ -54,7 +56,7 @@ function injector({
         let elementChild = (!content ? '' : document.createTextNode(content));
         let elementRef   = (elementFound || document.createElement(tag));
 
-        Object.keys(rest).map((attrKey) => {
+        Object.keys((rest || {})).map((attrKey) => {
             elementRef[attrKey] = rest[attrKey];
         });
 
@@ -83,4 +85,4 @@ function injector({
 /**
  * Exporting
  */
-module.exports = injector;
+export default injector;

@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * Ingresse Injector Utility
  */
-const _injector = require('./injector');
-const _js       = require('./methods/js');
+import injector from './injector';
+import js       from './methods/js';
 
 /**
  * Exporting
  */
-module.exports = Object.assign(_injector, {
-    js: _js,
-});
+export {
+    injector as default,
+    js
+};

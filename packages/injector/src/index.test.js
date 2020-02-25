@@ -1,9 +1,7 @@
-'use strict';
-
 /**
  * Resources
  */
-const wrapper = require('./index');
+import wrapper from './index';
 
 /**
  * Unit Tests

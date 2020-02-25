@@ -2,8 +2,8 @@
   "name": "@ingresse/injector",
   "version": "1.0.0",
   "description": "Ingresse Script Injector utility",
-  "main": "dist/injector.cjs.js",
-  "module": "dist/injector.esm.js",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "keywords": [
     "ingresse",
     "utility",
@@ -18,7 +18,6 @@
     "lib": "src"
   },
   "files": [
-    "dist",
     "src"
   ],
   "publishConfig": {
