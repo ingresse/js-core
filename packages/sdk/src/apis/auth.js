@@ -1,7 +1,8 @@
 /**
  * Base
  */
-const request = require('../request/request.js');
+import { request } from '../request/request.js';
+import credentials from '../credentials/credentials.js';
 
 /**
  * Auth API Login
@@ -14,9 +15,6 @@ const request = require('../request/request.js');
  */
 function login(email = '', password = '', query = {}) {
     return new Promise((resolve, reject) => {
-        const credentialsRef = require('../credentials/credentials.js');
-        const credentials    = credentialsRef();
-
         credentials.clear();
 
         request
@@ -25,7 +23,11 @@ function login(email = '', password = '', query = {}) {
             password,
         })
         .catch(reject)
-        .then(({ data }) => {
+        .then((response) => {
+            const { 
+                data 
+            } = (response || {});
+
             if (typeof data !== 'object' || !data) {
                 return reject({
                     code: -1,
@@ -56,9 +58,6 @@ function login(email = '', password = '', query = {}) {
  */
 function logout() {
     return new Promise((resolve) => {
-        const credentialsRef = require('../credentials/credentials');
-        const credentials    = credentialsRef();
-
         credentials.clear();
 
         resolve(credentials.get());
@@ -75,8 +74,6 @@ function logout() {
  */
 function renew(token = '', query = {}) {
     return new Promise((resolve, reject) => {
-        const credentialsRef = require('../credentials/credentials');
-        const credentials    = credentialsRef();
         const userToken      = (token || credentials.get('token'));
 
         if (!userToken) {
@@ -110,11 +107,13 @@ function renew(token = '', query = {}) {
     });
 }
 
-/**
- * Exporting
- */
-module.exports = {
+const auth = {
     login,
     logout,
     renew,
-};
+}
+
+/**
+ * Exporting
+ */
+export default auth;

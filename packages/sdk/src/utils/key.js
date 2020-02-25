@@ -1,3 +1,5 @@
+import options from '../options.js'
+
 /**
  * Get storage full key
  *
@@ -7,8 +9,6 @@
  */
 function _getKey(key = '') {
     const _key       = (key || '').toString();
-    const optionsRef = require('../options.js');
-    const options    = optionsRef();
 
     const {
         env,
@@ -29,4 +29,4 @@ function _getKey(key = '') {
 /**
  * Exporting
  */
-module.exports = () => _getKey;
+export default _getKey;

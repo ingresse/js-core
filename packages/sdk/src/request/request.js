@@ -1,13 +1,17 @@
 /**
  * Core Packages
  */
-const requester = require('@ingresse/request');
+import requester from '@ingresse/request';
+
+import options from '../options.js';
+import credentials from '../credentials/credentials.js';
+
+import envURLBuilder from '../utils/env.js';
 
 /**
  * Helpers
  */
-const errorHandler = require('../exceptions/handler.js');
-
+import errorHandler from '../exceptions/handler.js';
 /**
  * Get Resource URL
  *
@@ -20,10 +24,6 @@ function getURL(
     resource = 'api',
     env      = ''
 ) {
-    const envURLBuilder = require('../utils/env.js');
-    const optionsRef    = require('../options.js');
-    const options       = optionsRef();
-
     return (
         options.url ||
         envURLBuilder(resource, (env || options.env || ''))
@@ -42,9 +42,6 @@ function setURL(
     resource = 'api',
     env      = ''
 ) {
-    const envURLBuilder  = require('../utils/env.js');
-    const optionsRef     = require('../options.js');
-    const options        = optionsRef();
     const newResourceURL = envURLBuilder(resource, (env || options.env || ''));
 
     options.set({
@@ -142,10 +139,6 @@ function _requestHandler(
             });
         }
 
-        const optionsRef     = require('../options.js');
-        const credentialsRef = require('../credentials/credentials.js');
-        const options        = optionsRef();
-        const credentials    = credentialsRef();
         const {
             authHeader,
             authQuery,
@@ -332,7 +325,9 @@ const request = {
 /**
  * Exporting
  */
-module.exports = Object.assign(_requestHandler, request, {
+export {
+    _requestHandler as default,
+    request,
     setURL,
     getURL,
-});
+}

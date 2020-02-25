@@ -1,7 +1,7 @@
 /**
  * Utilities
  */
-const cookies = require('../utils/cookies.js');
+import cookies from '../utils/cookies.js';
 
 /**
  * Authentication Credentials
@@ -125,4 +125,4 @@ credentials.clear = () => {
 /**
  * Exporting
  */
-module.exports = () => credentials;
+export default credentials;
