@@ -1,8 +1,8 @@
 /**
  * Base
  */
-import { request } from '../request/request.js';
-import credentials from '../credentials/credentials.js';
+import { get, post } from '../request/request.js';
+import credentials from '../credentials.js';
 
 /**
  * Auth API Login
@@ -17,21 +17,21 @@ function login(email = '', password = '', query = {}) {
     return new Promise((resolve, reject) => {
         credentials.clear();
 
-        request
-        .post('/login', query, {
+        post('/login', query, {
             email,
             password,
         })
         .catch(reject)
         .then((response) => {
-            const { 
-                data 
+            const {
+                data,
+                message,
             } = (response || {});
 
             if (typeof data !== 'object' || !data) {
                 return reject({
-                    code: -1,
-                    message: 'Auth: Invalid login response',
+                    code   : -1,
+                    message: (message || 'Auth: Invalid login response'),
                 });
             }
 
@@ -46,7 +46,10 @@ function login(email = '', password = '', query = {}) {
             };
 
             credentials.set(adapted);
-            resolve(adapted);
+            resolve({
+                ...(data || {}),
+                jwt: (authToken || ''),
+            });
         });
     });
 }
@@ -72,19 +75,18 @@ function logout() {
  *
  * @return {Promise}
  */
-function renew(token = '', query = {}) {
+function renewJWT(token = '', query = {}) {
     return new Promise((resolve, reject) => {
-        const userToken      = (token || credentials.get('token'));
+        const userToken = (token || credentials.get('token'));
 
         if (!userToken) {
             return reject({
-                code: -1,
+                code   : -1,
                 message: 'Auth: Missing user token to renew',
             });
         }
 
-        request
-        .get('/login/renew-token', {
+        get('/login/renew-token', {
             ...query,
             token: userToken,
         })
@@ -92,14 +94,14 @@ function renew(token = '', query = {}) {
         .then(({ authToken }) => {
             if (!authToken) {
                 return reject({
-                    code: -1,
+                    code   : -1,
                     message: 'Auth: Token renew failed',
                 });
             }
 
             credentials.set({
                 jwt  : authToken,
-                token: userToken
+                token: userToken,
             });
 
             resolve(credentials.get());
@@ -107,11 +109,14 @@ function renew(token = '', query = {}) {
     });
 }
 
+/**
+ * Reference
+ */
 const auth = {
     login,
     logout,
-    renew,
-}
+    renewJWT,
+};
 
 /**
  * Exporting

@@ -1,7 +1,7 @@
 /**
  * Credentials
  */
-import credentials from './credentials/credentials.js';
+import credentials from './credentials.js';
 
 /**
  * Utilities
@@ -9,6 +9,7 @@ import credentials from './credentials/credentials.js';
 import request from './request/request.js';
 import cookies from './utils/cookies.js';
 import storage from './utils/storage.js';
+import parseJWT from './utils/jwt.js';
 
 /**
  * Options
@@ -39,6 +40,7 @@ export {
     cookies,
     request,
     storage,
+    parseJWT,
     credentials,
     auth,
     user,

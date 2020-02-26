@@ -1,3 +1,6 @@
+/**
+ * Base
+ */
 import key from './key.js';
 
 /**

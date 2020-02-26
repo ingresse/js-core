@@ -1,15 +1,15 @@
 /**
  * Utilities
  */
-import cookies from '../utils/cookies.js';
+import cookies from './utils/cookies.js';
 
 /**
  * Authentication Credentials
  */
 let credentials = {
-    jwt   : (cookies.get('jwt') || ''),
-    token : (cookies.get('token') || ''),
-    userId: (cookies.get('userId') || ''),
+    jwt   : '',
+    token : '',
+    userId: '',
 };
 const methods = [
     'get',
@@ -29,7 +29,7 @@ credentials.get = (credentialKey = '') => {
         return null;
     }
 
-    const specific = (credentials[credentialKey] || null);
+    const specific = (credentials[credentialKey] || cookies.get(credentialKey) || '');
 
     if (credentialKey && !specific) {
         return null;
@@ -37,12 +37,12 @@ credentials.get = (credentialKey = '') => {
 
     let onlyValues = {};
 
-    Object.keys(credentials).map((credentialKey) => {
-        if (methods.includes(credentialKey)) {
+    Object.keys(credentials).map((credKey) => {
+        if (methods.includes(credKey)) {
             return false;
         }
 
-        onlyValues[credentialKey] = credentials[credentialKey];
+        onlyValues[credKey] = (credentials[credKey] || cookies.get(credKey) || '');
 
         return true;
     });
@@ -98,7 +98,7 @@ credentials.set = (newCredentials, credentialContent = '') => {
         return true;
     });
 
-    return credentials;
+    return credentials.get();
 };
 
 /**
@@ -119,7 +119,7 @@ credentials.clear = () => {
         return true;
     });
 
-    return credentials;
+    return credentials.get();
 };
 
 /**

@@ -1,3 +1,6 @@
+/**
+ * Helper
+ */
 import translator from './translator.js';
 
 /**
@@ -15,7 +18,7 @@ function handler(error) {
 
     return {
         ...(error || {}),
-        original: message,
+        original: (message || ''),
         message : translator(code, message),
     };
 }

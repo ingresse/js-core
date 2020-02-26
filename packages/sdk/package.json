@@ -7,10 +7,12 @@
   "license": "MIT",
   "private": false,
   "main": "./dist/index.js",
+  "module": "./src/index.js",
   "directories": {
     "lib": "src"
   },
   "files": [
+    "src",
     "dist"
   ],
   "scripts": {

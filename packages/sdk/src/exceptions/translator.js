@@ -1,3 +1,6 @@
+/**
+ * Base
+ */
 import options from '../options.js';
 
 /**
@@ -12,9 +15,11 @@ function translator(msgKey = '', msgContent = '') {
     const {
         locale,
         messages,
-    } = options;
+        exceptions,
+    } = options.get();
     let language = {
         ...(messages || {}),
+        ...(exceptions || {}),
     };
 
     try {
@@ -26,7 +31,7 @@ function translator(msgKey = '', msgContent = '') {
 
     } catch (e) {}
 
-    return (language[msgKey] || msgContent);
+    return (language[msgKey] || language[msgContent] || msgContent);
 }
 
 /**
