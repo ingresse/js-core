@@ -20,6 +20,7 @@ import options from './options.js';
  * APIs
  */
 import auth from './apis/auth.js';
+import event from './apis/event.js';
 import user from './apis/user.js';
 
 /**
@@ -43,5 +44,6 @@ export {
     parseJWT,
     credentials,
     auth,
+    event,
     user,
 };

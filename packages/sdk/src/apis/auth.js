@@ -15,9 +15,16 @@ import credentials from '../credentials.js';
  */
 function login(email = '', password = '', query = {}) {
     return new Promise((resolve, reject) => {
-        credentials.clear();
+        const {
+            companyLogin,
+            ...queryRest
+        } = (query || {});
 
-        post('/login', query, {
+        if (!companyLogin) {
+            credentials.clear();
+        }
+
+        post((!companyLogin ? '/login' : '/company-login'), queryRest, {
             email,
             password,
         })
@@ -35,17 +42,19 @@ function login(email = '', password = '', query = {}) {
                 });
             }
 
+            if (companyLogin) {
+                return resolve(data);
+            }
+
             const {
                 authToken,
                 ...rest
             } = (data || {});
 
-            const adapted = {
+            credentials.set({
                 jwt: authToken,
                 ...rest,
-            };
-
-            credentials.set(adapted);
+            });
             resolve({
                 ...(data || {}),
                 jwt: (authToken || ''),

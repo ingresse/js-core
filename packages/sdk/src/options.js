@@ -4,7 +4,8 @@
 let options = {
     apiKey  : '',
     env     : '',
-    company : 1,
+    company : '',
+    appName : '',
     locale  : 'br',
     prefix  : 'ing',
     junction: '_',

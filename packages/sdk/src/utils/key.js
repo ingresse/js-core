@@ -16,6 +16,7 @@ function keyBuilder(key = '') {
     const {
         env,
         prefix,
+        appName,
         company,
         junction,
     } = (options.get() || {});
@@ -23,7 +24,7 @@ function keyBuilder(key = '') {
     return (
         prefix +
         (!env ? '' : (junction + env)) +
-        (!company ? '' : (junction + company)) +
+        ((!appName && !company) ? '' : (junction + (appName || company))) +
         junction +
         _key
     );
