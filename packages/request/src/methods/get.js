@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const request = require('../request');
+import request from '../request';
 
 /**
  * Request GET
@@ -25,4 +25,4 @@ function get(
 /**
  * Exporting
  */
-module.exports = get;
+export default get;

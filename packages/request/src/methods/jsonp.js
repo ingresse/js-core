@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const post = require('./post');
+import post from './post';
 
 /**
  * Request JSONP
@@ -26,4 +26,4 @@ function jsonp(
 /**
  * Exporting
  */
-module.exports = jsonp;
+export default jsonp;
