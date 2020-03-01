@@ -10,6 +10,5 @@ import {
  */
 export const theme = (
     colors
-    .set('primary', colors.get('poison', 'light'))
-    .set('secondary', colors.get('ocean'))
+    .set('secondary', colors.get('primary'))
 );

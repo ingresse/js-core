@@ -2,14 +2,18 @@
  * Examples Components
  */
 import {
+    Del,
     Get,
     Post,
+    Put,
 } from '../examples';
 
 /**
  * Examples Settings
  */
 export const examples = {
-    GET : Get,
     POST: Post,
+    PUT : Put,
+    GET : Get,
+    DEL : Del,
 };

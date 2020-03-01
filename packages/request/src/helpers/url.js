@@ -10,17 +10,32 @@ function URLBuilder(
     url   = '',
     query = {}
 ) {
-    const paramsString  = (!url || !url.includes('?') ? '' : url.split('?').pop().replace('?', ''));
-    const resourceURL   = new URL(url);
-    const resourceQuery = new URLSearchParams(paramsString);
+    const paramsArray = (!url || !url.includes('?') ? [] : url.split('?').pop().replace('?', '').split('&'));
+    const resourceURL = (!url ? '' : new URL(url));
+    let queryArray    = [];
+    let queryObject   = {
+        ...query,
+    };
 
-    Object.keys(query).map((queryKey) => {
-        resourceQuery.delete(queryKey);
-        resourceQuery.append(queryKey, encodeURIComponent(query[queryKey]));
+    paramsArray.map((param) => {
+        const paramSplit = param.toString().split('=');
+        const paramKey   = paramSplit[0];
+        const paramValue = paramSplit[1];
+
+        queryObject[paramKey] = paramValue;
     });
 
-    const queryString    = resourceQuery.toString();
-    const resourceString = (resourceURL.protocol + '//' + resourceURL.host + resourceURL.pathname);
+    Object.keys(queryObject).map((queryKey) => {
+        const paramKey   = encodeURIComponent(queryKey);
+        const paramValue = encodeURIComponent(query[queryKey]);
+
+        queryArray.push(`${paramKey}=${paramValue}`);
+
+        return true;
+    });
+
+    const queryString    = queryArray.join('&');
+    const resourceString = (!resourceURL ? resourceURL : resourceURL.protocol + '//' + resourceURL.host + resourceURL.pathname);
     const resourceSearch = (!queryString ? '' : `?${queryString}`);
 
     return `${resourceString}${resourceSearch}`;
@@ -29,4 +44,4 @@ function URLBuilder(
 /**
  * Exporting
  */
-module.exports = URLBuilder;
+export default URLBuilder;

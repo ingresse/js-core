@@ -31,12 +31,20 @@
     "url": "https://github.com/ingresse/js-core/issues"
   },
   "devDependencies": {
-    "jest": "^25.1.0"
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
+    "jest": "^25.1.0",
+    "jest-fetch-mock": "^3.0.1"
   },
   "scripts": {
-    "unit": "jest --collectCoverage --watch",
-    "test": "CI=1 jest --collectCoverage",
+    "unit": "jest --collectCoverage --no-cache --watch",
+    "test": "CI=1 jest --collectCoverage --no-cache",
     "preexample": "cd example && npm i && clear",
     "example": "cd example && npm start"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setup.jest.js"
+    ]
   }
 }
