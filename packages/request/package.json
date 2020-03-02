@@ -35,6 +35,8 @@
   },
   "scripts": {
     "unit": "jest --collectCoverage --watch",
-    "test": "CI=1 jest --collectCoverage"
+    "test": "CI=1 jest --collectCoverage",
+    "preexample": "cd example && npm i && clear",
+    "example": "cd example && npm start"
   }
 }

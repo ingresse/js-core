@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const request = require('../request');
+import request from '../request';
 
 /**
  * Request DELETE
@@ -25,4 +25,4 @@ function del(
 /**
  * Exporting
  */
-module.exports = del;
+export default del;

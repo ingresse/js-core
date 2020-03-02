@@ -1,7 +1,7 @@
 /**
  * Base
  */
-const post = require('./post');
+import post from './post';
 
 /**
  * Request PUT
@@ -28,4 +28,4 @@ function put(
 /**
  * Exporting
  */
-module.exports = put;
+export default put;
