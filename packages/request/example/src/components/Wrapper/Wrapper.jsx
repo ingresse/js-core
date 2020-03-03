@@ -7,17 +7,11 @@ import React from 'react';
  * CSS
  */
 import {
-<<<<<<< HEAD
-    colors,
-=======
->>>>>>> Add: 'Request' package Example React Application;
     css,
     Global,
 } from '../../css';
 
 /**
-<<<<<<< HEAD
-=======
  * Settings
  */
 import {
@@ -25,7 +19,6 @@ import {
 } from '../../settings';
 
 /**
->>>>>>> Add: 'Request' package Example React Application;
  * Composition Componets
  */
 import {
@@ -66,14 +59,9 @@ function Wrapper({
                         font-size  : 16px;
                         line-height: 20px;
 
-<<<<<<< HEAD
-                        color           : ${colors.get('inverse')};
-                        background-color: ${colors.get('oil', 'dark')};
-=======
                         color           : ${theme.get('inverse')};
                         background-color: ${theme.get('primary')};
                         background-image: linear-gradient(45deg, ${theme.get('primary', 'dark')}, ${theme.get('primary')});
->>>>>>> Add: 'Request' package Example React Application;
                     }
 
 
@@ -93,11 +81,7 @@ function Wrapper({
                     }
 
                     #root {
-<<<<<<< HEAD
-                        background-image: linear-gradient(90deg, black, ${colors.get('oil', 'dark')});
-=======
                         background-image: linear-gradient(45deg, ${theme.get('primary', 'dark')}, ${theme.get('primary')});
->>>>>>> Add: 'Request' package Example React Application;
                     }
                 `}
             />
