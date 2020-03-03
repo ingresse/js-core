@@ -6,16 +6,17 @@ import injector from'../injector';
 /**
  * Browser JS Injection
  *
- * @param {string}          id      - TAG ID attribute
- * @param {string|function} content - TAG Content
- * @param {string}          target  - TAG Name to be inserted into
+ * @param {string} id      - TAG ID attribute
+ * @param {string} target  - TAG Name to be inserted into
+ * @param {string} src     - TAG Source reference
+ * @param {any}    content - TAG Content
  *
  * @return {Promise} injection status
  */
 function js(options) {
     const {
         id      = '',
-        target  = 'head',
+        target  = 'body',
         src     = undefined,
         content = undefined,
         ...rest
@@ -27,7 +28,7 @@ function js(options) {
         id,
         target,
         src,
-        ...(rest || {})
+        ...rest
     });
 }
 

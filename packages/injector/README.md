@@ -1,4 +1,4 @@
-# `@ingresse/injector`
+# `@ingresse/injector` ES Module
 
 #### Utility to make it easy to import 3th party libraries into HTML.
 
@@ -12,7 +12,7 @@ yarn add -D @ingresse/injector`
 
 #### Usage examples:
 ```js
-import injector, { js } from '@ingresse/injector';
+import injector, { css, js } from '@ingresse/injector';
 
 injector({
     tag    : 'script',       // Wrapper element TAG name
@@ -45,5 +45,14 @@ js({
             });
         })()
     `,
+});
+
+css({
+    id  : 'font-family',
+    href: 'https://fonts.googleapis.com/css?family=Roboto&display=swap',
+});
+css({
+    id     : 'font-family-definition',
+    content: `font-family: 'Roboto', sans-serif;`,
 });
 ```

@@ -1,7 +1,7 @@
 /**
  * Resources
  */
-import wrapper from './index';
+import wrapper, { css, js } from '../src/index.js';
 
 /**
  * Unit Tests
@@ -12,8 +12,11 @@ describe('@ingresse/injector', () => {
     });
 
     describe('methods', () => {
+        it('check CSS', () => {
+            expect(typeof css).toEqual('function');
+        });
         it('check JS', () => {
-            expect(typeof wrapper.js).toEqual('function');
+            expect(typeof js).toEqual('function');
         });
     });
 });
