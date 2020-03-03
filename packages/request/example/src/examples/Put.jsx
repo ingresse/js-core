@@ -72,7 +72,6 @@ function Put({
         put(`${api}${endpoint}`, {
             apikey,
             usertoken: token,
-            method   : 'update',
         }, {
             name,
         }, {
