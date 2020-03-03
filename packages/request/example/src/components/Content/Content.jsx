@@ -8,8 +8,14 @@ import React from 'react';
  */
 import {
     css,
-    colors,
 } from '../../css';
+
+/**
+ * Settings
+ */
+import {
+    theme,
+} from '../../settings';
 
 /**
  * Composition Components
@@ -31,12 +37,12 @@ function Content({
         <Card
             className="content"
             textColor="inverse"
-            background="ocean"
+            background="primary"
             styles={css`
                 padding-top   : 40px;
                 padding-bottom: 40px;
 
-                background-image: linear-gradient(90deg, ${colors.get('ocean', 'light')}, ${colors.get('ocean')});
+                background-color: ${theme.get('inverse')};
 
                 .content__inner {
                     margin-left : auto;

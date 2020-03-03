@@ -1,8 +1,8 @@
 /**
  * Utilities
  */
-const URLBuilder  = require('./helpers/url');
-const transformer = require('./handlers/response');
+import URLBuilder from './helpers/url';
+import transformer from './handlers/response';
 
 /**
  * Requests Handler
@@ -37,7 +37,7 @@ function request(
             type,
             transform,
             ...rest
-        } = (settings || {});
+        } = settings;
 
         const requestURL      = URLBuilder(url, query);
         const requestSettings = {
@@ -50,7 +50,6 @@ function request(
         };
 
         fetch(requestURL, requestSettings)
-        .catch(reject)
         .then((response) => {
             return transformer(
                 (type || transform),
@@ -58,7 +57,8 @@ function request(
                 response
             );
         })
-        .then(resolve);
+        .then(resolve)
+        .catch(reject);
     });
 }
 

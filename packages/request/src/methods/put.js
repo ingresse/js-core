@@ -17,10 +17,8 @@ function put(
     body     = {},
     settings = {}
 ) {
-    return post(url, {
+    return post(url, query, body, {
         method: 'PUT',
-        query : query,
-        body  : body,
         ...settings,
     });
 }

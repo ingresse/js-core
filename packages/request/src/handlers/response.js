@@ -12,17 +12,18 @@ function responseHandler(
     reject    = undefined,
     response  = {}
 ) {
-    const {
-        type,
-        status,
-    } = response;
+    const { status }    = response;
     const inStatusRange = ((status >= 200) && (status < 400));
 
     if (!inStatusRange) {
         return (typeof reject === 'function' ? reject(response) : response);
     }
 
-    if (typeof response[transform] !== 'function') {
+    if ([201, 202, 203, 204].includes(status)) {
+        return response;
+    }
+
+    if (!response || (typeof response[transform] !== 'function')) {
         return response;
     }
 
@@ -32,4 +33,4 @@ function responseHandler(
 /**
  * Exporting
  */
-module.exports = responseHandler;
+export default responseHandler;

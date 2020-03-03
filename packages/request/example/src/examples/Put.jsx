@@ -2,7 +2,7 @@
  * Core Packages
  */
 import React, { useState } from 'react';
-import { get } from '@ingresse/request';
+import { put } from '@ingresse/request';
 
 /**
  * Composition Components
@@ -16,9 +16,8 @@ import {
 /**
  * Component Itself
  */
-function Get({
+function Put({
     options,
-    handleChanges,
 
     loading,
     setLoading,
@@ -31,17 +30,26 @@ function Get({
     const {
         api,
         apikey,
-        event,
+        auth,
     } = (options || {});
+
+    /**
+     * Authentication values
+     */
     const {
-        id: eventId,
-    } = (event || {});
+        authToken,
+        token,
+        userId,
+    } = (auth || {});
 
     /**
      * Local values
      */
-    const disabled                  = (loading || !apikey);
-    const [ endpoint, setEndpoint ] = useState(`/event/${eventId || '21232'}`);
+    const disabled                  = (loading || !apikey || !authToken || !token || !userId);
+    const [ endpoint, setEndpoint ] = useState(`/users/${userId || 'your-user-id-after-login'}`);
+    const [ form, setForm ]         = useState({
+        name: '',
+    });
 
     /**
      * Submit Handler
@@ -55,33 +63,30 @@ function Get({
             return;
         }
 
-        setLoading(true);
-        handleChanges({
-            target: {
-                id   : 'event',
-                value: null,
-            },
-        });
+        const {
+            name,
+        } = (form || {});
 
-        get(`${api}${endpoint}`, {
+        setLoading(true);
+
+        put(`${api}${endpoint}`, {
             apikey,
+            usertoken: token,
+            method   : 'update',
+        }, {
+            name,
+        }, {
+            headers: {
+                'Authentication': `Bearer ${authToken}`,
+            },
         })
         .then((response) => {
-            console.info('GET response', response);
-
-            const { responseData } = (response || {});
-
-            setResult(response);
-            handleChanges({
-                target: {
-                    id   : 'event',
-                    value: (responseData || null),
-                },
-            });
+            console.info('PUT response', response);
+            setResult(`PUT success ${JSON.stringify(response)}`);
         })
         .catch((error) => {
-            console.error('GET error', error);
-            setResult(error);
+            console.error('PUT error', error);
+            setResult(`PUT error ${JSON.stringify(error)}`);
         })
         .finally(() => {
             setLoading(false);
@@ -102,10 +107,25 @@ function Get({
                     label="Endpoint"
                     autoComplete="off"
                     value={endpoint}
-                    disabled={disabled}
+                    disabled={true}
                     onChange={({ target }) => setEndpoint(target.value)}
+                />
+            </Segment>
+            <Segment padding="10px 0">
+                <Input
+                    id="name"
+                    name="name"
+                    type="name"
+                    label="Update your profile's Name"
+                    autoComplete="name"
+                    value={form.name}
+                    disabled={disabled}
+                    onChange={({ target }) => setForm({
+                        ...form,
+                        name: target.value
+                    })}
                     button={{
-                        id      : 'endpoint-submit',
+                        id      : 'login-submit',
                         type    : 'submit',
                         style   : {
                             cursor: (disabled ? 'not-allowed' : 'pointer'),
@@ -127,4 +147,4 @@ function Get({
 /**
  * Exporting
  */
-export default Get;
+export default Put;

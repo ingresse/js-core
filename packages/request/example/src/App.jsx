@@ -49,13 +49,14 @@ function App() {
     /**
      * Local values
      */
-    const [ tab, setTab ]         = useState(storage.get('tab') || 'GET');
+    const [ tab, setTab ]         = useState(storage.get('tab') || 'POST');
     const [ loading, setLoading ] = useState(false);
     const [ dialog, setDialog ]   = useState(null);
     const [ options, setOptions ] = useState({
         api   : (storage.get('api') || apis.hmla),
         apikey: (storage.get('apikey') || ''),
         auth  : (storage.get('auth') || null),
+        event : (storage.get('event') || null),
     });
 
 
@@ -128,6 +129,7 @@ function App() {
                             disabled={loading}
                             value={options.apikey}
                             onChange={handleChanges}
+                            error={(!options.apikey)}
                         />
                     </Segment>
                 </Segment>
@@ -145,7 +147,7 @@ function App() {
                                         block
                                         radius={4}
                                         type="button"
-                                        color={(tab !== exampleName) ? '' : 'primary'}
+                                        color={(tab !== exampleName) ? '' : 'oil'}
                                         id={`example-toggle-${exampleName}`}
                                         onClick={() => handleTab(exampleName)}
                                         styles={{

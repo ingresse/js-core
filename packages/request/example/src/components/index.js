@@ -27,11 +27,16 @@ export {
     H2,
     H3,
     Text,
+
+    /**
+     * Generics
+     */
+    Avatar,
+    Icon,
 } from '@ingresse/aphrodite';
 
 /**
  * Project's Components
  */
-export * from './Icon/Icon';
 export * from './Content/Content';
 export * from './Wrapper/Wrapper';
