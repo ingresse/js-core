@@ -1,17 +1,7 @@
 /**
-/**
- * Get Storage Key
- *
- * @param {string} key
- *
- * @return {string}
+ * Base
  */
-function getKey(key = '') {
-    const _getKeyRef = require('./key.js');
-    const _getKey    = _getKeyRef();
-
-    return _getKey(key || '');
-}
+import getKey from './key.js';
 
 /**
  * Get storage item
@@ -63,23 +53,23 @@ function set(key = '', content = null) {
  * @param {boolean} operation status
  */
 function remove(key = '') {
-    const _key   = getKey(key);
-    const exists = get(_key);
-
-    if (!exists) {
-        return false;
-    }
-
-    localStorage.removeItem(_key);
+    localStorage.removeItem(
+        getKey(key)
+    );
 
     return true;
 }
 
 /**
- * Exporting
+ * Reference
  */
-module.exports = {
+const storage = {
     get,
     set,
     remove,
 };
+
+/**
+ * Exporting
+ */
+export default storage;

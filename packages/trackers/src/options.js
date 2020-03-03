@@ -56,7 +56,7 @@ options.set = (newOptions = {}) => {
 *
 * @return {object} New object with merged key/values
 */
-options.merge(...objects) {
+options.merge = (...objects) => {
     const isObject = (obj) => (obj && typeof obj === 'object');
 
     return objects.reduce((prev, obj) => {

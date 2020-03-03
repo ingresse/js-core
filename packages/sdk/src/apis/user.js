@@ -1,7 +1,7 @@
 /**
  * Base
  */
-import { request } from '../request/request.js';
+import { get as getter } from '../request/request.js';
 
 /**
  * User API Getter
@@ -13,16 +13,18 @@ import { request } from '../request/request.js';
  */
 function get(id = '', query = {}) {
     return new Promise((resolve, reject) => {
-        request
-        .get(`/users/${id}`, query)
+        getter(`/users/${id}`, query)
         .catch(reject)
         .then(resolve);
     });
 }
 
+/**
+ * Reference
+ */
 const user = {
     get,
-}
+};
 
 /**
  * Exporting

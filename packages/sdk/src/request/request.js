@@ -3,15 +3,23 @@
  */
 import requester from '@ingresse/request';
 
+/**
+ * Base
+ */
 import options from '../options.js';
-import credentials from '../credentials/credentials.js';
+import credentials from '../credentials.js';
 
+/**
+ * Utilities
+ */
+import parseJWT from '../utils/env.js';
 import envURLBuilder from '../utils/env.js';
 
 /**
  * Helpers
  */
 import errorHandler from '../exceptions/handler.js';
+
 /**
  * Get Resource URL
  *
@@ -25,8 +33,8 @@ function getURL(
     env      = ''
 ) {
     return (
-        options.url ||
-        envURLBuilder(resource, (env || options.env || ''))
+        options.get('url') ||
+        envURLBuilder(resource, (env || options.get('env') || ''))
     );
 }
 
@@ -142,7 +150,7 @@ function _requestHandler(
         const {
             authHeader,
             authQuery,
-        } = _requestCredentials(credentials, options);
+        } = _requestCredentials(credentials.get(), options.get());
 
         const {
             headers,
@@ -182,7 +190,15 @@ function _requestHandler(
                     }
                 })
                 .catch(reject)
-                .then(() => {
+                .then(({ authToken }) => {
+                    if (!authToken) {
+                        reject(exception);
+
+                        return;
+                    }
+
+                    credentials.set('jwt', authToken);
+
                     _requestHandler(path, settings)
                     .catch(reject)
                     .then(resolve);
@@ -200,6 +216,7 @@ function _requestHandler(
             } = (response || {});
             const {
                 status,
+                message: messageData,
             } = (responseData || {});
 
             if (responseError || (status === false)) {
@@ -211,7 +228,7 @@ function _requestHandler(
                 return reject(errorHandler({
                     ...(responseError || {
                         code   : (code || -1),
-                        message: message,
+                        message: (message || messageData || ''),
                     }),
                 }));
             }
@@ -222,104 +239,135 @@ function _requestHandler(
 }
 
 /**
- * Requests Reference
+ * Request GET
+ *
+ * @param {string} path
+ * @param {object} query
+ * @param {object} settings
+ *
+ * @return {Promise}
  */
-const request = {
-    /**
-     * Request GET
-     *
-     * @param {string} path
-     * @param {object} query
-     * @param {object} settings
-     */
-    get: (path = '', query = {}, settings = {}) => {
-        return _requestHandler(
-            path,
-            {
-                method: 'GET',
-                query : query,
-                ...settings,
-            }
-        );
-    },
+function get(
+    path     = '',
+    query    = {},
+    settings = {}
+) {
+    return _requestHandler(
+        path,
+        {
+            method: 'GET',
+            query : query,
+            ...settings,
+        }
+    );
+};
 
-    /**
-     * Request POST
-     *
-     * @param {string} path
-     * @param {object} query
-     * @param {object} body
-     * @param {object} settings
-     */
-    post: (path = '', query = {}, body = {}, settings = {}) => {
-        return _requestHandler(
-            path,
-            {
-                method: 'POST',
-                query : query,
-                body  : body,
-                ...settings,
-            }
-        );
-    },
+/**
+ * Request POST
+ *
+ * @param {string} path
+ * @param {object} query
+ * @param {object} body
+ * @param {object} settings
+ *
+ * @return {Promise}
+ */
+function post(
+    path     = '',
+    query    = {},
+    body     = {},
+    settings = {}
+) {
+    return _requestHandler(
+        path,
+        {
+            method: 'POST',
+            query : query,
+            body  : body,
+            ...settings,
+        }
+    );
+};
 
-    /**
-     * Request PUT
-     *
-     * @param {string} path
-     * @param {object} query
-     * @param {object} body
-     * @param {object} settings
-     */
-    put: (path = '', query = {}, body = {}, settings = {}) => {
-        return _requestHandler(
-            path,
-            {
-                method: 'POST',
-                query : query,
-                body  : body,
-                ...settings,
-            }
-        );
-    },
+/**
+ * Request PUT
+ *
+ * @param {string} path
+ * @param {object} query
+ * @param {object} body
+ * @param {object} settings
+ *
+ * @return {Promise}
+ */
+function put(
+    path     = '',
+    query    = {},
+    body     = {},
+    settings = {}
+) {
+    return _requestHandler(
+        path,
+        {
+            method: 'PUT',
+            query : query,
+            body  : body,
+            ...settings,
+        }
+    );
+};
 
-    /**
-     * Request JSONP
-     *
-     * @param {string} path
-     * @param {object} query
-     * @param {object} body
-     * @param {object} settings
-     */
-    jsop: (path = '', query = {}, body = {}, settings = {}) => {
-        return _requestHandler(
-            path,
-            {
-                method: 'JSONP',
-                query : query,
-                body  : body,
-                ...settings,
-            }
-        );
-    },
+/**
+ * Request DELETE
+ *
+ * @param {string} path
+ * @param {object} query
+ * @param {object} body
+ * @param {object} settings
+ *
+ * @return {Promise}
+ */
+function del(
+    path     = '',
+    query    = {},
+    body     = {},
+    settings = {}
+) {
+    return _requestHandler(
+        path,
+        {
+            method: 'DELETE',
+            query : query,
+            body  : body,
+            ...settings,
+        }
+    );
+};
 
-    /**
-     * Request DELETE
-     *
-     * @param {string} path
-     * @param {object} query
-     * @param {object} settings
-     */
-    delete: (path = '', query = {}, settings = {}) => {
-        return _requestHandler(
-            path,
-            {
-                method: 'DELETE',
-                query : query,
-                ...settings,
-            }
-        );
-    },
+/**
+ * Request JSONP
+ *
+ * @param {string} path
+ * @param {object} query
+ * @param {object} body
+ * @param {object} settings
+ *
+ * @return {Promise}
+ */
+function jsonp(
+    path     = '',
+    query    = {},
+    body     = {},
+    settings = {}
+) {
+    return _requestHandler(
+        path,
+        {
+            method: 'JSONP',
+            query : query,
+            body  : body,
+            ...settings,
+        }
+    );
 };
 
 /**
@@ -327,7 +375,11 @@ const request = {
  */
 export {
     _requestHandler as default,
-    request,
+    get,
+    post,
+    put,
+    del,
+    jsonp,
     setURL,
     getURL,
 }

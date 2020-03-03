@@ -1,26 +1,30 @@
-import options from '../options.js'
+/**
+ * Base
+ */
+import options from '../options.js';
 
 /**
- * Get storage full key
+ * Application storage prefix key
  *
  * @param {string} key
  *
  * @return {string} full key
  */
-function _getKey(key = '') {
-    const _key       = (key || '').toString();
+function keyBuilder(key = '') {
+    const _key = (key || '').toString();
 
     const {
         env,
         prefix,
+        appName,
         company,
         junction,
-    } = (options || {});
+    } = (options.get() || {});
 
     return (
         prefix +
         (!env ? '' : (junction + env)) +
-        (!company ? '' : (junction + company)) +
+        ((!appName && !company) ? '' : (junction + (appName || company))) +
         junction +
         _key
     );
@@ -29,4 +33,4 @@ function _getKey(key = '') {
 /**
  * Exporting
  */
-export default _getKey;
+export default keyBuilder;
