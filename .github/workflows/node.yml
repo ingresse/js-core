@@ -1,0 +1,43 @@
+name: JS Core CI
+
+on: push
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [13.x]
+
+    steps:
+        - uses: actions/checkout@v1
+
+        - name: Use NodeJS ${{ matrix.node-version }}
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ matrix.node-version }}
+
+        - name: Package | Injector | Tests
+          run: |
+            cd packages/injector
+            npm install
+            npm test
+
+        - name: Package | Injector | Archive code coverage results
+          uses: actions/upload-artifact@v1
+          with:
+            name: coverage@injector
+            path: packages/injector/coverage
+
+        - name: Package | Request | Tests
+          run: |
+            cd packages/request
+            npm install
+            npm test
+
+        - name: Package | Request | Archive code coverage results
+          uses: actions/upload-artifact@v1
+          with:
+            name: coverage@request
+            path: packages/request/coverage
