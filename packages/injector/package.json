@@ -31,10 +31,13 @@
     "url": "https://github.com/ingresse/js-core/issues"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
     "jest": "^25.1.0"
   },
   "scripts": {
-    "unit": "jest --collectCoverage --watch",
-    "test": "CI=1 jest --collectCoverage"
+    "unit": "jest --collectCoverage --no-cache --watch",
+    "test": "CI=1 jest --collectCoverage --no-cache",
+    "preexample": "cd example && npm i && clear",
+    "example": "cd example && npm start"
   }
 }

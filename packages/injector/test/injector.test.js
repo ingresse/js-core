@@ -1,13 +1,29 @@
 /**
  * Resources
  */
-import injector from './injector';
+import injector from '../src/injector.js';
 
 /**
  * Unit Tests
  */
 describe('injector', () => {
     describe('invalid arguments', () => {
+        it('empty', () => {
+            expect.assertions(2);
+
+            return (
+                injector()
+                .then((injected) => {
+                    // Does not happen
+                    expect(typeof injected).toEqual('Object');
+                })
+                .catch(({ code, message }) => {
+                    expect(code).toBe(-1);
+                    expect(message).toEqual('injector:invalid-arguments');
+                })
+            );
+        });
+
         it('empty "tag"', () => {
             expect.assertions(2);
 
