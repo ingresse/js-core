@@ -1,24 +1,27 @@
 /**
  * Base
  */
-import { get, post } from '../request/request.js';
 import credentials from '../credentials.js';
+import {
+    get,
+    post,
+} from '../request/request.js';
 
 /**
  * Auth API Login
  *
  * @param {string} email
  * @param {string} password
- * @param {object} query
- * @param {object} settings
+ * @param {object} [query]
+ * @param {object} [settings]
  *
  * @return {Promise}
  */
 function login(
     email    = '',
     password = '',
-    query    = {},
-    settings = {}
+    query,
+    settings,
 ) {
     return new Promise((resolve, reject) => {
         const {
@@ -95,15 +98,15 @@ function logout() {
  * Auth Renew Authentication Token, based on optional or current token
  *
  * @param {string} token
- * @param {object} query
- * @param {object} settings
+ * @param {object} [query]
+ * @param {object} [settings]
  *
  * @return {Promise}
  */
 function renewJWT(
-    token    = '',
-    query    = {},
-    settings = {}
+    token = '',
+    query,
+    settings
 ) {
     return new Promise((resolve, reject) => {
         const userToken = (token || credentials.get('token'));
@@ -143,12 +146,125 @@ function renewJWT(
 }
 
 /**
+ * Auth API Company Login
+ *
+ * @param {string} email
+ * @param {string} password
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @return {Promise}
+ */
+function companyLogin(
+    email    = '',
+    password = '',
+    query,
+    settings
+) {
+    return new Promise((resolve, reject) => {
+        post(
+            '/company-login',
+            query,
+            {
+                email,
+                password,
+            },
+            settings
+        )
+        .catch(reject)
+        .then((response) => {
+            const {
+                data,
+                message,
+            } = (response || {});
+
+            if (typeof data !== 'object' || !data) {
+                return reject({
+                    code   : -1,
+                    message: (message || 'Auth: Invalid company login response'),
+                });
+            }
+
+            resolve(data);
+        });
+    });
+}
+
+/**
+ * Auth API Facebook Login
+ *
+ * @param {string} fbEmail      - User's email received from Facebook SDK
+ * @param {string} fbAcessToken - User's access token received from Facebook SDK
+ * @param {string} fbUserId     - User's ID from received Facebook SDK
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @return {Promise}
+ */
+function facebookLogin(
+    fbEmail       = '',
+    fbAccessToken = '',
+    fbUserId      = '',
+    query,
+    settings
+) {
+    return new Promise((resolve, reject) => {
+        post(
+            '/login/facebook',
+            query,
+            {
+                email   : fbEmail,
+                fbToken : fbAccessToken,
+                fbUserId: fbUserId,
+            },
+            settings
+        )
+        .catch(reject)
+        .then((response) => {
+            const {
+                data,
+                message,
+            } = (response || {});
+
+            if (typeof data !== 'object' || !data) {
+                return reject({
+                    code   : -1,
+                    message: (message || 'Auth: Invalid company login response'),
+                });
+            }
+
+            resolve(data);
+        });
+    });
+}
+
+/**
+ * User Register
+ *
+ * @param {object} body
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @return {Promise}
+ */
+function register(
+    body = {},
+    query,
+    settings
+) {
+    return post('/user', query, body, settings);
+}
+
+/**
  * Reference
  */
 const auth = {
     login,
     logout,
     renewJWT,
+    companyLogin,
+    facebookLogin,
+    register,
 };
 
 /**
