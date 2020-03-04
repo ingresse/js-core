@@ -27,7 +27,7 @@ function URLBuilder(
 
     Object.keys(queryObject).map((queryKey) => {
         const paramKey   = encodeURIComponent(queryKey);
-        const paramValue = encodeURIComponent(query[queryKey]);
+        const paramValue = encodeURIComponent(queryObject[queryKey]);
 
         queryArray.push(`${paramKey}=${paramValue}`);
 
