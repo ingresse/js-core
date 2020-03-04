@@ -10,10 +10,16 @@ import credentials from '../credentials.js';
  * @param {string} email
  * @param {string} password
  * @param {object} query
+ * @param {object} settings
  *
  * @return {Promise}
  */
-function login(email = '', password = '', query = {}) {
+function login(
+    email    = '',
+    password = '',
+    query    = {},
+    settings = {}
+) {
     return new Promise((resolve, reject) => {
         const {
             companyLogin,
@@ -24,10 +30,15 @@ function login(email = '', password = '', query = {}) {
             credentials.clear();
         }
 
-        post((!companyLogin ? '/login' : '/company-login'), queryRest, {
-            email,
-            password,
-        })
+        post(
+            (!companyLogin ? '/login' : '/company-login'),
+            queryRest,
+            {
+                email,
+                password,
+            },
+            settings
+        )
         .catch(reject)
         .then((response) => {
             const {
@@ -64,27 +75,36 @@ function login(email = '', password = '', query = {}) {
 }
 
 /**
- * Auth API Logout
+ * Auth Logout
  *
  * @return {Promise}
  */
 function logout() {
     return new Promise((resolve) => {
-        credentials.clear();
+        try {
+            credentials.clear();
+            resolve(credentials.get());
 
-        resolve(credentials.get());
+        } catch (error) {
+            reject(error);
+        }
     });
 }
 
 /**
- * Auth API Renew Authentication Token, based on regular token
+ * Auth Renew Authentication Token, based on optional or current token
  *
  * @param {string} token
  * @param {object} query
+ * @param {object} settings
  *
  * @return {Promise}
  */
-function renewJWT(token = '', query = {}) {
+function renewJWT(
+    token    = '',
+    query    = {},
+    settings = {}
+) {
     return new Promise((resolve, reject) => {
         const userToken = (token || credentials.get('token'));
 
@@ -95,10 +115,14 @@ function renewJWT(token = '', query = {}) {
             });
         }
 
-        get('/login/renew-token', {
-            ...query,
-            token: userToken,
-        })
+        get(
+            '/login/renew-token',
+            {
+                ...query,
+                token: userToken,
+            },
+            settings
+        )
         .catch(reject)
         .then(({ authToken }) => {
             if (!authToken) {

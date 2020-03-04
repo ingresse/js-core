@@ -15,7 +15,7 @@ import {
  */
 function get(id, query = {}) {
     return new Promise((resolve, reject) => {
-        getter(`/user/${id}`, query)
+        getter(`/users/${id}`, query)
         .catch(reject)
         .then(resolve);
     });
@@ -24,11 +24,11 @@ function get(id, query = {}) {
 /**
  * Reference
  */
-const user = {
+const users = {
     get,
 };
 
 /**
  * Exporting
  */
-export default user;
+export default users;

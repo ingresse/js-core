@@ -21,7 +21,9 @@ import options from './options.js';
  */
 import auth from './apis/auth.js';
 import event from './apis/event.js';
+import purchases from './apis/purchases.js';
 import user from './apis/user.js';
+import users from './apis/users.js';
 
 /**
  * Initializer
@@ -45,5 +47,7 @@ export {
     credentials,
     auth,
     event,
+    purchases,
     user,
+    users,
 };

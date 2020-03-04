@@ -64,14 +64,16 @@ function setURL(
  *
  * @param {string} path
  * @param {object} query
+ * @param {string} microservice
  *
  * @return {string} request URL
  */
 function _requestURL(
-    path  = '',
-    query = {}
+    path         = '',
+    query        = {},
+    microservice = 'api'
 ) {
-    const resourceURL = getURL();
+    const resourceURL = getURL(microservice);
     const params      = (
         Object.keys(query)
         .map(queryKey => (
@@ -97,18 +99,23 @@ function _requestCredentials(
     options     = {}
 ) {
     const {
-        jwt,
         authToken,
+        jwt,
+        token,
     } = (credentials || {});
+    const {
+        apikey,
+        apiKey,
+    } = (options || {});
     const authHeader = (!jwt && !authToken ? {} : {
-        'Authorization': `Bearer ${jwt || authToken}`,
+        'Authorization': `Bearer ${'' + (jwt || authToken)}`,
     });
     const authQuery  = {
-        ...(!options.apiKey ? {} : {
-            apikey: options.apiKey,
+        ...(!apikey && !apiKey ? {} : {
+            apikey: ('' + (apikey || apiKey)),
         }),
-        ...(!credentials.token ? {} : {
-            usertoken: credentials.token,
+        ...(!token ? {} : {
+            usertoken: ('' + token),
         }),
     };
 
@@ -155,6 +162,7 @@ function _requestHandler(
         const {
             headers,
             query,
+            microservice,
             ...rest
         } = (settings || {});
 
@@ -163,7 +171,7 @@ function _requestHandler(
             ...(query || {})
         };
 
-        const reqUrl      = _requestURL(path, reqQuery);
+        const reqUrl      = _requestURL(path, reqQuery, microservice);
         const reqHeaders  = {
             'Accept'       : '*/*',
             'Cache-Control': 'no-cache',
