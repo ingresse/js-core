@@ -9,11 +9,13 @@ import {
  * Forgot Password
  *
  * @param {string} email
+ * @param {object} [query]
+ * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
-function forgot(
-    email = '',
+function recover(
+    email,
     query,
     settings
 ) {
@@ -31,7 +33,7 @@ function forgot(
  * Reference
  */
 const password = {
-    forgot,
+    recover,
 };
 
 /**

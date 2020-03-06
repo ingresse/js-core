@@ -8,7 +8,7 @@ import key from './key.js';
  *
  * @param {string} cname - Cookie name
  *
- * @return {string}
+ * @returns {string}
  */
 function _cookieName(cname) {
     return key(encodeURIComponent(cname || ''));
@@ -82,7 +82,7 @@ function get(cname) {
  * @param {string|number} cvalue - The cookie value.
  * @param {number} days - The expiration days.
  *
- * @return {boolean} operation status
+ * @returns {boolean} operation status
  */
 function set(cname, cvalue, days) {
     if (!cname || !cvalue || !days) {
@@ -99,7 +99,7 @@ function set(cname, cvalue, days) {
  *
  * @param {string} cname - The cookie name.
  *
- * @return {boolean} operation status
+ * @returns {boolean} operation status
  */
 function remove(cname) {
     const cached = get(cname);

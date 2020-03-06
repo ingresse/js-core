@@ -8,7 +8,7 @@ import options from '../options.js';
  *
  * @param {string} key
  *
- * @return {string} full key
+ * @returns {string} full key
  */
 function keyBuilder(key = '') {
     const _key = (key || '').toString();

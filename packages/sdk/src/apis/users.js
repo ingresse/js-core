@@ -11,14 +11,14 @@ import {
  * @param {string} id    - User ID
  * @param {object} query
  *
- * @return {Promise}
+ * @returns {Promise}
  */
-function get(id, query = {}) {
-    return new Promise((resolve, reject) => {
-        getter(`/users/${id}`, query)
-        .catch(reject)
-        .then(resolve);
-    });
+function get(
+    id,
+    query,
+    settings
+) {
+    return getter(`/users/${id}`, query, settings);
 }
 
 /**

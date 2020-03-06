@@ -22,7 +22,7 @@ const methods = [
  *
  * @param {string} credentialKey
  *
- * @return {object} credentials
+ * @returns {object} credentials
  */
 credentials.get = (credentialKey = '') => {
     if (methods.includes(credentialKey)) {
@@ -56,7 +56,7 @@ credentials.get = (credentialKey = '') => {
  * @param {object|string} newCredentials
  * @param {any} credentialContent -
  *
- * @return {object} credentials
+ * @returns {object} credentials
  */
 credentials.set = (newCredentials, credentialContent = '') => {
     const expirationDays = 7;
@@ -104,7 +104,7 @@ credentials.set = (newCredentials, credentialContent = '') => {
 /**
  * Clear Credentials
  *
- * @return {object} credentials
+ * @returns {object} credentials
  */
 credentials.clear = () => {
     Object.keys(credentials).map((credentialKey) => {

@@ -12,7 +12,7 @@ import {
  *
  * @param {object} settings
  *
- * @return {object}
+ * @returns {object}
  */
 function defaultSettings(settings = {}) {
     const {
@@ -43,11 +43,11 @@ function defaultSettings(settings = {}) {
  * @param {object} query
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function get(
-    query    = {},
-    settings = {}
+    query,
+    settings
 ) {
     return getter(
         '/',
@@ -63,7 +63,7 @@ function get(
  * @param {object} query
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function refund(
     tid,

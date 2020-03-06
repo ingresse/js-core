@@ -1,17 +1,24 @@
 /**
  * Base
  */
-import { get as getter } from '../request/request.js';
+import {
+    get as getter,
+} from '../request/request.js';
 
 /**
  * Event API Getter
  *
- * @param {string} id    - Event Identifier
- * @param {object} query
+ * @param {string} id - Event Identifier
+ * @param {object} [query]
+ * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
-function get(id = '', query = {}) {
+function get(
+    id,
+    query,
+    settings
+) {
     return new Promise((resolve, reject) => {
         const {
             attributes,
@@ -21,7 +28,7 @@ function get(id = '', query = {}) {
         let eventAttributes = null;
 
         function _getEvent() {
-            getter(`/event/${id}`, originalQuery)
+            getter(`/event/${id}`, originalQuery, settings)
             .catch(reject)
             .then((eventResponse) => {
                 const eventData = {
@@ -37,7 +44,7 @@ function get(id = '', query = {}) {
             return _getEvent();
         }
 
-        getter(`/event/${id}/attributes`)
+        getter(`/event/${id}/attributes`, originalQuery, settings)
         .then((attributesResponse) => {
             eventAttributes = attributesResponse;
         })

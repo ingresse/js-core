@@ -15,7 +15,7 @@ import {
  * @param {object} [query]
  * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function login(
     email    = '',
@@ -80,7 +80,7 @@ function login(
 /**
  * Auth Logout
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function logout() {
     return new Promise((resolve) => {
@@ -97,14 +97,14 @@ function logout() {
 /**
  * Auth Renew Authentication Token, based on optional or current token
  *
- * @param {string} token
+ * @param {string} token - current API user's token
  * @param {object} [query]
  * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function renewJWT(
-    token = '',
+    token,
     query,
     settings
 ) {
@@ -153,7 +153,7 @@ function renewJWT(
  * @param {object} [query]
  * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function companyLogin(
     email    = '',
@@ -199,7 +199,7 @@ function companyLogin(
  * @param {object} [query]
  * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function facebookLogin(
     fbEmail       = '',
@@ -245,7 +245,7 @@ function facebookLogin(
  * @param {object} [query]
  * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function register(
     body = {},

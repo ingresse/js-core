@@ -26,7 +26,7 @@ import errorHandler from '../exceptions/handler.js';
  * @param {string} resource - platform resource
  * @param {string} env      - pltaform environment
  *
- * @return {string}
+ * @returns {string}
  */
 function getURL(
     resource = 'api',
@@ -44,7 +44,7 @@ function getURL(
  * @param {string} resource - platform resource
  * @param {string} env      - pltaform environment
  *
- * @return {string}
+ * @returns {string}
  */
 function setURL(
     resource = 'api',
@@ -66,7 +66,7 @@ function setURL(
  * @param {object} query
  * @param {string} microservice
  *
- * @return {string} request URL
+ * @returns {string} request URL
  */
 function _requestURL(
     path         = '',
@@ -92,7 +92,7 @@ function _requestURL(
 /**
  * Request's Authentication parameteres
  *
- * @return {object} headers and query
+ * @returns {object} headers and query
  */
 function _requestCredentials(
     credentials = {},
@@ -133,7 +133,7 @@ function _requestCredentials(
  * @param {object} query
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function _requestHandler(
     path     = '',
@@ -241,7 +241,7 @@ function _requestHandler(
                 }));
             }
 
-            resolve(responseData);
+            resolve(responseData || response);
         });
     });
 }
@@ -253,7 +253,7 @@ function _requestHandler(
  * @param {object} query
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function get(
     path     = '',
@@ -278,7 +278,7 @@ function get(
  * @param {object} body
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function post(
     path     = '',
@@ -305,7 +305,7 @@ function post(
  * @param {object} body
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function put(
     path     = '',
@@ -332,7 +332,7 @@ function put(
  * @param {object} body
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function del(
     path     = '',
@@ -359,7 +359,7 @@ function del(
  * @param {object} body
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function jsonp(
     path     = '',

@@ -8,17 +8,18 @@ import {
 /**
  * User API Getter
  *
- * @param {string} id    - User ID
- * @param {object} query
+ * @param {string} id - User's ID
+ * @param {object} [query]
+ * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
-function get(id, query = {}) {
-    return new Promise((resolve, reject) => {
-        getter(`/user/${id}`, query)
-        .catch(reject)
-        .then(resolve);
-    });
+function get(
+    id,
+    query,
+    settings
+) {
+    return getter(`/user/${id}`, query, settings);
 }
 
 /**
