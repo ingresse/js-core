@@ -16,18 +16,23 @@
     "dist"
   ],
   "scripts": {
-    "dev": "yarn start",
-    "build": "webpack"
+    "build": "webpack",
+    "unit": "jest --collectCoverage --no-cache --watch",
+    "test": "CI=1 jest --collectCoverage --no-cache",
+    "preexample": "cd example && npm i && clear",
+    "example": "cd example && npm start"
   },
   "dependencies": {
-    "@ingresse/request": "file:../request",
-    "webpack-node-externals": "^1.7.2"
+    "@ingresse/request": "file:../request"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
     "babel-loader": "^8.0.6",
+    "jest": "^25.1.0",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
   }
 }
