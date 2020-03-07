@@ -30,7 +30,7 @@ import SDK, {
      * Use API endpoints
      */
     auth,
-    company
+    company,
     event,
     password,
     user,

@@ -12,13 +12,6 @@ import {
 } from '../../css';
 
 /**
- * Settings
- */
-import {
-    theme,
-} from '../../settings';
-
-/**
  * Composition Componets
  */
 import {
@@ -32,6 +25,7 @@ import {
  * Component Itself
  */
 function Wrapper({
+    theme,
     children,
 }) {
     /**
@@ -39,10 +33,7 @@ function Wrapper({
      */
     return (
         <Flex
-            id="wrapper"
-            styles={{
-                minHeight: '100%',
-            }}>
+            id="wrapper">
             <Global
                 styles={css`
                     * {
@@ -53,13 +44,12 @@ function Wrapper({
                     body {
                         margin : 0;
                         padding: 0;
-                        overflow: hidden;
 
                         font-size  : 16px;
                         line-height: 20px;
 
                         color           : ${theme.get('base')};
-                        background-color: ${theme.get('inverse')};
+                        background-color: ${theme.get('smoke')};
                     }
 
                     html,
@@ -70,21 +60,28 @@ function Wrapper({
                         font-family: "Roboto", sans-serif;
                     }
 
-                    html,
-                    body,
-                    #root {
-                        width : 100%;
-                        height: 100%;
-                    }
-
                     a {
                         text-decoration: none;
                     }
+
+                    a,
+                    ::selection {
+                        color: ${theme.get(theme.main)};
+                    }
+
+                    ::selection {
+                        background-color: ${theme.base};
+                    }
                 `}
             />
-            <Header />
-            <Hero />
-            <Content>
+            <Header
+                theme={theme}
+            />
+            <Hero
+                theme={theme}
+            />
+            <Content
+                theme={theme}>
                 {children}
             </Content>
         </Flex>

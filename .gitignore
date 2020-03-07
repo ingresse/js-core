@@ -22,6 +22,9 @@
 
 # production
 /build
+*/build
+*/*/build
+*/*/*/build
 /dist
 */dist
 */*/dist

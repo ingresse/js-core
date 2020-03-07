@@ -1,7 +1,7 @@
 /**
- * Pages
+ * Core Packages
  */
-import Index from './Index/Index';
+import { lazy } from 'react';
 
 /**
  * Routes
@@ -11,29 +11,50 @@ const routes = {
         menu : '',
         title: `Plug your JS Application into Ingresse's Platform`,
         path : '/',
-        page : Index,
+        page : lazy(() => import('./Index/Index')),
     },
 
     api: {
         menu : 'APIs',
         title: 'APIs',
         path : '/api',
-        page : Index,
+        page : lazy(() => import('./Apis/Apis')),
         multi: true,
     },
     apiAuthentication: {
         subOf: 'api',
         menu : 'Authentication',
-        title: 'MS | Authentication',
+        title: 'API | Authentication',
         path : '/api/authentication',
-        page : Index,
+        page : lazy(() => import('./Apis/Apis')),
+    },
+    apiUser: {
+        subOf: 'api',
+        menu : 'User',
+        title: 'API | User',
+        path : '/api/user',
+        page : lazy(() => import('./Apis/Apis')),
+    },
+    apiUsers: {
+        subOf: 'api',
+        menu : 'Users',
+        title: 'API | Users',
+        path : '/api/users',
+        page : lazy(() => import('./Apis/Apis')),
+    },
+    apiEvent: {
+        subOf: 'api',
+        menu : 'Event',
+        title: 'API | Event',
+        path : '/api/event',
+        page : lazy(() => import('./Apis/Apis')),
     },
 
     ms: {
         menu : 'Microservices',
         title: 'Microservices',
         path : '/ms',
-        page : Index,
+        page : lazy(() => import('./Microservices/Microservices')),
         multi: true,
     },
     msEvents: {
@@ -41,14 +62,21 @@ const routes = {
         menu : 'Events',
         title: 'MS | Events',
         path : '/ms/events',
-        page : Index,
+        page : lazy(() => import('./Microservices/Microservices')),
+    },
+    msTickets: {
+        subOf: 'ms',
+        menu : 'Tickets',
+        title: 'MS | Tickets',
+        path : '/ms/tickets',
+        page : lazy(() => import('./Microservices/Microservices')),
     },
 
     utils: {
         menu : 'Utils',
-        title: 'Utils',
+        title: 'Utilities',
         path : '/utils',
-        page : Index,
+        page : lazy(() => import('./Utils/Utils')),
         multi: true,
     },
     utilsOptions: {
@@ -56,21 +84,21 @@ const routes = {
         menu : 'Options',
         title: 'Utility | Options',
         path : '/utils/options',
-        page : Index,
+        page : lazy(() => import('./Utils/Utils')),
     },
     utilsCredentials: {
         subOf: 'utils',
         menu : 'Credentials',
         title: 'Utility | Credentials',
         path : '/utils/credentials',
-        page : Index,
+        page : lazy(() => import('./Utils/Utils')),
     },
 
     extra: {
         menu : 'Extras',
         title: 'Extras',
         path : '/extra',
-        page : Index,
+        page : lazy(() => import('./Extras/Extras')),
         multi: true,
     },
     extraCookies: {
@@ -78,14 +106,14 @@ const routes = {
         menu : 'Cookies',
         title: 'Extra | Cookies',
         path : '/extra/cookies',
-        page : Index,
+        page : lazy(() => import('./Extras/Extras')),
     },
     extraStorage: {
         subOf: 'extra',
         menu : 'Local Storage',
         title: 'Extra | Local Storage',
         path : '/extra/storage',
-        page : Index,
+        page : lazy(() => import('./Extras/Extras')),
     },
 };
 

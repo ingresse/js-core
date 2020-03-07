@@ -13,7 +13,7 @@ const crystal = colors.get(main, 'crystal');
 const themed  = (
     colors
     .set('primary', regular, dark, light, crystal)
-    .set('secondary', regular, dark, light, crystal)
+    .set('secondary', regular, regular, light, crystal)
 );
 
 /**

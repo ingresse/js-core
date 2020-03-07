@@ -19,8 +19,8 @@
     "build": "webpack",
     "unit": "jest --collectCoverage --no-cache --watch",
     "test": "CI=1 jest --collectCoverage --no-cache",
-    "preexample": "cd example && npm i && clear",
-    "example": "cd example && npm start"
+    "predev": "cd docs && npm i && clear",
+    "dev": "cd docs && npm start"
   },
   "dependencies": {
     "@ingresse/request": "file:../request"

@@ -20,6 +20,11 @@ import { theme } from './settings';
 import { storage } from './services';
 
 /**
+ * Styles
+ */
+import { useWindowSize } from './css';
+
+/**
  * Composition Components
  */
 import { Router } from './components';
@@ -36,6 +41,11 @@ function App() {
         apikey : (storage.get('apikey') || ''),
         company: (storage.get('company') || ''),
     });
+    const ws      = useWindowSize();
+    const asTheme = {
+        ...theme,
+        ...ws,
+    };
 
     /**
      * Options changes handler
@@ -68,8 +78,10 @@ function App() {
      */
     return (
         <ThemeProvider
-            theme={theme}>
+            theme={asTheme}>
             <Router
+                theme={asTheme}
+
                 loading={loading}
                 setLoading={setLoading}
 

@@ -1,14 +1,13 @@
 /**
  * Core Packages
  */
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 /**
  * Composition Components
  */
 import {
-    Dropdown,
     List,
     ListItem,
 } from '../';
@@ -17,55 +16,18 @@ import {
  * Component Itself
  */
 function HeaderMenu ({
+    children,
     routes,
     handleClick,
 }) {
     /**
-     * Local values
-     */
-    const [ submenus, setSubmenus ] = useState({});
-
-    /**
-     * Mouse event handler
-     *
-     * @param {object} evt
-     */
-    function handleMouseOver({ target }) {
-        const { dropdown } = (target || {});
-
-        if (!dropdown || submenus[dropdown]) {
-            return;
-        }
-
-        setSubmenus({
-            ...submenus,
-            [dropdown]: true,
-        });
-    }
-
-    /**
-     * Mouse event handler
-     *
-     * @param {object} evt
-     */
-    function handleMouseOut({ target }) {
-        const { dropdown } = (target || {});
-
-        if (!dropdown || !submenus[dropdown]) {
-            return;
-        }
-
-        setSubmenus({
-            ...submenus,
-            [dropdown]: false,
-        });
-    }
-
-    /**
      * Render
      */
     return (
-        <nav className="header__nav">
+        <nav
+            role="navigation"
+            className="header__nav">
+            {children}
             <ul className="header__nav__list">
                 {Object.keys(routes).map((routeKey) => {
                     const route = routes[routeKey];
@@ -79,43 +41,40 @@ function HeaderMenu ({
                             key={routeKey}
                             className="header__nav__list__item">
                             <NavLink
-                                exact
                                 to={route.path}
                                 onClick={handleClick}
+                                aria-haspopup={!!route.multi}
                                 activeClassName="active"
-                                data-dropdown={routeKey}
-                                onMouseOut={handleMouseOut}
-                                onMouseOver={handleMouseOver}
                                 className="header__nav__list__item__link">
                                 {route.menu}
                             </NavLink>
                             {(!route.multi) ? (null) : (
-                                <Dropdown
-                                    thin
-                                    opened={submenus[routeKey]}>
-                                    <List>
-                                        {Object.keys(routes).map((subRouteKey) => {
-                                            const routeSub  = routes[subRouteKey];
-                                            const { subOf } = (routeSub || {});
+                                <List
+                                    aria-label="submenu"
+                                    className="header__nav__list__item__submenu">
+                                    {Object.keys(routes).map((subRouteKey) => {
+                                        const routeSub  = routes[subRouteKey];
+                                        const { subOf } = (routeSub || {});
 
-                                            if (subOf !== routeKey) {
-                                                return (null);
-                                            }
+                                        if (subOf !== routeKey) {
+                                            return (null);
+                                        }
 
-                                            return (
-                                                <ListItem
-                                                    withLink
-                                                    id={subRouteKey}
-                                                    key={subRouteKey}>
-                                                    <NavLink
-                                                        to={routeSub.path}>
-                                                        {routeSub.menu}
-                                                    </NavLink>
-                                                </ListItem>
-                                            );
-                                        })}
-                                    </List>
-                                </Dropdown>
+                                        return (
+                                            <ListItem
+                                                exact
+                                                withLink
+                                                as={NavLink}
+                                                to={routeSub.path}
+                                                onClick={handleClick}
+                                                id={subRouteKey}
+                                                key={subRouteKey}
+                                                className="header__nav__list__item__submenu__item">
+                                                {routeSub.menu}
+                                            </ListItem>
+                                        );
+                                    })}
+                                </List>
                             )}
                         </li>
                     );

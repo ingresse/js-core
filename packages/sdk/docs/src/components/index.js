@@ -1,4 +1,20 @@
 /**
+ * Library Components Customization
+ */
+import {
+    Button,
+} from '@ingresse/aphrodite';
+
+Button.defaultProps = {
+    ...Button.defaultProps,
+    radius: '0',
+};
+
+export {
+    Button,
+};
+
+/**
  * Re-exporting Library Components
  */
 export {
@@ -19,7 +35,6 @@ export {
     /**
      * Form
      */
-    Button,
     Input,
     InputMask,
     Select,
@@ -27,6 +42,7 @@ export {
     /**
      * Typography
      */
+    A,
     H1,
     H2,
     H3,
@@ -42,10 +58,13 @@ export {
 /**
  * Project's Components
  */
+export * from './CodeExample/CodeExample';
+export * from './CodeEditor/CodeEditor';
 export * from './Content/Content';
 export * from './Header/Header';
 export * from './Hero/Hero';
 export * from './Options/Options';
+export * from './Title/Title';
 export * from './Wrapper/Wrapper';
 
 /**

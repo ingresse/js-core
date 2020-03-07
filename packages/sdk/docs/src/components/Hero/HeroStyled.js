@@ -1,19 +1,20 @@
 /**
  * Core Packages
  */
-import styled from '@emotion/styled';
+import { styled } from '../../css';
 
 /**
  * Component Styles
  */
 const HeroStyled = styled.header`
     position: relative;
+    overflow: hidden;
     z-index : 10;
     background-color: ${({ theme }) => theme.get(theme.main)};
     background      : linear-gradient(${({ theme }) => `150deg, ${theme.get('sunflower', 'light')} 15%, ${theme.get('sunflower', 'light')} 70%, ${theme.get('sunflower')} 94%`});
 
     margin : 0;
-    padding: ${({ xs }) => xs ? 12 : 16}0px 0 ${({ xs }) => xs ? 4 : 8}0px;
+    padding: ${({ theme }) => theme.xs ? 8 : 12}0px 0 ${({ theme }) => theme.xs ? 4 : 8}0px;
 
     font-size  : 20px;
     line-height: 30px;
@@ -21,8 +22,8 @@ const HeroStyled = styled.header`
 
     .hero__title {
         font-weight: bold;
-        font-size  : ${({ xs }) => xs ? 32 : 54}px;
-        line-height: ${({ xs }) => xs ? 4 : 7}0px;
+        font-size  : ${({ theme }) => theme.xs ? 32 : 54}px;
+        line-height: ${({ theme }) => theme.xs ? 4 : 7}0px;
 
         display: block;
         margin : 0;

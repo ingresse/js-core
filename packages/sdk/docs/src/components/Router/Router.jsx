@@ -1,7 +1,7 @@
 /**
  * Core Packages
  */
-import React from 'react';
+import React, { Suspense } from 'react';
 import {
     BrowserRouter,
     Route,
@@ -26,6 +26,7 @@ import {
  * Component Itself
  */
 function Router({
+    theme,
     options,
     loading,
     handleChanges,
@@ -35,22 +36,25 @@ function Router({
      */
     return (
         <BrowserRouter>
-            <Wrapper>
-                <Switch>
-                    {Object.keys(routes).map((routeKey) => {
-                        const route = routes[routeKey];
-                        const Page  = route.page;
+            <Wrapper
+                theme={theme}>
+                <Suspense fallback={(<div>...</div>)}>
+                    <Switch>
+                        {Object.keys(routes).map((routeKey) => {
+                            const route = routes[routeKey];
+                            const Page  = route.page;
 
-                        return (
-                            <Route
-                                exact
-                                key={routeKey}
-                                path={route.path}>
-                                <Page />
-                            </Route>
-                        );
-                    })}
-                </Switch>
+                            return (
+                                <Route
+                                    exact
+                                    key={routeKey}
+                                    path={route.path}>
+                                    <Page />
+                                </Route>
+                            );
+                        })}
+                    </Switch>
+                </Suspense>
             </Wrapper>
         </BrowserRouter>
     );
