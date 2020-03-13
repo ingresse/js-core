@@ -10,7 +10,7 @@ import {
     /**
      * Grid
      */
-    Segment,
+    Section,
     Container,
 
     /**
@@ -30,14 +30,13 @@ function Utils() {
         <section
             id="utils">
             <Container>
-                <Segment
-                    as="article"
-                    padding="60px 0 0"
+                <Section
+                    first
                     id="utils-summary">
                     <Title>
                         Utilities
                     </Title>
-                </Segment>
+                </Section>
             </Container>
         </section>
     );

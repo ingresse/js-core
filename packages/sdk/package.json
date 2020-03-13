@@ -1,20 +1,33 @@
 {
   "name": "@ingresse/sdk",
-  "version": "2.0.0",
+  "version": "0.0.2",
   "description": "Ingresse plataform Javascript SDK",
-  "repository": "https://github.com/ingresse/js-core",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "keywords": [
+    "ingresse",
+    "sdk"
+  ],
   "author": "Ingresse <frontend@ingresse.com>",
+  "homepage": "https://ingresse.github.io/js-core",
   "license": "MIT",
-  "private": false,
-  "main": "./dist/index.js",
-  "module": "./src/index.js",
   "directories": {
     "lib": "src"
   },
   "files": [
-    "src",
-    "dist"
+    "dist",
+    "src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ingresse/js-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ingresse/js-core/issues"
+  },
   "scripts": {
     "build": "webpack",
     "unit": "jest --collectCoverage --no-cache --watch",
@@ -23,7 +36,7 @@
     "dev": "cd docs && npm start"
   },
   "dependencies": {
-    "@ingresse/request": "file:../request"
+    "@ingresse/request": "^0.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

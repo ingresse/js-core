@@ -29,45 +29,8 @@ const HeaderStyled = styled.header`
     }
 
     .header {
-        &__brand {
-            font-weight: bold;
-            font-size  : 24px;
-            line-height: 32px;
-
-            position: relative;
-            display : inline-block;
-            margin  : 0;
-            padding : 5px 10px 3px 100px;
-
-            transition: background ease .3s, color ease .3s;
-
-            &:before {
-                position: absolute;
-                content : attr(data-brand);
-                width   : 90px;
-                height  : 40px;
-                top     : 0;
-                left    : 0;
-
-                font-weight: bold;
-                font-size  : 22px;
-                line-height: 40px;
-                text-align : center;
-
-                color     : ${({ theme }) => theme.get('inverse')};
-                background: ${({ theme }) => theme.get('base')};
-
-                transition: background ease .3s, color ease .3s;
-            }
-
-            &:hover {
-                color     : ${({ theme }) => theme.get('inverse')};
-                background: ${({ theme }) => theme.get('base', '', 0.75)};
-            }
-        }
-
         &__nav {
-            &__list {
+            &__menu {
                 position  : relative;
                 display   : flex;
                 margin    : 0 -10px;
@@ -93,11 +56,11 @@ const HeaderStyled = styled.header`
                         transition: background ease .3s, color ease .3s, border-radius ease .3s;
                     }
 
-                    &:hover .header__nav__list__item__link,
-                    &:focus-within .header__nav__list__item__link,
-                    .header__nav__list__item__link.active,
-                    .header__nav__list__item__link:active,
-                    .header__nav__list__item__link:focus {
+                    &:hover .header__nav__menu__item__link,
+                    &:focus-within .header__nav__menu__item__link,
+                    .header__nav__menu__item__link.active,
+                    .header__nav__menu__item__link:active,
+                    .header__nav__menu__item__link:focus {
                         color: ${({ theme }) => theme.get('inverse')};
                         background: ${({ theme }) => theme.get('base')};
                     }
@@ -118,6 +81,7 @@ const HeaderStyled = styled.header`
                         width: calc(100% - 20px);
 
                         &__item {
+                            display: block;
                             padding: 10px;
 
                             color: ${({ theme }) => theme.get('inverse')};
@@ -133,7 +97,7 @@ const HeaderStyled = styled.header`
                         }
                     }
 
-                    &:hover > .header__nav__list__item__submenu,
+                    &:hover > .header__nav__menu__item__submenu,
                     &__submenu:hover {
                         visibility    : visible;
                         opacity       : 1;
@@ -223,10 +187,10 @@ const HeaderStyled = styled.header`
                     }
 
                     &__nav {
-                        margin    : 50px 0 0;
+                        margin    : 10px 0 0;
                         text-align: left;
 
-                        &__list {
+                        &__menu {
                             flex-direction: column;
 
                             &__item {
@@ -240,7 +204,7 @@ const HeaderStyled = styled.header`
                                     visibility: visible;
                                     opacity   : 1;
                                     width     : 100%;
-                                    padding   : 0 0 0 20px;
+                                    padding   : 0 0 0 10px;
                                     font-weight: normal;
 
                                     &__item {

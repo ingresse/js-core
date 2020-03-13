@@ -12,6 +12,7 @@ import {
      */
     Col,
     Row,
+    Section,
     Segment,
     Container,
 
@@ -19,24 +20,22 @@ import {
      * Typography
      */
     A,
-    Title,
     Text,
 
     /**
      * Generics
      */
-    CodeEditor,
+    CodePreview,
 } from '../../components';
 
 /**
  * Examples
  */
 import {
-    app,
     development,
     production,
-    ssrBlock,
-    replaceToken,
+    spa,
+    ssr,
 } from './examples';
 
 /**
@@ -50,21 +49,22 @@ function Index() {
         <section
             id="index">
             <Container>
-                <Segment
-                    as="article"
-                    padding="60px 0 0"
-                    id="index-example-install">
-                    <Title>
-                        ES Module to plug applications into
-                        {' '}
-                        <A
-                            target="_blank"
-                            href="https://www.ingresse.com">
-                            <strong>Ingresse</strong>
-                        </A>'s
-                        {' '}
-                        Platform
-                    </Title>
+                <Section
+                    first
+                    id="index-example-install"
+                    title={(
+                        <span>
+                            ES Module to plug applications into
+                            {' '}
+                            <A
+                                target="_blank"
+                                href="https://www.ingresse.com">
+                                <strong>Ingresse</strong>
+                            </A>'s
+                            {' '}
+                            Platform
+                        </span>
+                    )}>
                     <Row vertical="center">
                         <Col xs={12} sm={6}>
                             <Segment
@@ -72,10 +72,10 @@ function Index() {
                                 <Text margin="10px 0 20px">
                                     If your project is a SPA or has a production bundler:
                                 </Text>
-                                <CodeEditor
+                                <CodePreview
                                     language="shell">
                                     {development}
-                                </CodeEditor>
+                                </CodePreview>
                             </Segment>
                         </Col>
                         <Col xs={12} sm={6}>
@@ -84,38 +84,34 @@ function Index() {
                                 <Text margin="10px 0 20px">
                                     If your project is a <strong>SSR</strong> application:
                                 </Text>
-                                <CodeEditor
+                                <CodePreview
                                     language="shell">
                                     {production}
-                                </CodeEditor>
+                                </CodePreview>
                             </Segment>
                         </Col>
                     </Row>
-                </Segment>
+                </Section>
 
-                <Segment
-                    as="article"
-                    padding="60px 0"
-                    id="index-example-app">
-                    <Title>
-                        Usage example
-                    </Title>
+                <Section
+                    id="index-example-usage"
+                    title="Usage example">
                     <Segment
                         padding="10px 0">
-                        <CodeEditor
+                        <CodePreview
                             files={[
                                 {
-                                    name   : 'SPA / bundler',
-                                    content: app.replace(replaceToken, ''),
+                                    name : 'SPA / bundler',
+                                    embed: spa.embed,
                                 },
                                 {
-                                    name   : 'SSR',
-                                    content: app.replace(replaceToken, ssrBlock),
+                                    name   : 'SSR / NextJS',
+                                    content: ssr.code.trim(),
                                 },
                             ]}
                         />
                     </Segment>
-                </Segment>
+                </Section>
             </Container>
         </section>
     );

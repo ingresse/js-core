@@ -2,6 +2,7 @@
  * Utilities
  */
 import cookies from './utils/cookies.js';
+import storage from './utils/storage.js';
 
 /**
  * Authentication Credentials
@@ -29,7 +30,12 @@ credentials.get = (credentialKey = '') => {
         return null;
     }
 
-    const specific = (credentials[credentialKey] || cookies.get(credentialKey) || '');
+    const specific = (
+        credentials[credentialKey] ||
+        cookies.get(credentialKey) ||
+        storage.get(credentialKey) ||
+        ''
+    );
 
     if (credentialKey && !specific) {
         return null;
@@ -42,7 +48,12 @@ credentials.get = (credentialKey = '') => {
             return false;
         }
 
-        onlyValues[credKey] = (credentials[credKey] || cookies.get(credKey) || '');
+        onlyValues[credKey] = (
+            credentials[credKey] ||
+            cookies.get(credKey) ||
+            storage.get(credKey) ||
+            ''
+        );
 
         return true;
     });
@@ -75,6 +86,7 @@ credentials.set = (newCredentials, credentialContent = '') => {
         credentials[credentialKey] = credentialContent;
 
         cookies.set(credentialKey, credentialContent, expirationDays);
+        storage.set(credentialKey, credentialContent);
 
         return credentials[newCredentials];
     }
@@ -94,6 +106,7 @@ credentials.set = (newCredentials, credentialContent = '') => {
         credentials[credentialKey] = credentialValue;
 
         cookies.set(credentialKey, credentialValue, expirationDays);
+        storage.set(credentialKey, credentialValue);
 
         return true;
     });
@@ -115,6 +128,7 @@ credentials.clear = () => {
         credentials[credentialKey] = '';
 
         cookies.remove(credentialKey);
+        storage.remove(credentialKey);
 
         return true;
     });

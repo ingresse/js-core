@@ -2,7 +2,6 @@
  * Core Packages
  */
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 
 /**
  * Pages
@@ -19,6 +18,7 @@ import {
     Row,
     Col,
     Container,
+    Logo,
 } from '../../components';
 
 /**
@@ -76,12 +76,9 @@ function Header({
                         sm={2}
                         md={4}
                         lg={6}>
-                        <NavLink
-                            data-brand="js core"
-                            to={routes.index.path}
-                            className="header__brand">
-                            SDK
-                        </NavLink>
+                        <Logo
+                            className="header__brand"
+                        />
                     </Col>
                     {(theme.xs) ? (null) : (
                         <Col
@@ -113,6 +110,9 @@ function Header({
                         id="header__drawer"
                         onClick={toggleDrawer}
                         className={`header__drawer${!drawer ? '' : ' active'}`}>
+                        <Logo
+                            className="header__brand"
+                        />
                         <button
                             type="button"
                             onClick={toggleDrawer}

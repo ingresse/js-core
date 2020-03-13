@@ -5,14 +5,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 /**
- * Composition Components
- */
-import {
-    List,
-    ListItem,
-} from '../';
-
-/**
  * Component Itself
  */
 function HeaderMenu ({
@@ -28,7 +20,7 @@ function HeaderMenu ({
             role="navigation"
             className="header__nav">
             {children}
-            <ul className="header__nav__list">
+            <ul className="header__nav__menu">
                 {Object.keys(routes).map((routeKey) => {
                     const route = routes[routeKey];
 
@@ -39,19 +31,19 @@ function HeaderMenu ({
                     return (
                         <li
                             key={routeKey}
-                            className="header__nav__list__item">
+                            className="header__nav__menu__item">
                             <NavLink
                                 to={route.path}
                                 onClick={handleClick}
                                 aria-haspopup={!!route.multi}
                                 activeClassName="active"
-                                className="header__nav__list__item__link">
+                                className="header__nav__menu__item__link">
                                 {route.menu}
                             </NavLink>
                             {(!route.multi) ? (null) : (
-                                <List
+                                <div
                                     aria-label="submenu"
-                                    className="header__nav__list__item__submenu">
+                                    className="header__nav__menu__item__submenu">
                                     {Object.keys(routes).map((subRouteKey) => {
                                         const routeSub  = routes[subRouteKey];
                                         const { subOf } = (routeSub || {});
@@ -61,20 +53,17 @@ function HeaderMenu ({
                                         }
 
                                         return (
-                                            <ListItem
-                                                exact
-                                                withLink
-                                                as={NavLink}
+                                            <NavLink
                                                 to={routeSub.path}
                                                 onClick={handleClick}
                                                 id={subRouteKey}
                                                 key={subRouteKey}
-                                                className="header__nav__list__item__submenu__item">
+                                                className="header__nav__menu__item__submenu__item">
                                                 {routeSub.menu}
-                                            </ListItem>
+                                            </NavLink>
                                         );
                                     })}
-                                </List>
+                                </div>
                             )}
                         </li>
                     );

@@ -3,7 +3,7 @@
  */
 import React, { Suspense } from 'react';
 import {
-    BrowserRouter,
+    HashRouter,
     Route,
     Switch,
 } from 'react-router-dom';
@@ -35,7 +35,7 @@ function Router({
      * Render
      */
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Wrapper
                 theme={theme}>
                 <Suspense fallback={(<div>...</div>)}>
@@ -56,7 +56,7 @@ function Router({
                     </Switch>
                 </Suspense>
             </Wrapper>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 

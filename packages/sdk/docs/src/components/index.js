@@ -53,6 +53,7 @@ export {
      */
     Avatar,
     Icon,
+    Clipboard,
 } from '@ingresse/aphrodite';
 
 /**
@@ -60,10 +61,14 @@ export {
  */
 export * from './CodeExample/CodeExample';
 export * from './CodeEditor/CodeEditor';
+export * from './CodePreview/CodePreview';
 export * from './Content/Content';
 export * from './Header/Header';
 export * from './Hero/Hero';
+export * from './ListItemLink/ListItemLink';
+export * from './Logo/Logo';
 export * from './Options/Options';
+export * from './Section/Section';
 export * from './Title/Title';
 export * from './Wrapper/Wrapper';
 

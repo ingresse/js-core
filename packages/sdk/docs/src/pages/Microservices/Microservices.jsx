@@ -10,7 +10,7 @@ import {
     /**
      * Grid
      */
-    Segment,
+    Section,
     Container,
 
     /**
@@ -30,14 +30,13 @@ function Microservices() {
         <section
             id="ms">
             <Container>
-                <Segment
-                    as="article"
-                    padding="60px 0 0"
+                <Section
+                    first
                     id="ms-summary">
                     <Title>
                         Microservices
                     </Title>
-                </Segment>
+                </Section>
             </Container>
         </section>
     );

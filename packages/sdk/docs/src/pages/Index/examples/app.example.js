@@ -1,23 +1,38 @@
 /**
- * Replace Token
+ * SPA Example
  */
-const replaceToken = '##shouldbereplaced##';
+const spa = {
+    embed: `
+<iframe
+ src="https://codesandbox.io/embed/ingressesdk-usage-example-56mos?fontsize=14&hidenavigation=1&theme=dark"
+ style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+ title="@ingresse/sdk usage example"
+ allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+ sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+    `,
+};
 
 /**
- * App Example
+ * SSR Example
  */
-const app = `
+const ssr = {
+    code: `
 /**
  * Core Packages
  */
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import fetch from 'isomorphic-unfetch';
 
 /**
  * Our Package
  */
 import SDK, { event } from '@ingresse/sdk';
-${replaceToken}
+
+/**
+ * Pollyfill to Fetch API
+ */
+global.fetch = fetch;
+
 /**
  * Your Application values
  */
@@ -33,68 +48,64 @@ const sdkOptions = {
 SDK(sdkOptions);
 
 /**
- * Application Main Wrapper
+ * Main Page
  */
-function App() {
-    /**
-     * Local values
-     */
-    const [ myEvent, setMyEvent ] = useState(null);
-
-    /**
-     * Retrieve your event information
-     */
-    function getEvent() {
-        const myEventId = 21232;
-
-        event.get(myEventId)
-        .catch(console.error)
-        .then(setMyEvent);
-    }
-
-    /**
-     * Did mount
-     */
-    useEffect(() => {
-        getEvent();
-    }, []);
-
-    /**
-     * Render
-     */
+function Index({
+    ingresseError,
+    ingresseEvent,
+    ingresseEventId,
+}) {
     return (
         <div>
-            {JSON.stringify(myEvent)}
+            <h1>
+                Ingresse SDK SSR Example
+            </h1>
+            <div>
+                ingresseEventId: {ingresseEventId}
+            </div>
+            <div>
+                {JSON.stringify(ingresseEvent || ingresseError)}
+            </div>
         </div>
     );
 }
 
 /**
- * Render
+ * Retrieve data
  */
-ReactDOM.render(<App />, document.getElementById('root'));
-`.trim();
+Index.getInitialProps = async function() {
+    const ingresseEventId = 12345;
+
+    try {
+        const ingresseEvent = await event.get(ingresseEventId, { attributes: true });
+
+        console.log('Ingresse Event data fetched', ingresseEvent);
+
+        return {
+            ingresseEvent,
+            ingresseEventId,
+        };
+    } catch (ingresseError) {
+        console.log('Ingresse Event error', ingresseError);
+
+        return {
+            ingresseError,
+            ingresseEventId,
+        };
+    }
+};
 
 /**
- * SSR Block
+ * Export to NextJS as Page
  */
-const ssrBlock = `
-/**
- * Server Side Rendering Helper Packages
- */
-import fetch from 'isomorphic-unfetch';
-
-/**
- * Server Side Rendering fetch API support/pollyfill
- */
-global.fetch = fetch;
-`;
+export default Index;
+    `,
+};
 
 /**
  * Exporting
  */
 export {
-    app,
-    ssrBlock,
-    replaceToken,
+    spa,
+    ssr,
 };

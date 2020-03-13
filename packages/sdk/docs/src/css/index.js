@@ -1,6 +1,7 @@
 /**
  * Re-exporting Libraries
  */
-export { css, Global } from '@emotion/core';
+export { css, jsx, Global } from '@emotion/core';
 export { default as styled } from '@emotion/styled';
+export { ThemeProvider, useTheme } from 'emotion-theming';
 export { colors, gradients, useWindowSize } from '@ingresse/aphrodite';

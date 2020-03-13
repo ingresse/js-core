@@ -10,7 +10,7 @@ import {
     /**
      * Grid
      */
-    Segment,
+    Section,
     Container,
 
     /**
@@ -30,14 +30,13 @@ function Extras() {
         <section
             id="extras">
             <Container>
-                <Segment
-                    as="article"
-                    padding="60px 0 0"
+                <Section
+                    first
                     id="extras-summary">
                     <Title>
                         Extras
                     </Title>
-                </Segment>
+                </Section>
             </Container>
         </section>
     );

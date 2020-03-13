@@ -1,6 +1,6 @@
 {
   "name": "@ingresse/request",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Ingresse Requests utilities based on Fetch API",
   "main": "src/index.js",
   "module": "src/index.js",

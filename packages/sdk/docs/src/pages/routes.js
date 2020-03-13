@@ -49,6 +49,27 @@ const routes = {
         path : '/api/event',
         page : lazy(() => import('./Apis/Apis')),
     },
+    apiSale: {
+        subOf: 'api',
+        menu : 'Sale',
+        title: 'API | Sale',
+        path : '/api/sale',
+        page : lazy(() => import('./Apis/Apis')),
+    },
+    apiTransactions: {
+        subOf: 'api',
+        menu : 'Transactions',
+        title: 'API | Transactions',
+        path : '/api/transactions',
+        page : lazy(() => import('./Apis/Apis')),
+    },
+    apiEntrance: {
+        subOf: 'api',
+        menu : 'Entrance',
+        title: 'API | Entrance',
+        path : '/api/entrance',
+        page : lazy(() => import('./Apis/Apis')),
+    },
 
     ms: {
         menu : 'Microservices',
@@ -69,6 +90,13 @@ const routes = {
         menu : 'Tickets',
         title: 'MS | Tickets',
         path : '/ms/tickets',
+        page : lazy(() => import('./Microservices/Microservices')),
+    },
+    msCheckin: {
+        subOf: 'ms',
+        menu : 'Checkin',
+        title: 'MS | Checkin',
+        path : '/ms/checkin',
         page : lazy(() => import('./Microservices/Microservices')),
     },
 

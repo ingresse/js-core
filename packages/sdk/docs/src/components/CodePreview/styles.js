@@ -8,14 +8,16 @@ import {
 /**
  * Values
  */
-const className = 'ce';
+const className = 'cp';
 
 /**
  * Component Styles
  */
-const CodeEditorStyled = styled.div`
+const CodePreviewStyled = styled.div`
+    margin    : ${({ theme }) => theme.xs ? '0 -10px' : null};
     color     : ${({ theme }) => theme.inverse};
     background: ${({ theme }) => theme.get('oil', 'dark')};
+    box-shadow: 0 2px 4px 0 rgba(50,50,93,.1);
 
     .${className} {
         &__header {
@@ -76,5 +78,5 @@ const CodeEditorStyled = styled.div`
  */
 export {
     className,
-    CodeEditorStyled,
+    CodePreviewStyled,
 };
