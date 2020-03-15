@@ -14,12 +14,15 @@ function handler(error) {
     const {
         code,
         message,
+        status,
+        statusText,
     } = (error || {});
 
     return {
         ...(error || {}),
-        original: (message || ''),
-        message : translator(code, message),
+        original: (message || statusText || ''),
+        message : translator((code || status), (message || statusText)),
+        status,
     };
 }
 

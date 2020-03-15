@@ -17,6 +17,10 @@ const methods = [
     'set',
     'clear',
 ];
+const wontClear = [
+    'device',
+    'trusted_device',
+];
 
 /**
  * Get Credentials
@@ -121,7 +125,8 @@ credentials.set = (newCredentials, credentialContent = '') => {
  */
 credentials.clear = () => {
     Object.keys(credentials).map((credentialKey) => {
-        if (methods.includes(credentialKey)) {
+        if (methods.includes(credentialKey) ||
+            wontClear.includes(credentialKey)) {
             return false;
         }
 

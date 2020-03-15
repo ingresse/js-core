@@ -19,7 +19,10 @@ function get(
     query,
     settings
 ) {
-    return getter(`/user/${id}`, query, settings);
+    return getter(`/user/${id}`, query, {
+        withFormatter: 'user',
+        ...(settings || {}),
+    });
 }
 
 /**

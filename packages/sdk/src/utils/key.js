@@ -23,8 +23,8 @@ function keyBuilder(key = '') {
 
     return (
         prefix +
-        (!env ? '' : (junction + env)) +
         ((!appName && !company) ? '' : (junction + (appName || company))) +
+        (!env ? '' : (junction + env)) +
         junction +
         _key
     );

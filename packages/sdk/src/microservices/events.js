@@ -41,10 +41,35 @@ function get(
 }
 
 /**
+ * Event Microservice List Getter
+ *
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function list(
+    query,
+    settings
+) {
+    return getter(
+        `/search/producer`,
+        query,
+        defaultSettings({
+            withFormatter   : 'elastic',
+            withoutApiKey   : true,
+            withoutUserToken: true,
+            ...(settings || {}),
+        })
+    );
+}
+
+/**
  * Reference
  */
 const events = {
     get,
+    list,
 };
 
 /**

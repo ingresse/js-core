@@ -35,8 +35,14 @@ import tickets from './microservices/tickets.js';
 /**
  * Lambdas as APIs
  */
+import finance from './lambdas/finance.js';
 import purchases from './lambdas/purchases.js';
 import score from './lambdas/score.js';
+
+/**
+ * Formatters
+ */
+import * as formatters from './formatters/index.js';
 
 /**
  * Initializer
@@ -90,4 +96,9 @@ export {
      */
     purchases,
     score,
+
+    /**
+     * Formatters
+     */
+    formatters,
 };

@@ -3,6 +3,11 @@
  */
 module.exports = {
     /**
+     * Context: HTTP
+     */
+    '404': 'Não encontrado',
+
+    /**
      * Context: User
      */
     '3084': 'Usuário não encontrado.',

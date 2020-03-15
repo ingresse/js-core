@@ -21,6 +21,11 @@ import envURLBuilder from '../utils/env.js';
 import errorHandler from '../exceptions/handler.js';
 
 /**
+ * Formatters
+ */
+import * as formatters from '../formatters/index.js';
+
+/**
  * Get Resource URL
  *
  * @param {string} resource - platform resource
@@ -77,9 +82,9 @@ function _requestURL(
     const params      = (
         Object.keys(query)
         .map(queryKey => (
-            encodeURIComponent(queryKey) +
+            queryKey +
             '=' +
-            encodeURIComponent(query[queryKey])
+            query[queryKey]
         ))
         .join('&')
     );
@@ -163,13 +168,24 @@ function _requestHandler(
             headers,
             query,
             microservice,
+            withFormatter,
+            withoutApiKey,
+            withoutUserToken,
             ...rest
         } = (settings || {});
 
-        const reqQuery    = {
+        let reqQuery = {
             ...(authQuery || {}),
             ...(query || {})
         };
+
+        if (withoutApiKey) {
+            delete reqQuery.apikey;
+        }
+
+        if (withoutUserToken) {
+            delete reqQuery.usertoken;
+        }
 
         const reqUrl      = _requestURL(path, reqQuery, microservice);
         const reqHeaders  = {
@@ -187,6 +203,43 @@ function _requestHandler(
         };
 
         requester(reqUrl, reqSettings)
+        .then((response) => {
+            const {
+                responseData,
+                responseError,
+            } = (response || {});
+            const {
+                status,
+                message: messageData,
+            } = (responseData || {});
+
+            if (responseError || (status === false)) {
+                const {
+                    code,
+                    message,
+                } = (responseError || {});
+
+                return reject(errorHandler({
+                    ...(responseError || {
+                        code   : (code || -1),
+                        message: (message || messageData || ''),
+                    }),
+                }));
+            }
+
+            if (withFormatter &&
+                (typeof withFormatter === 'function') ||
+                (typeof formatters[withFormatter] === 'function')) {
+
+                return resolve(
+                    typeof withFormatter === 'function' ?
+                        withFormatter(responseData || response) :
+                            formatters[withFormatter](responseData || response)
+                );
+            }
+
+            resolve(responseData || response);
+        })
         .catch((error) => {
             const exception = errorHandler(error);
             const { code }  = (exception || {});
@@ -216,32 +269,6 @@ function _requestHandler(
             }
 
             reject(exception);
-        })
-        .then((response) => {
-            const {
-                responseData,
-                responseError,
-            } = (response || {});
-            const {
-                status,
-                message: messageData,
-            } = (responseData || {});
-
-            if (responseError || (status === false)) {
-                const {
-                    code,
-                    message,
-                } = (responseError || {});
-
-                return reject(errorHandler({
-                    ...(responseError || {
-                        code   : (code || -1),
-                        message: (message || messageData || ''),
-                    }),
-                }));
-            }
-
-            resolve(responseData || response);
         });
     });
 }
