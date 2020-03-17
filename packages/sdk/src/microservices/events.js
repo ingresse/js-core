@@ -20,27 +20,6 @@ function defaultSettings(settings = {}) {
 }
 
 /**
- * Event Microservice Getter
- *
- * @param {string} id - Event ID
- * @param {object} [query]
- * @param {object} [settings]
- *
- * @returns {Promise}
- */
-function get(
-    id,
-    query,
-    settings
-) {
-    return getter(
-        `/${id}`,
-        query,
-        defaultSettings(settings)
-    );
-}
-
-/**
  * Event Microservice List Getter
  *
  * @param {object} [query]
@@ -65,11 +44,32 @@ function list(
 }
 
 /**
+ * Event Microservice Getter
+ *
+ * @param {string} id - Event ID
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function details(
+    id,
+    query,
+    settings
+) {
+    return getter(
+        `/${id}`,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
  * Reference
  */
 const events = {
-    get,
     list,
+    details,
 };
 
 /**

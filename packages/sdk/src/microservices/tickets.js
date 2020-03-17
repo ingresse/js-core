@@ -28,7 +28,7 @@ function defaultSettings(settings = {}) {
  *
  * @returns {Promise}
  */
-function get(
+function list(
     eventId,
     query = {},
     settings
@@ -69,14 +69,18 @@ function details(
     query,
     settings
 ) {
-    return getter(`/items/${id}`, query, defaultSettings(settings));
+    return getter(
+        `/items/${id}`,
+        query,
+        defaultSettings(settings)
+    );
 }
 
 /**
  * Reference
  */
 const tickets = {
-    get,
+    list,
     details,
 };
 

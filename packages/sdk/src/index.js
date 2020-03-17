@@ -21,6 +21,7 @@ import options from './options.js';
  */
 import auth from './apis/auth.js';
 import company from './apis/company.js';
+import entrance from './apis/entrance.js';
 import event from './apis/event.js';
 import password from './apis/password.js';
 import user from './apis/user.js';
@@ -29,6 +30,7 @@ import users from './apis/users.js';
 /**
  * Microservices
  */
+import checkin from './microservices/checkin.js';
 import events from './microservices/events.js';
 import tickets from './microservices/tickets.js';
 
@@ -80,6 +82,7 @@ export {
      */
     auth,
     company,
+    entrance,
     event,
     password,
     user,
@@ -88,6 +91,7 @@ export {
     /**
      * Microservices
      */
+    checkin,
     events,
     tickets,
 
