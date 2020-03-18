@@ -133,16 +133,16 @@ function _requestCredentials(
 /**
  * Requests Handler
  *
- * @param {string} path
- * @param {object} headers
- * @param {object} query
- * @param {object} settings
+ * @param {string}  path
+ * @param {object}  settings
+ * @param {boolean} retry
  *
  * @returns {Promise}
  */
 function _requestHandler(
     path     = '',
-    settings = {}
+    settings = {},
+    retry    = false
 ) {
     return new Promise((resolve, reject) => {
         if (!path) {
@@ -202,6 +202,28 @@ function _requestHandler(
             ...rest
         };
 
+        function _retry() {
+            _requestHandler('/login/renew-token', {
+                headers: {
+                    method: 'GET',
+                }
+            }, true)
+            .catch(reject)
+            .then(({ authToken }) => {
+                if (!authToken) {
+                    reject(exception);
+
+                    return;
+                }
+
+                credentials.set('jwt', authToken);
+
+                _requestHandler(path, settings)
+                .catch(reject)
+                .then(resolve);
+            });
+        }
+
         requester(reqUrl, reqSettings)
         .then((response) => {
             const {
@@ -242,30 +264,10 @@ function _requestHandler(
         })
         .catch((error) => {
             const exception = errorHandler(error);
-            const { code }  = (exception || {});
+            const { status, code } = (exception || {});
 
-            if (code === 6065) {
-                _requestHandler('/login/renew-token', {
-                    headers: {
-                        method: 'GET',
-                    }
-                })
-                .catch(reject)
-                .then(({ authToken }) => {
-                    if (!authToken) {
-                        reject(exception);
-
-                        return;
-                    }
-
-                    credentials.set('jwt', authToken);
-
-                    _requestHandler(path, settings)
-                    .catch(reject)
-                    .then(resolve);
-                });
-
-                return;
+            if (!retry && ((code === 6065) || (status === 401))) {
+                return _retry();
             }
 
             reject(exception);
