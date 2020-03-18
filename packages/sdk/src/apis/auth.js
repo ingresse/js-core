@@ -2,6 +2,7 @@
  * Base
  */
 import credentials from '../credentials.js';
+import storage from '../utils/storage.js';
 import {
     get,
     post,
@@ -82,9 +83,13 @@ function login(
  *
  * @returns {Promise}
  */
-function logout() {
+function logout(clearStorage = false) {
     return new Promise((resolve) => {
         try {
+            if (clearStorage) {
+                storage.clear();
+            }
+
             credentials.clear();
             resolve(credentials.get());
 

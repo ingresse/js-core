@@ -6,6 +6,65 @@ import {
 } from '../request/request.js';
 
 /**
+ * Event API Attributes Getter
+ *
+ * @param {string} id - Event Identifier
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function attributes(
+    id,
+    query,
+    settings
+) {
+    return getter(`/event/${id}/attributes`, query, settings);
+}
+
+/**
+ * Event API Crew Getter
+ *
+ * @param {string} id - Event Identifier
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function crew(
+    id,
+    query,
+    settings
+) {
+    return new Promise((resolve, reject) => {
+        getter(`/event/${id}/crew`, query, settings)
+        .then((response) => {
+            const { team } = (response || {});
+            const crew     = [];
+            const crewIds  = [];
+
+            (team || []).map((crewMember) => {
+                const { user } = (crewMember || {});
+                const { id }   = (user || {});
+
+                if (!id) {
+                    return false;
+                }
+
+                crew.push(user);
+                crewIds.push(id);
+            })
+
+            resolve({
+                crew   : (crew.length ? crew : null),
+                crewIds: (crewIds.length ? crewIds : null),
+            });
+        })
+        .catch(reject);
+    });
+}
+
+/**
  * Event API Getter
  *
  * @param {string} id - Event Identifier
@@ -26,34 +85,28 @@ function get(
             ...originalQuery
         } = (query || {});
 
+        let promises        = [];
+        let hasError        = null;
+        let eventResponse   = null;
         let eventCrew       = null;
         let eventCrewIds    = null;
         let eventAttributes = null;
 
-        function _getEvent() {
+        promises.push(
             getter(`/event/${id}`, originalQuery, settings)
-            .catch(reject)
-            .then((eventResponse) => {
-                const eventData = {
-                    ...(eventResponse || {}),
-                    crew      : eventCrew,
-                    crewIds   : eventCrewIds,
-                    attributes: ((eventResponse || {}).attributes || eventAttributes || null),
-                };
+            .then((response) => {
+                eventResponse = response;
+            })
+            .catch((error) => {
+                hasError = error;
 
-                resolve(eventData);
-            });
-        }
-
-        if (!withAttributes || !withCrew) {
-            return _getEvent();
-        }
-
-        const promises = [];
+                reject(error);
+            })
+        );
 
         if (withAttributes) {
             promises.push(
-                getter(`/event/${id}/attributes`, originalQuery, settings)
+                attributes(id, originalQuery, settings)
                 .then((attributesResponse) => {
                     eventAttributes = (attributesResponse || null);
                 })
@@ -62,7 +115,7 @@ function get(
 
         if (withCrew) {
             promises.push(
-                getter(`/event/${id}/crew`, originalQuery, settings)
+                crew(id, originalQuery, settings)
                 .then(({ team }) => {
                     const crew    = [];
                     const crewIds = [];
@@ -87,7 +140,18 @@ function get(
 
         Promise
         .all(promises)
-        .finally(_getEvent);
+        .finally(() => {
+            if (hasError) {
+                return reject(hasError);
+            }
+
+            resolve({
+                ...(eventResponse || {}),
+                crew      : eventCrew,
+                crewIds   : eventCrewIds,
+                attributes: ((eventResponse || {}).attributes || eventAttributes || null),
+            });
+        });
     });
 }
 
@@ -96,6 +160,8 @@ function get(
  */
 const event = {
     get,
+    crew,
+    attributes,
 };
 
 /**

@@ -24,6 +24,7 @@ import company from './apis/company.js';
 import entrance from './apis/entrance.js';
 import event from './apis/event.js';
 import password from './apis/password.js';
+import sales from './apis/sales.js';
 import user from './apis/user.js';
 import users from './apis/users.js';
 
@@ -85,6 +86,7 @@ export {
     entrance,
     event,
     password,
+    sales,
     user,
     users,
 

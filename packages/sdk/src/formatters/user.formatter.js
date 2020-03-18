@@ -22,6 +22,7 @@ function user(response) {
         name    : originalName,
         lastname: originalLastname,
         pictures: originalPictures,
+        type    : originalType,
     } = (response || {});
 
     /**
@@ -46,6 +47,23 @@ function user(response) {
     const photo = (pictureMedium || '');
 
     /**
+     * Type
+     */
+    const type = parseInt(originalType, 10);
+
+    /**
+     * Roles
+     */
+    const roles = {
+        user_admin: (type === 1),
+        user_pro  : (type === 2),
+        user_free : (type === 3),
+
+        user_sales_group_member : false,
+        user_sales_group_manager: false,
+    };
+
+    /**
      * Ordering
      */
     const userFormatted = {
@@ -57,6 +75,8 @@ function user(response) {
 
         photo,
         pictures,
+        type,
+        roles,
     };
 
     return orderObject(userFormatted);
