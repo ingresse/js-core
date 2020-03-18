@@ -1,19 +1,20 @@
 /**
- * Utilities
+ * Formatters
  */
-import orderObject from '../utils/order.js';
+import { pagination } from './pagination.formatter';
 
 /**
- * Elastic Search Formatter
+ * Events List Formatter
  *
  * @param {object} response
  * @param {number} offset
  *
  * @returns {object}
  */
-function elastic(
+function events(
     response,
-    offset = 0
+    offset   = 0,
+    pageSize = 10,
 ) {
     if (!response ||
         (typeof response !== 'object')) {
@@ -48,22 +49,15 @@ function elastic(
         return true;
     });
 
-    /**
-     * Pagination TO DO
-     */
-    const pagination = {
-        current    : offset,
-        currentPage: offset,
-        total      : total,
-    };
-
     return {
-        list,
-        pagination,
+        data      : list,
+        pagination: pagination(offset, pageSize, total),
     };
 }
 
 /**
  * Exporting
  */
-export { elastic };
+export {
+    events,
+};

@@ -1,5 +1,6 @@
 /**
  * Formatters
  */
-export * from './elastic.formatter.js';
+export * from './events.formatter.js';
+export * from './pagination.formatter.js';
 export * from './user.formatter.js';

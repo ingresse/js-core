@@ -6,6 +6,13 @@ import {
 } from '../request/request.js';
 
 /**
+ * Formatters
+ */
+import {
+    events as listFormatter,
+} from '../formatters';
+
+/**
  * Get Microservice Default Settings
  *
  * @param {object} settings
@@ -14,7 +21,9 @@ import {
  */
 function defaultSettings(settings = {}) {
     return {
-        microservice: 'event',
+        microservice    : 'event',
+        withoutApiKey   : true,
+        withoutUserToken: true,
         ...settings,
     };
 }
@@ -31,13 +40,39 @@ function list(
     query,
     settings
 ) {
+    const {
+        size,
+        pageSize,
+        page,
+        offset,
+        ...rest
+    } = (query || {});
+    const _page   = parseInt((page || 1), 10);
+    const _size   = parseInt((size || pageSize || 10), 10);
+    const _offset = Math.round(_size * (_page - 1));
+
+    function formatter(_response) {
+        try {
+            return listFormatter(
+                _response,
+                _offset,
+                _size
+            );
+
+        } catch (e) {
+            return response;
+        }
+    }
+
     return getter(
         `/search/producer`,
-        query,
+        {
+            ...rest,
+            offset: _offset,
+            size  : _size,
+        },
         defaultSettings({
-            withFormatter   : 'elastic',
-            withoutApiKey   : true,
-            withoutUserToken: true,
+            withFormatter: formatter,
             ...(settings || {}),
         })
     );
