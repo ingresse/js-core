@@ -2,7 +2,8 @@
  * Base
  */
 import {
-    get as getter,
+    get,
+    generic,
 } from '../request/request.js';
 
 /**
@@ -17,6 +18,21 @@ function defaultSettings(settings = {}) {
         microservice: 'ticket',
         ...settings,
     };
+}
+
+/**
+ * Generic MS Requests
+ *
+ * @param {string} path
+ * @param {object} settings
+ *
+ * @returns {Promise}
+ */
+function request(
+    path,
+    settings
+) {
+    return generic(path, defaultSettings(settings));
 }
 
 /**
@@ -41,7 +57,7 @@ function list(
             });
         }
 
-        getter(
+        get(
             '/items',
             {
                 ...query,
@@ -69,7 +85,7 @@ function details(
     query,
     settings
 ) {
-    return getter(
+    return get(
         `/items/${id}`,
         query,
         defaultSettings(settings)
@@ -80,6 +96,9 @@ function details(
  * Reference
  */
 const tickets = {
+    defaultSettings,
+    request,
+
     list,
     details,
 };

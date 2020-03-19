@@ -85,6 +85,12 @@ function get(
             ...originalQuery
         } = (query || {});
 
+        const {
+            withCrew      : includeCrew,
+            withAttributes: includeAttributes,
+            ...originalSettings
+        } = (settings || {});
+
         let promises        = [];
         let hasError        = null;
         let eventResponse   = null;
@@ -93,7 +99,7 @@ function get(
         let eventAttributes = null;
 
         promises.push(
-            getter(`/event/${id}`, originalQuery, settings)
+            getter(`/event/${id}`, originalQuery, originalSettings)
             .then((response) => {
                 eventResponse = response;
             })
@@ -104,7 +110,7 @@ function get(
             })
         );
 
-        if (withAttributes) {
+        if (withAttributes || includeAttributes) {
             promises.push(
                 attributes(id, originalQuery, settings)
                 .then((attributesResponse) => {
@@ -113,7 +119,7 @@ function get(
             );
         }
 
-        if (withCrew) {
+        if (withCrew || includeCrew) {
             promises.push(
                 crew(id, originalQuery, settings)
                 .then(({ team }) => {

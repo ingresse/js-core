@@ -3,11 +3,12 @@
  */
 import options from '../options';
 import {
-    get as getter,
+    get,
+    generic,
 } from '../request/request.js';
 
 /**
- * Get Microservice Default Settings
+ * Get Lambda Default Settings
  *
  * @param {object} settings
  *
@@ -36,21 +37,36 @@ function defaultSettings(settings = {}) {
 }
 
 /**
- * Fraud Score API Getter
+ * Generic Lambda Requests
  *
- * @param {string} id - User's ID
- * @param {object} query
+ * @param {string} path
  * @param {object} settings
  *
  * @returns {Promise}
  */
-function get(
-    id,
+function request(
+    path,
+    settings
+) {
+    return generic(path, defaultSettings(settings));
+}
+
+/**
+ * Fraud Score API Getter
+ *
+ * @param {string} userId - User's ID
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function _get(
+    userId,
     query,
     settings
 ) {
     return getter(
-        `/${id}`,
+        `/${userId}`,
         query,
         defaultSettings(settings)
     );
@@ -60,7 +76,10 @@ function get(
  * Reference
  */
 const score = {
-    get,
+    defaultSettings,
+    request,
+
+    get: _get,
 };
 
 /**

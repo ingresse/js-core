@@ -2,7 +2,6 @@
  * Base
  */
 import {
-    get,
     generic,
 } from '../request/request.js';
 
@@ -15,7 +14,7 @@ import {
  */
 function defaultSettings(settings = {}) {
     return {
-        microservice    : 'checkin',
+        microservice    : 'shop',
         withoutApiKey   : true,
         withoutUserToken: true,
         ...settings,
@@ -38,37 +37,14 @@ function request(
 }
 
 /**
- * Checkin Microservice report
- *
- * @param {string} eventId
- * @param {object} [query]
- * @param {object} [settings]
- *
- * @returns {Promise}
- */
-function report(
-    eventId,
-    query,
-    settings
-) {
-    return get(
-        `/report/${eventId}/entrance`,
-        query,
-        defaultSettings(settings)
-    );
-}
-
-/**
  * Reference
  */
-const checkin = {
+const shop = {
     defaultSettings,
     request,
-
-    report,
 };
 
 /**
  * Exporting
  */
-export default checkin;
+export default shop;

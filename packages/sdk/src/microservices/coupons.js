@@ -15,7 +15,7 @@ import {
  */
 function defaultSettings(settings = {}) {
     return {
-        microservice    : 'checkin',
+        microservice    : 'coupon',
         withoutApiKey   : true,
         withoutUserToken: true,
         ...settings,
@@ -38,21 +38,14 @@ function request(
 }
 
 /**
- * Checkin Microservice report
  *
- * @param {string} eventId
- * @param {object} [query]
- * @param {object} [settings]
- *
- * @returns {Promise}
  */
-function report(
-    eventId,
+function list(
     query,
     settings
 ) {
     return get(
-        `/report/${eventId}/entrance`,
+        '/coupons',
         query,
         defaultSettings(settings)
     );
@@ -61,14 +54,14 @@ function report(
 /**
  * Reference
  */
-const checkin = {
+const coupons = {
     defaultSettings,
     request,
 
-    report,
+    list,
 };
 
 /**
  * Exporting
  */
-export default checkin;
+export default coupons;

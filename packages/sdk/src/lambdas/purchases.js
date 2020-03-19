@@ -3,12 +3,13 @@
  */
 import options from '../options';
 import {
+    get,
     post,
-    get as getter,
+    generic,
 } from '../request/request.js';
 
 /**
- * Get Microservice Default Settings
+ * Get Lambda Default Settings
  *
  * @param {object} settings
  *
@@ -37,19 +38,34 @@ function defaultSettings(settings = {}) {
 }
 
 /**
- * Purchases API Getter
- * Get User's Transactions/Purchases based on `authToken`
+ * Generic Lambda Requests
  *
- * @param {object} query
+ * @param {string} path
  * @param {object} settings
  *
  * @returns {Promise}
  */
-function get(
+function request(
+    path,
+    settings
+) {
+    return generic(path, defaultSettings(settings));
+}
+
+/**
+ * Purchases API Getter
+ * Get User's Transactions/Purchases based on `authToken`
+ *
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function _get(
     query,
     settings
 ) {
-    return getter(
+    return get(
         '/',
         query,
         defaultSettings(settings)
@@ -60,8 +76,8 @@ function get(
  * Purchase Refund
  *
  * @param {string} tid - Transaction ID be refunded
- * @param {object} query
- * @param {object} settings
+ * @param {object} [query]
+ * @param {object} [settings]
  *
  * @returns {Promise}
  */
@@ -83,7 +99,10 @@ function refund(
  * Reference
  */
 const purchases = {
-    get,
+    defaultSettings,
+    request,
+
+    get: _get,
     refund,
 };
 

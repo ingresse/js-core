@@ -2,7 +2,8 @@
  * Base
  */
 import {
-    get as getter,
+    get,
+    generic,
 } from '../request/request.js';
 
 /**
@@ -26,6 +27,21 @@ function defaultSettings(settings = {}) {
         withoutUserToken: true,
         ...settings,
     };
+}
+
+/**
+ * Generic MS Requests
+ *
+ * @param {string} path
+ * @param {object} settings
+ *
+ * @returns {Promise}
+ */
+function request(
+    path,
+    settings
+) {
+    return generic(path, defaultSettings(settings));
 }
 
 /**
@@ -64,7 +80,7 @@ function list(
         }
     }
 
-    return getter(
+    return get(
         `/search/producer`,
         {
             ...rest,
@@ -92,7 +108,7 @@ function details(
     query,
     settings
 ) {
-    return getter(
+    return get(
         `/${id}`,
         query,
         defaultSettings(settings)
@@ -103,6 +119,9 @@ function details(
  * Reference
  */
 const events = {
+    defaultSettings,
+    request,
+
     list,
     details,
 };

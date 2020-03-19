@@ -202,14 +202,18 @@ function _requestHandler(
             ...rest
         };
 
-        function _retry() {
+        /**
+         * Renew user token and retry the same original request
+         */
+        function _renewAndRetry() {
             _requestHandler('/login/renew-token', {
                 headers: {
                     method: 'GET',
                 }
             }, true)
-            .catch(reject)
-            .then(({ authToken }) => {
+            .then((response) => {
+                const { authToken } = (response || {});
+
                 if (!authToken) {
                     reject(exception);
 
@@ -219,9 +223,10 @@ function _requestHandler(
                 credentials.set('jwt', authToken);
 
                 _requestHandler(path, settings)
-                .catch(reject)
-                .then(resolve);
-            });
+                .then(resolve)
+                .catch(reject);
+            })
+            .catch(reject);
         }
 
         requester(reqUrl, reqSettings)
@@ -266,8 +271,9 @@ function _requestHandler(
             const exception = errorHandler(error);
             const { status, code } = (exception || {});
 
-            if (!retry && ((code === 6065) || (status === 401))) {
-                return _retry();
+            if (!retry && reqQuery.usertoken &&
+                ((code === 6065) || (status === 401))) {
+                return _renewAndRetry();
             }
 
             reject(exception);
@@ -279,8 +285,8 @@ function _requestHandler(
  * Request GET
  *
  * @param {string} path
- * @param {object} query
- * @param {object} settings
+ * @param {object} [query]
+ * @param {object} [settings]
  *
  * @returns {Promise}
  */
@@ -297,7 +303,7 @@ function get(
             ...settings,
         }
     );
-};
+}
 
 /**
  * Request POST
@@ -324,7 +330,7 @@ function post(
             ...settings,
         }
     );
-};
+}
 
 /**
  * Request PUT
@@ -351,7 +357,7 @@ function put(
             ...settings,
         }
     );
-};
+}
 
 /**
  * Request DELETE
@@ -378,7 +384,7 @@ function del(
             ...settings,
         }
     );
-};
+}
 
 /**
  * Request JSONP
@@ -405,7 +411,25 @@ function jsonp(
             ...settings,
         }
     );
-};
+}
+
+/**
+ * Generic Requests
+ *
+ * @param {string} path
+ * @param {object} settings
+ *
+ * @returns {Promise}
+ */
+function generic(
+    path     = '',
+    settings = {}
+) {
+    return _requestHandler(
+        path,
+        settings
+    );
+}
 
 /**
  * Exporting
@@ -419,4 +443,5 @@ export {
     jsonp,
     setURL,
     getURL,
+    generic,
 }

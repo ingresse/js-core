@@ -43,7 +43,6 @@ function login(
             },
             settings
         )
-        .catch(reject)
         .then((response) => {
             const {
                 data,
@@ -74,7 +73,8 @@ function login(
                 ...(data || {}),
                 jwt: (authToken || ''),
             });
-        });
+        })
+        .catch(reject);
     });
 }
 
@@ -131,8 +131,9 @@ function renewJWT(
             },
             settings
         )
-        .catch(reject)
-        .then(({ authToken }) => {
+        .then((response) => {
+            const { authToken } = (response || {});
+
             if (!authToken) {
                 return reject({
                     code   : -1,
@@ -146,7 +147,8 @@ function renewJWT(
             });
 
             resolve(credentials.get());
-        });
+        })
+        .catch(reject);
     });
 }
 
@@ -176,7 +178,6 @@ function companyLogin(
             },
             settings
         )
-        .catch(reject)
         .then((response) => {
             const {
                 data,
@@ -191,7 +192,8 @@ function companyLogin(
             }
 
             resolve(data);
-        });
+        })
+        .catch(reject);
     });
 }
 

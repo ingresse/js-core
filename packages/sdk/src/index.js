@@ -32,7 +32,9 @@ import users from './apis/users.js';
  * Microservices
  */
 import checkin from './microservices/checkin.js';
+import coupons from './microservices/coupons.js';
 import events from './microservices/events.js';
+import shop from './microservices/shop.js';
 import tickets from './microservices/tickets.js';
 
 /**
@@ -94,7 +96,9 @@ export {
      * Microservices
      */
     checkin,
+    coupons,
     events,
+    shop,
     tickets,
 
     /**
