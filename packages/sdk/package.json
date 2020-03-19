@@ -36,7 +36,7 @@
     "dev": "cd docs && npm start"
   },
   "dependencies": {
-    "@ingresse/request": "file:../request"
+    "@ingresse/request": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
