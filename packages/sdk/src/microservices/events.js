@@ -60,7 +60,7 @@ function list(
             );
 
         } catch (e) {
-            return response;
+            return _response;
         }
     }
 

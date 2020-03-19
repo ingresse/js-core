@@ -28,29 +28,62 @@ function events(
         data,
     } = (response || {});
     const {
-        hits  = [],
+        hits,
         total = 0,
     } = (data || {});
 
     /**
-     * List
+     *
      */
-    let list = [];
-    hits.map((esItem) => {
-        const { _source: item } = (esItem || {});
-        const filteredItem      = (item || esItem);
-
-        if (!filteredItem) {
-            return false;
+    function fill(results, target = []) {
+        if (!results || ((typeof results !== 'object') && !results.length)) {
+            return results;
         }
 
-        list.push(filteredItem);
+        results.map((esItem) => {
+            const { _source: item } = (esItem || {});
+            const filteredItem      = (item || esItem);
 
-        return true;
-    });
+            if (!filteredItem) {
+                return false;
+            }
+
+            target.push(filteredItem);
+
+            return true;
+        });
+
+        return target;
+    }
+
+    /**
+     * Formatter
+     */
+    let list       = null;
+    let aggregated = null;
+
+    if (typeof hits === 'object') {
+        if (hits.length) {
+            list = [];
+
+            fill(hits, list);
+        }
+
+        try {
+            aggregated = {};
+
+            for (const aggr in hits) {
+                let results       = [];
+                const aggregation = hits[aggr];
+                aggregated[aggr]  = fill(aggregation, results);
+            }
+        } catch (e) {}
+    }
 
     return {
-        data      : list,
+        original  : response,
+        list      : list,
+        aggregated: aggregated,
         pagination: pagination(offset, pageSize, total),
     };
 }
