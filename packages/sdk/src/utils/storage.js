@@ -61,12 +61,24 @@ function remove(key = '') {
 }
 
 /**
+ * Clear all items
+ *
+ * @param {boolean} operation status
+ */
+function clear(key = '') {
+    localStorage.clear();
+
+    return true;
+}
+
+/**
  * Reference
  */
 const storage = {
     get,
     set,
     remove,
+    clear,
 };
 
 /**

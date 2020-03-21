@@ -22,12 +22,18 @@ function URLBuilder(
         const paramKey   = paramSplit[0];
         const paramValue = paramSplit[1];
 
+        if (queryObject[paramKey]) {
+            return false;
+        }
+
         queryObject[paramKey] = paramValue;
+
+        return true;
     });
 
     Object.keys(queryObject).map((queryKey) => {
         const paramKey   = encodeURIComponent(queryKey);
-        const paramValue = encodeURIComponent(query[queryKey]);
+        const paramValue = encodeURIComponent(queryObject[queryKey] || '');
 
         queryArray.push(`${paramKey}=${paramValue}`);
 

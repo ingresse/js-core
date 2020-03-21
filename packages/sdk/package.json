@@ -1,33 +1,59 @@
 {
   "name": "@ingresse/sdk",
-  "version": "2.0.0",
+  "version": "0.0.3",
   "description": "Ingresse plataform Javascript SDK",
-  "repository": "https://github.com/ingresse/js-core",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "keywords": [
+    "ingresse",
+    "sdk"
+  ],
   "author": "Ingresse <frontend@ingresse.com>",
+  "homepage": "https://ingresse.github.io/js-core",
   "license": "MIT",
-  "private": false,
-  "main": "./dist/index.js",
-  "module": "./src/index.js",
   "directories": {
     "lib": "src"
   },
   "files": [
-    "src",
-    "dist"
+    "dist",
+    "src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ingresse/js-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ingresse/js-core/issues"
+  },
   "scripts": {
-    "dev": "yarn start",
-    "build": "webpack"
+    "build": "webpack",
+    "unit": "jest --collectCoverage --no-cache --watch",
+    "test": "CI=1 jest --collectCoverage --no-cache",
+    "predev": "cd docs && npm i && clear",
+    "dev": "cd docs && npm start"
   },
   "dependencies": {
-    "@ingresse/request": "file:../request",
-    "webpack-node-externals": "^1.7.2"
+    "@ingresse/request": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
+    "acorn": ">=6.4.1",
     "babel-loader": "^8.0.6",
+    "jest": "^25.1.0",
+    "minimist": ">=1.2.2",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setup.jest.js"
+    ]
   }
 }

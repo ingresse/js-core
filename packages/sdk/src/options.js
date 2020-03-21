@@ -6,7 +6,7 @@ let options = {
     env     : '',
     company : '',
     appName : '',
-    locale  : 'br',
+    locale  : 'pt-br',
     prefix  : 'ing',
     junction: '_',
 };
@@ -21,7 +21,7 @@ const methods = [
  *
  * @param {string} optionKey
  *
- * @return {object} options
+ * @returns {object} options
  */
 options.get = (optionKey = '') => {
     if (methods.includes(optionKey)) {
@@ -54,7 +54,7 @@ options.get = (optionKey = '') => {
  *
  * @param {object} newOptions
  *
- * @return {object} options
+ * @returns {object} options
  */
 options.set = (newOptions = {}) => {
     if (typeof newOptions !== 'object') {
@@ -76,7 +76,7 @@ options.set = (newOptions = {}) => {
 /**
  * Clear Options
  *
- * @return {object} options
+ * @returns {object} options
  */
 options.clear = () => {
     Object.keys(options).map((optionKey) => {

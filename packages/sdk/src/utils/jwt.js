@@ -3,7 +3,7 @@
  *
  * @param {string} jwt
  *
- * @return {object} parsed
+ * @returns {object} parsed
  */
 function parseJWT (jwt = '') {
     try {

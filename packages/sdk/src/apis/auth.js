@@ -1,19 +1,29 @@
 /**
  * Base
  */
-import { get, post } from '../request/request.js';
 import credentials from '../credentials.js';
+import storage from '../utils/storage.js';
+import {
+    get,
+    post,
+} from '../request/request.js';
 
 /**
  * Auth API Login
  *
  * @param {string} email
  * @param {string} password
- * @param {object} query
+ * @param {object} [query]
+ * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
-function login(email = '', password = '', query = {}) {
+function login(
+    email    = '',
+    password = '',
+    query,
+    settings,
+) {
     return new Promise((resolve, reject) => {
         const {
             companyLogin,
@@ -24,11 +34,15 @@ function login(email = '', password = '', query = {}) {
             credentials.clear();
         }
 
-        post((!companyLogin ? '/login' : '/company-login'), queryRest, {
-            email,
-            password,
-        })
-        .catch(reject)
+        post(
+            (!companyLogin ? '/login' : '/company-login'),
+            queryRest,
+            {
+                email,
+                password,
+            },
+            settings
+        )
         .then((response) => {
             const {
                 data,
@@ -59,32 +73,46 @@ function login(email = '', password = '', query = {}) {
                 ...(data || {}),
                 jwt: (authToken || ''),
             });
-        });
+        })
+        .catch(reject);
     });
 }
 
 /**
- * Auth API Logout
+ * Auth Logout
  *
- * @return {Promise}
+ * @returns {Promise}
  */
-function logout() {
+function logout(clearStorage = false) {
     return new Promise((resolve) => {
-        credentials.clear();
+        try {
+            if (clearStorage) {
+                storage.clear();
+            }
 
-        resolve(credentials.get());
+            credentials.clear();
+            resolve(credentials.get());
+
+        } catch (error) {
+            reject(error);
+        }
     });
 }
 
 /**
- * Auth API Renew Authentication Token, based on regular token
+ * Auth Renew Authentication Token, based on optional or current token
  *
- * @param {string} token
- * @param {object} query
+ * @param {string} token - current API user's token
+ * @param {object} [query]
+ * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
-function renewJWT(token = '', query = {}) {
+function renewJWT(
+    token,
+    query,
+    settings
+) {
     return new Promise((resolve, reject) => {
         const userToken = (token || credentials.get('token'));
 
@@ -95,12 +123,17 @@ function renewJWT(token = '', query = {}) {
             });
         }
 
-        get('/login/renew-token', {
-            ...query,
-            token: userToken,
-        })
-        .catch(reject)
-        .then(({ authToken }) => {
+        get(
+            '/login/renew-token',
+            {
+                ...query,
+                token: userToken,
+            },
+            settings
+        )
+        .then((response) => {
+            const { authToken } = (response || {});
+
             if (!authToken) {
                 return reject({
                     code   : -1,
@@ -114,8 +147,119 @@ function renewJWT(token = '', query = {}) {
             });
 
             resolve(credentials.get());
+        })
+        .catch(reject);
+    });
+}
+
+/**
+ * Auth API Company Login
+ *
+ * @param {string} email
+ * @param {string} password
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function companyLogin(
+    email    = '',
+    password = '',
+    query,
+    settings
+) {
+    return new Promise((resolve, reject) => {
+        post(
+            '/company-login',
+            query,
+            {
+                email,
+                password,
+            },
+            settings
+        )
+        .then((response) => {
+            const {
+                data,
+                message,
+            } = (response || {});
+
+            if (typeof data !== 'object' || !data) {
+                return reject({
+                    code   : -1,
+                    message: (message || 'Auth: Invalid company login response'),
+                });
+            }
+
+            resolve(data);
+        })
+        .catch(reject);
+    });
+}
+
+/**
+ * Auth API Facebook Login
+ *
+ * @param {string} fbEmail      - User's email received from Facebook SDK
+ * @param {string} fbAcessToken - User's access token received from Facebook SDK
+ * @param {string} fbUserId     - User's ID from received Facebook SDK
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function facebookLogin(
+    fbEmail       = '',
+    fbAccessToken = '',
+    fbUserId      = '',
+    query,
+    settings
+) {
+    return new Promise((resolve, reject) => {
+        post(
+            '/login/facebook',
+            query,
+            {
+                email   : fbEmail,
+                fbToken : fbAccessToken,
+                fbUserId: fbUserId,
+            },
+            settings
+        )
+        .catch(reject)
+        .then((response) => {
+            const {
+                data,
+                message,
+            } = (response || {});
+
+            if (typeof data !== 'object' || !data) {
+                return reject({
+                    code   : -1,
+                    message: (message || 'Auth: Invalid company login response'),
+                });
+            }
+
+            resolve(data);
         });
     });
+}
+
+/**
+ * User Register
+ *
+ * @param {object} body
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function register(
+    body = {},
+    query,
+    settings
+) {
+    return post('/user', query, body, settings);
 }
 
 /**
@@ -125,6 +269,9 @@ const auth = {
     login,
     logout,
     renewJWT,
+    companyLogin,
+    facebookLogin,
+    register,
 };
 
 /**

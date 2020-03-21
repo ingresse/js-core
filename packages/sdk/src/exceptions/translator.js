@@ -9,7 +9,7 @@ import options from '../options.js';
  * @param {string} msgKey
  * @param {string} msgContent - optional
  *
- * @return {string} message
+ * @returns {string} message
  */
 function translator(msgKey = '', msgContent = '') {
     const {

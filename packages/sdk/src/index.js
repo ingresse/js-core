@@ -20,13 +20,41 @@ import options from './options.js';
  * APIs
  */
 import auth from './apis/auth.js';
+import company from './apis/company.js';
+import entrance from './apis/entrance.js';
 import event from './apis/event.js';
+import password from './apis/password.js';
+import sales from './apis/sales.js';
 import user from './apis/user.js';
+import users from './apis/users.js';
+
+/**
+ * Microservices
+ */
+import checkin from './microservices/checkin.js';
+import coupons from './microservices/coupons.js';
+import events from './microservices/events.js';
+import shop from './microservices/shop.js';
+import tickets from './microservices/tickets.js';
+
+/**
+ * Lambdas as APIs
+ */
+import finance from './lambdas/finance.js';
+import purchases from './lambdas/purchases.js';
+import score from './lambdas/score.js';
+
+/**
+ * Formatters
+ */
+import * as formatters from './formatters/index.js';
 
 /**
  * Initializer
  *
  * @param {object} settings
+ *
+ * @returns {object} SDK new settings
  */
 function sdk(settings = {}) {
     return options.set(settings);
@@ -37,13 +65,50 @@ function sdk(settings = {}) {
  */
 export {
     sdk as default,
+
+    /**
+     * Tools
+     */
+    credentials,
     options,
+
+    /**
+     * Extras
+     */
     cookies,
     request,
     storage,
     parseJWT,
-    credentials,
+
+    /**
+     * APIs
+     */
     auth,
+    company,
+    entrance,
     event,
+    password,
+    sales,
     user,
+    users,
+
+    /**
+     * Microservices
+     */
+    checkin,
+    coupons,
+    events,
+    shop,
+    tickets,
+
+    /**
+     * Lambdas as APIs
+     */
+    purchases,
+    score,
+
+    /**
+     * Formatters
+     */
+    formatters,
 };

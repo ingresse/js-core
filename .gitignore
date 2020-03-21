@@ -1,31 +1,20 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-*/*/node_modules
-*/*/*/node_modules
-*/*/*/*/node_modules
+node_modules
 /.pnp
 .pnp.js
 
 # example lockers
-*/*/example/yarn.lock
-*/*/*/example/yarn.lock
-*/*/example/package-lock.json
-*/*/*/example/package-lock.json
+**/example/yarn.lock
+**/example/package-lock.json
 
 # testing
-/coverage
-*/coverage
-*/*/coverage
-*/*/*/coverage
+coverage
 
 # production
-/build
-/dist
-*/dist
-*/*/dist
-*/*/*/dist
+build
+dist
 
 # misc
 .DS_Store

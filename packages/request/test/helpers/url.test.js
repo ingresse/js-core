@@ -26,14 +26,14 @@ describe('Helper: URL', () => {
         const original = 'https://www.ingresse.com/';
         const result   = helper(original);
 
-        expect(result).toEqual(result);
+        expect(result).toEqual(original);
     });
 
     it('should build a URL with params', () => {
         const original = 'https://www.ingresse.com/?test=test';
         const result   = helper(original);
 
-        expect(result).toEqual(result);
+        expect(result).toEqual(original);
     });
 
     it('should build a URL with params as arguments', () => {

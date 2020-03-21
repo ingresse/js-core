@@ -21,12 +21,17 @@ import envURLBuilder from '../utils/env.js';
 import errorHandler from '../exceptions/handler.js';
 
 /**
+ * Formatters
+ */
+import * as formatters from '../formatters/index.js';
+
+/**
  * Get Resource URL
  *
  * @param {string} resource - platform resource
  * @param {string} env      - pltaform environment
  *
- * @return {string}
+ * @returns {string}
  */
 function getURL(
     resource = 'api',
@@ -44,7 +49,7 @@ function getURL(
  * @param {string} resource - platform resource
  * @param {string} env      - pltaform environment
  *
- * @return {string}
+ * @returns {string}
  */
 function setURL(
     resource = 'api',
@@ -64,20 +69,22 @@ function setURL(
  *
  * @param {string} path
  * @param {object} query
+ * @param {string} microservice
  *
- * @return {string} request URL
+ * @returns {string} request URL
  */
 function _requestURL(
-    path  = '',
-    query = {}
+    path         = '',
+    query        = {},
+    microservice = 'api'
 ) {
-    const resourceURL = getURL();
+    const resourceURL = getURL(microservice);
     const params      = (
         Object.keys(query)
         .map(queryKey => (
-            encodeURIComponent(queryKey) +
+            queryKey +
             '=' +
-            encodeURIComponent(query[queryKey])
+            query[queryKey]
         ))
         .join('&')
     );
@@ -90,25 +97,30 @@ function _requestURL(
 /**
  * Request's Authentication parameteres
  *
- * @return {object} headers and query
+ * @returns {object} headers and query
  */
 function _requestCredentials(
     credentials = {},
     options     = {}
 ) {
     const {
-        jwt,
         authToken,
+        jwt,
+        token,
     } = (credentials || {});
+    const {
+        apikey,
+        apiKey,
+    } = (options || {});
     const authHeader = (!jwt && !authToken ? {} : {
-        'Authorization': `Bearer ${jwt || authToken}`,
+        'Authorization': `Bearer ${'' + (jwt || authToken)}`,
     });
     const authQuery  = {
-        ...(!options.apiKey ? {} : {
-            apikey: options.apiKey,
+        ...(!apikey && !apiKey ? {} : {
+            apikey: ('' + (apikey || apiKey)),
         }),
-        ...(!credentials.token ? {} : {
-            usertoken: credentials.token,
+        ...(!token ? {} : {
+            usertoken: ('' + token),
         }),
     };
 
@@ -121,16 +133,16 @@ function _requestCredentials(
 /**
  * Requests Handler
  *
- * @param {string} path
- * @param {object} headers
- * @param {object} query
- * @param {object} settings
+ * @param {string}  path
+ * @param {object}  settings
+ * @param {boolean} retry
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function _requestHandler(
     path     = '',
-    settings = {}
+    settings = {},
+    retry    = false
 ) {
     return new Promise((resolve, reject) => {
         if (!path) {
@@ -155,15 +167,27 @@ function _requestHandler(
         const {
             headers,
             query,
+            microservice,
+            withFormatter,
+            withoutApiKey,
+            withoutUserToken,
             ...rest
         } = (settings || {});
 
-        const reqQuery    = {
+        let reqQuery = {
             ...(authQuery || {}),
             ...(query || {})
         };
 
-        const reqUrl      = _requestURL(path, reqQuery);
+        if (withoutApiKey) {
+            delete reqQuery.apikey;
+        }
+
+        if (withoutUserToken) {
+            delete reqQuery.usertoken;
+        }
+
+        const reqUrl      = _requestURL(path, reqQuery, microservice);
         const reqHeaders  = {
             'Accept'       : '*/*',
             'Cache-Control': 'no-cache',
@@ -178,37 +202,34 @@ function _requestHandler(
             ...rest
         };
 
+        /**
+         * Renew user token and retry the same original request
+         */
+        function _renewAndRetry() {
+            _requestHandler('/login/renew-token', {
+                headers: {
+                    method: 'GET',
+                }
+            }, true)
+            .then((response) => {
+                const { authToken } = (response || {});
+
+                if (!authToken) {
+                    reject(exception);
+
+                    return;
+                }
+
+                credentials.set('jwt', authToken);
+
+                _requestHandler(path, settings)
+                .then(resolve)
+                .catch(reject);
+            })
+            .catch(reject);
+        }
+
         requester(reqUrl, reqSettings)
-        .catch((error) => {
-            const exception = errorHandler(error);
-            const { code }  = (exception || {});
-
-            if (code === 6065) {
-                _requestHandler('/login/renew-token', {
-                    headers: {
-                        method: 'GET',
-                    }
-                })
-                .catch(reject)
-                .then(({ authToken }) => {
-                    if (!authToken) {
-                        reject(exception);
-
-                        return;
-                    }
-
-                    credentials.set('jwt', authToken);
-
-                    _requestHandler(path, settings)
-                    .catch(reject)
-                    .then(resolve);
-                });
-
-                return;
-            }
-
-            reject(exception);
-        })
         .then((response) => {
             const {
                 responseData,
@@ -233,7 +254,29 @@ function _requestHandler(
                 }));
             }
 
-            resolve(responseData);
+            if (withFormatter &&
+                (typeof withFormatter === 'function') ||
+                (typeof formatters[withFormatter] === 'function')) {
+
+                return resolve(
+                    typeof withFormatter === 'function' ?
+                        withFormatter(responseData || response) :
+                            formatters[withFormatter](responseData || response)
+                );
+            }
+
+            resolve(responseData || response);
+        })
+        .catch((error) => {
+            const exception = errorHandler(error);
+            const { status, code } = (exception || {});
+
+            if (!retry && reqQuery.usertoken &&
+                ((code === 6065) || (status === 401))) {
+                return _renewAndRetry();
+            }
+
+            reject(exception);
         });
     });
 }
@@ -242,10 +285,10 @@ function _requestHandler(
  * Request GET
  *
  * @param {string} path
- * @param {object} query
- * @param {object} settings
+ * @param {object} [query]
+ * @param {object} [settings]
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function get(
     path     = '',
@@ -260,7 +303,7 @@ function get(
             ...settings,
         }
     );
-};
+}
 
 /**
  * Request POST
@@ -270,7 +313,7 @@ function get(
  * @param {object} body
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function post(
     path     = '',
@@ -287,7 +330,7 @@ function post(
             ...settings,
         }
     );
-};
+}
 
 /**
  * Request PUT
@@ -297,7 +340,7 @@ function post(
  * @param {object} body
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function put(
     path     = '',
@@ -314,7 +357,7 @@ function put(
             ...settings,
         }
     );
-};
+}
 
 /**
  * Request DELETE
@@ -324,7 +367,7 @@ function put(
  * @param {object} body
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function del(
     path     = '',
@@ -341,7 +384,7 @@ function del(
             ...settings,
         }
     );
-};
+}
 
 /**
  * Request JSONP
@@ -351,7 +394,7 @@ function del(
  * @param {object} body
  * @param {object} settings
  *
- * @return {Promise}
+ * @returns {Promise}
  */
 function jsonp(
     path     = '',
@@ -368,7 +411,25 @@ function jsonp(
             ...settings,
         }
     );
-};
+}
+
+/**
+ * Generic Requests
+ *
+ * @param {string} path
+ * @param {object} settings
+ *
+ * @returns {Promise}
+ */
+function generic(
+    path     = '',
+    settings = {}
+) {
+    return _requestHandler(
+        path,
+        settings
+    );
+}
 
 /**
  * Exporting
@@ -382,4 +443,5 @@ export {
     jsonp,
     setURL,
     getURL,
+    generic,
 }

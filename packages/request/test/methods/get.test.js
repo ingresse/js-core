@@ -44,6 +44,8 @@ describe(`Method: ${methodName}`, () => {
             };
             const mockQuery = {
                 test: 'param',
+                fields: 'id,poster',
+                status: 'manual review,approved'
             };
 
             fetch.mockResponseOnce(JSON.stringify(mockData));
@@ -52,7 +54,7 @@ describe(`Method: ${methodName}`, () => {
 
             expect(data.test).toEqual(mockData.test);
             expect(fetch.mock.calls.length).toEqual(1);
-            expect(fetch.mock.calls[0][0]).toEqual(serverUrl.concat('?test=param'));
+            expect(fetch.mock.calls[0][0]).toEqual(serverUrl.concat('?test=param&fields=id%2Cposter&status=manual%20review%2Capproved'));
             expect(fetch.mock.calls[0][1].method).toEqual(methodName);
         });
     });

@@ -1,6 +1,11 @@
 /**
  * Environment Utility
  */
+const onlyProd = [
+    'beta-score',
+    'finance',
+    'my-transactions',
+];
 
 /**
  * Get Environment URL
@@ -15,7 +20,9 @@ const envURLBuilder = (resource = 'api', env = '') => {
         return env;
     }
 
-    return `https://${env ? (env + '-') : ''}${resource}.ingresse.com`;
+    const finalEnv = ((env && !onlyProd.includes(resource)) ? (env + '-') : '');
+
+    return `https://${finalEnv}${resource}.ingresse.com`;
 };
 
 /**
