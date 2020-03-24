@@ -1,17 +1,17 @@
 /**
  * Core Packages
  */
-import { js } from '@ingresse/injector';
+import injector, { js } from '@ingresse/injector';
 
 /**
  * Local values
  */
-const prefix = 'trackers:gtag:';
+const prefix = 'trackers:fbq:';
 
 /**
- * Google Analytics
+ * Facebook Pixel
  */
-let gtag = {
+let fbq = {
     key: '',
 };
 
@@ -20,9 +20,9 @@ let gtag = {
  *
  * @returns {boolean}
  */
-gtag.running = function() {
+fbq.running = function() {
     try {
-        return (typeof window.gtag === 'function');
+        return (typeof window.fbq === 'function');
     } catch (e) {
         return false;
     }
@@ -35,17 +35,14 @@ gtag.running = function() {
  *
  * @param {object}
  */
-gtag.init = function(options) {
+fbq.init = function(options) {
     return new Promise((resolve, reject) => {
         const {
             key     = '',
-            id      = 'gtag-sdk',
+            id      = 'fbq-sdk',
             target  = 'head',
-            src     = '',
-            content = '',
-            onload  = undefined,
-            onerror = undefined,
             delay   = 5000,
+            version = '2.0',
             ...rest
         } = (options || {});
 
@@ -56,11 +53,23 @@ gtag.init = function(options) {
             });
         }
 
-        if (key && (key === gtag.key)) {
+        if (key && (key === fbq.key)) {
             return resolve();
         }
 
-        const _src = (src || `https://www.googletagmanager.com/gtag/js?id=${key}`);
+        const content = `
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='${version}';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '${key}');
+fbq('track', 'PageView');
+        `.trim();
 
         /**
          * Error handler
@@ -84,25 +93,45 @@ gtag.init = function(options) {
          */
         const timeout = setTimeout(() => {
             handleError();
+
+            /**
+             * Injection Fallback
+             */
+            try {
+                let img    = document.createElement('img');
+                img.width  = 1;
+                img.height = 1;
+                img.style  = 'display:none';
+                img.src    = `https://www.facebook.com/tr?id=${key}&ev=PageView&noscript=1`;
+
+                injector({
+                    id     : `${id}-noscript`,
+                    tag    : 'noscript',
+                    target : 'head',
+                    content: 'fbq',
+                })
+                .then((noscript) => {
+                    noscript.append(img);
+                })
+                .catch((error) => {
+                    console.warn(prefix.concat('noscript'), error);
+                });
+            } catch (error) {
+                console.warn(prefix.concat('noscript'), error);
+            }
         }, delay);
 
         /**
          * Load handler
-         *
-         * @param {object} evt
          */
-        function handleLoad(evt) {
+        function handleLoad() {
             clearTimeout(timeout);
 
-            gtag = Object.assign(gtag, {
+            fbq = Object.assign(fbq, {
                 key: key,
             });
 
-            if (typeof onload === 'function') {
-                onload(evt);
-            }
-
-            resolve(gtag);
+            resolve(fbq);
         }
 
         /**
@@ -111,29 +140,10 @@ gtag.init = function(options) {
         js({
             id,
             target,
-            async  : true,
-            src    : _src,
-            onload : handleLoad,
-            onerror: handleError,
-            ...(rest || {}),
+            content,
         })
-        .catch(handleError);
-
-        js({
-            target,
-            id     : `${id}-init`,
-            content: `
-window.dataLayer = (window.dataLayer || []);
-
-function gtag() {
-    dataLayer.push(arguments);
-}
-
-gtag('js', new Date());
-gtag('config', '${key}');
-
-${content}
-            `.trim(),
+        .then(() => {
+            handleLoad();
         })
         .catch(handleError);
     });
@@ -149,14 +159,14 @@ ${content}
  *
  * @returns {Promise}
  */
-gtag.trigger = function(
+fbq.trigger = function(
     arg1,
     arg2,
     arg3,
     arg4
 ) {
     return new Promise((resolve, reject) => {
-        if (!gtag.running()) {
+        if (!fbq.running()) {
             return resolve({
                 code   : -1,
                 message: `${prefix}not-running`,
@@ -164,7 +174,7 @@ gtag.trigger = function(
         }
 
         try {
-            window.gtag(arg1, arg2, arg3, arg4);
+            window.fbq(arg1, arg2, arg3, arg4);
 
         } catch (error) {
             reject({
@@ -179,4 +189,4 @@ gtag.trigger = function(
 /**
  * Exporting
  */
-export default gtag;
+export default fbq;

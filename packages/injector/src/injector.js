@@ -35,7 +35,7 @@ function injector(options) {
             const isSourceURL = (src && typeof src === 'string');
             const isHrefURL   = (href && typeof href === 'string');
 
-            if (!tag || (!isSourceURL && !isHrefURL && !content)) {
+            if (!tag) {
                 return reject({
                     code   : -1,
                     message: 'injector:invalid-arguments',

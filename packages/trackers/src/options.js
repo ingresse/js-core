@@ -8,10 +8,47 @@ import services from './services';
  */
 let options = {
     gtag: null,
-    gtm : null,
+    fbp : null,
 
     inspetor: null,
     sift    : null,
+};
+const methods = [
+    'get',
+    'set',
+];
+
+/**
+ * Get Options
+ *
+ * @param {string} optionKey
+ *
+ * @returns {object} options
+ */
+options.get = (optionKey = '') => {
+    if (methods.includes(optionKey)) {
+        return null;
+    }
+
+    const specific = (options[optionKey] || null);
+
+    if (optionKey && !specific) {
+        return null;
+    }
+
+    let onlyValues = {};
+
+    Object.keys(options).map((optionKey) => {
+        if (methods.includes(optionKey)) {
+            return false;
+        }
+
+        onlyValues[optionKey] = options[optionKey];
+
+        return true;
+    });
+
+    return (specific || onlyValues);
 };
 
 /**
@@ -19,7 +56,7 @@ let options = {
  *
  * @param {object} newOptions
  *
- * @return {object} options
+ * @returns {object} options
  */
 options.set = (newOptions = {}) => {
     if (typeof newOptions !== 'object') {
@@ -29,6 +66,7 @@ options.set = (newOptions = {}) => {
     /**
      * Prevent redefinitions
      */
+    delete newOptions.get;
     delete newOptions.set;
 
     /**

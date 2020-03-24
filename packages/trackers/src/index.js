@@ -10,7 +10,7 @@ import methods from './methods';
  * @param {object}  settings
  * @param {boolean} sandboxMode
  *
- * @return {object}
+ * @returns {object}
  */
 function trackers(settings = null, sandboxMode = false) {
     if (!settings) {
@@ -25,7 +25,7 @@ function trackers(settings = null, sandboxMode = false) {
         sandboxMode,
     });
 
-    return this;
+    return trackers;
 }
 
 /**
