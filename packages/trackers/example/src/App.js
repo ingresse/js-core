@@ -4,15 +4,15 @@ import './App.css';
 
 function App() {
   trackers({
-    fbq: {
-      key: '',
-    },
-    gtag: {
-      key: '',
-    },
-    legit: {
-      key: '',
-    },
+    fbq   : '',
+    gtag  : '',
+    legiti: '',
+  })
+  .then(() => {
+    const pageViewTracked = trackers.pageView();
+
+    console.log('TRACKERS INITIALIZED');
+    console.log('pageViewTracked', pageViewTracked);
   });
 
   return (

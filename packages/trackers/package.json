@@ -1,12 +1,15 @@
 {
   "name": "@ingresse/trackers",
-  "version": "2.0.0",
+  "version": "0.0.1",
   "description": "Ingresse JS Analytics and Anti-fraud helpers",
-  "repository": "https://github.com/ingresse/js-core",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ingresse/js-core.git"
+  },
   "author": "Ingresse <frontend@ingresse.com>",
   "license": "MIT",
-  "module": "src/index.js",
   "main": "src/index.js",
+  "module": "src/index.js",
   "directories": {
     "lib": "src"
   },
@@ -17,14 +20,20 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ingresse/js-core.git"
-  },
   "bugs": {
     "url": "https://github.com/ingresse/js-core/issues"
   },
+  "scripts": {
+    "build": "webpack"
+  },
   "dependencies": {
     "@ingresse/injector": "file:../injector"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "webpack": "ˆ4.41.6",
+    "webpack-cli": "ˆ3.3.11"
   }
 }

@@ -23,7 +23,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
+  "dependencies": {
     "@ingresse/trackers": "file:..",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -31,23 +31,46 @@ legiti.running = function() {
 /**
  * Initializer
  *
- * @param {object}  options
- * @param {boolean} [sandboxMode]
+ * @param {object|string} optionsOrKey
  *
  * @returns {Promise}
  */
-legiti.init = function(options, sandboxMode) {
+legiti.init = function(optionsOrKey) {
     return new Promise((resolve, reject) => {
+        let options = {
+            key    : '',
+            id     : 'legiti-js',
+            target : 'head',
+            delay  : 10000,
+            onload : undefined,
+            onerror: undefined,
+            src    : 'https://files.lgtcdn.net/legiti-js/v1/legiti.min.js',
+        };
+
+        if (optionsOrKey) {
+            if (typeof optionsOrKey === 'string') {
+                options.key = optionsOrKey;
+            }
+
+            if (typeof optionsOrKey === 'object') {
+                options = {
+                    ...options,
+                    ...optionsOrKey,
+                };
+            }
+        }
+
         const {
-            id      = 'legiti-sdk',
-            target  = 'head',
-            src     = 'https://files.lgtcdn.net/legiti-js/v1/legiti.min.js',
-            onload  = undefined,
-            onerror = undefined,
-            delay   = 10000,
+            key,
+            id,
+            target,
+            src,
+            content,
+            delay,
+            onload,
+            onerror,
             ...rest
         } = (options || {});
-        const key = ((sandboxMode ? options.keySandbox : options.key) || options.key || '');
 
         if (!key) {
             return reject({
@@ -74,11 +97,20 @@ legiti.init = function(options, sandboxMode) {
         }
 
         /**
+         * Injection timeout
+         */
+        const timeout = setTimeout(() => {
+            handleError();
+        }, delay);
+
+        /**
          * Load handler
          *
          * @param {object} evt
          */
         function handleLoad(evt) {
+            clearTimeout(timeout);
+
             try {
                 legiti.key = key;
 
@@ -104,24 +136,12 @@ legiti.init = function(options, sandboxMode) {
         js({
             id,
             target,
+            async  : 1,
             src    : src,
             onload : handleLoad,
             onerror: handleError,
-            ...(rest || {}),
+            ...rest
         });
-
-        /**
-         * Injection timeout
-         */
-        if (!legiti.key) {
-            setTimeout(() => {
-                if (legiti.key) {
-                    return;
-                }
-
-                handleError();
-            }, delay);
-        }
     });
 }
 
@@ -133,38 +153,24 @@ legiti.init = function(options, sandboxMode) {
  * @param {any}    [arg2]
  * @param {any}    [arg3]
  *
- * @returns {Promise}
+ * @returns {boolean|object}
  */
-legiti.trigger = function(
-    method,
-    arg1,
-    arg2,
-    arg3
-) {
-    return new Promise((resolve, reject) => {
-        if (!legiti.running()) {
-            return resolve({
-                code   : -1,
-                message: `${prefix}not-running`,
-            });
-        }
+legiti.trigger = function(method, arg1, arg2, arg3) {
+    if (!legiti.running()) {
+        return false;
+    }
 
-        try {
-            resolve(
-                window
-                .legiti
-                .sharedInstance()
-                [method](arg1, arg2, arg3)
-            );
+    try {
+        window
+        .legiti
+        .sharedInstance()
+        [method](arg1, arg2, arg3);
 
-        } catch (error) {
-            reject({
-                code   : -1,
-                message: `${prefix}trigger-error`,
-                details: error,
-            });
-        }
-    });
+        return true;
+
+    } catch (error) {
+        return error;
+    }
 }
 
 /**

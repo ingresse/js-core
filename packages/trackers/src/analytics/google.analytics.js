@@ -31,22 +31,45 @@ gtag.running = function() {
 /**
  * Initializer
  *
- * @param {object} options
+ * @param {object|string} optionsOrKey
  *
  * @param {object}
  */
-gtag.init = function(options) {
+gtag.init = function(optionsOrKey) {
     return new Promise((resolve, reject) => {
+        let options = {
+            key    : '',
+            id     : 'gtag-js',
+            target : 'head',
+            delay  : 5000,
+            onload : undefined,
+            onerror: undefined,
+            src    : '',
+            content: '',
+        };
+
+        if (optionsOrKey) {
+            if (typeof optionsOrKey === 'string') {
+                options.key = optionsOrKey;
+            }
+
+            if (typeof optionsOrKey === 'object') {
+                options = {
+                    ...options,
+                    ...optionsOrKey,
+                };
+            }
+        }
+
         const {
-            key     = '',
-            id      = 'gtag-sdk',
-            target  = 'head',
-            src     = '',
-            content = '',
-            onload  = undefined,
-            onerror = undefined,
-            delay   = 5000,
-            ...rest
+            key,
+            id,
+            target,
+            src,
+            content,
+            delay,
+            onload,
+            onerror,
         } = (options || {});
 
         if (!key) {
@@ -80,7 +103,7 @@ gtag.init = function(options) {
         }
 
         /**
-         * Timeout
+         * Injection timeout
          */
         const timeout = setTimeout(() => {
             handleError();
@@ -94,9 +117,7 @@ gtag.init = function(options) {
         function handleLoad(evt) {
             clearTimeout(timeout);
 
-            gtag = Object.assign(gtag, {
-                key: key,
-            });
+            gtag.key = key;
 
             if (typeof onload === 'function') {
                 onload(evt);
@@ -119,21 +140,15 @@ gtag.init = function(options) {
         })
         .catch(handleError);
 
+        /**
+         * Injection: Initializer
+         */
+        const _content = `window.dataLayer=(window.dataLayer||[]);function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','${key}');${content}`;
+
         js({
             target,
             id     : `${id}-init`,
-            content: `
-window.dataLayer = (window.dataLayer || []);
-
-function gtag() {
-    dataLayer.push(arguments);
-}
-
-gtag('js', new Date());
-gtag('config', '${key}');
-
-${content}
-            `.trim(),
+            content: _content,
         })
         .catch(handleError);
     });
@@ -147,33 +162,21 @@ ${content}
  * @param {any} [arg3]
  * @param {any} [arg4]
  *
- * @returns {Promise}
+ * @returns {boolean|object}
  */
-gtag.trigger = function(
-    arg1,
-    arg2,
-    arg3,
-    arg4
-) {
-    return new Promise((resolve, reject) => {
-        if (!gtag.running()) {
-            return resolve({
-                code   : -1,
-                message: `${prefix}not-running`,
-            });
-        }
+gtag.trigger = function(arg1, arg2, arg3, arg4) {
+    if (!gtag.running()) {
+        return false;
+    }
 
-        try {
-            window.gtag(arg1, arg2, arg3, arg4);
+    try {
+        window.gtag(arg1, arg2, arg3, arg4);
 
-        } catch (error) {
-            reject({
-                code   : -1,
-                message: `${prefix}trigger-error`,
-                details: error,
-            });
-        }
-    });
+        return true;
+
+    } catch (error) {
+        return error;
+    }
 }
 
 /**

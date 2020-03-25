@@ -31,19 +31,39 @@ fbq.running = function() {
 /**
  * Initializer
  *
- * @param {object} options
+ * @param {object|string} optionsOrKey
  *
  * @param {object}
  */
-fbq.init = function(options) {
+fbq.init = function(optionsOrKey) {
     return new Promise((resolve, reject) => {
+        let options = {
+            key    : '',
+            id     : 'fbq-js',
+            target : 'head',
+            delay  : 5000,
+            version: '2.0',
+        };
+
+        if (optionsOrKey) {
+            if (typeof optionsOrKey === 'string') {
+                options.key = optionsOrKey;
+            }
+
+            if (typeof optionsOrKey === 'object') {
+                options = {
+                    ...options,
+                    ...optionsOrKey,
+                };
+            }
+        }
+
         const {
-            key     = '',
-            id      = 'fbq-sdk',
-            target  = 'head',
-            delay   = 5000,
-            version = '2.0',
-            ...rest
+            key,
+            id,
+            target,
+            delay,
+            version,
         } = (options || {});
 
         if (!key) {
@@ -57,19 +77,7 @@ fbq.init = function(options) {
             return resolve();
         }
 
-        const content = `
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='${version}';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-
-fbq('init', '${key}');
-fbq('track', 'PageView');
-        `.trim();
+        const content = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='${version}';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '${key}');fbq('track', 'PageView');`;
 
         /**
          * Error handler
@@ -89,7 +97,7 @@ fbq('track', 'PageView');
         }
 
         /**
-         * Timeout
+         * Injection timeout
          */
         const timeout = setTimeout(() => {
             handleError();
@@ -127,9 +135,7 @@ fbq('track', 'PageView');
         function handleLoad() {
             clearTimeout(timeout);
 
-            fbq = Object.assign(fbq, {
-                key: key,
-            });
+            fbq.key = key;
 
             resolve(fbq);
         }
@@ -157,33 +163,21 @@ fbq('track', 'PageView');
  * @param {any} [arg3]
  * @param {any} [arg4]
  *
- * @returns {Promise}
+ * @returns {boolean|object}
  */
-fbq.trigger = function(
-    arg1,
-    arg2,
-    arg3,
-    arg4
-) {
-    return new Promise((resolve, reject) => {
-        if (!fbq.running()) {
-            return resolve({
-                code   : -1,
-                message: `${prefix}not-running`,
-            });
-        }
+fbq.trigger = function(arg1, arg2, arg3, arg4) {
+    if (!fbq.running()) {
+        return false;
+    }
 
-        try {
-            window.fbq(arg1, arg2, arg3, arg4);
+    try {
+        window.fbq(arg1, arg2, arg3, arg4);
 
-        } catch (error) {
-            reject({
-                code   : -1,
-                message: `${prefix}trigger-error`,
-                details: error,
-            });
-        }
-    });
+        return true;
+
+    } catch (error) {
+        return error;
+    }
 }
 
 /**

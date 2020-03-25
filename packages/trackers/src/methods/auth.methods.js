@@ -10,71 +10,102 @@ import {
 /**
  * Authentication Login Error
  *
- * @param {object} params
+ * @param {string} email - user email
+ *
+ * @returns {boolean|object}
  */
-function loginError(params = {}) {
-    return new Promise((resolve, reject) => {
-        try {
-            const { email } = params;
+function loginError(email) {
+    if (!email) {
+        return false;
+    }
 
-            legiti('trackLogin', email)
-            .then(resolve)
-            .catch(reject);
+    try {
+        return legiti('trackLogin', email);
 
-        } catch(error) {
-            reject(error);
-        }
-    });
+    } catch (error) {
+        return error;
+    }
 }
 
 /**
  * Authentication Login Success
  *
- * @param {object} params
+ * @param {string} email
+ * @param {string} userId
+ *
+ * @returns {boolean|object}
  */
-function loginSuccess(params = {}) {
-    return new Promise((resolve, reject) => {
-        try {
-            let promises = [];
-            const { email, userId } = params;
+function loginSuccess(email, userId) {
+    if (!email || !userId) {
+        return false;
+    }
 
-            promises.push(gtag('event', 'login', params));
-            promises.push(legiti('trackLogin', email, userId));
+    try {
+        const params = {
+            email,
+            userId,
+            method: 'Ingresse',
+        };
 
-            Promise
-            .all(promises)
-            .then(resolve)
-            .catch(reject);
+        return (
+            gtag('event', 'login', params) ||
+            legiti('trackLogin', email, userId)
+        );
 
-        } catch(error) {
-            reject(error);
-        }
-    });
+    } catch (error) {
+        return error;
+    }
+}
+
+/**
+ * Authentication Logout
+ *
+ * @param {string} email  - user email
+ * @param {string} userId - user id
+ *
+ * @returns {boolean|object}
+ */
+function logout(email, userId) {
+    if (!email || !userId) {
+        return false;
+    }
+
+    try {
+        return legiti('trackLogout', email, userId);
+
+    } catch (error) {
+        return error;
+    }
 }
 
 /**
  * Authentication Register
  *
- * @param {object} params
+ * @param {string} email
+ * @param {string} userId
+ *
+ * @returns {boolean|object}
  */
-function register(params = {}) {
-    return new Promise((resolve, reject) => {
-        try {
-            let promises = [];
-            const { userId } = params;
+function register(email, userId) {
+    if (!email || !userId) {
+        return false;
+    }
 
-            promises.push(gtag('event', 'sign_up', params));
-            promises.push(legiti('trackUserCreation', userId));
+    try {
+        const params = {
+            email,
+            userId,
+        };
 
-            Promise
-            .all(promises)
-            .then(resolve)
-            .catch(reject);
+        return (
+            fbq('track', 'CompleteRegistration') ||
+            gtag('event', 'sign_up', params) ||
+            legiti('trackUserCreation', userId)
+        );
 
-        } catch(error) {
-            reject(error);
-        }
-    });
+    } catch (error) {
+        return error;
+    }
 }
 
 /**
@@ -83,5 +114,6 @@ function register(params = {}) {
 export const auth = {
     loginError,
     loginSuccess,
+    logout,
     register,
 };
