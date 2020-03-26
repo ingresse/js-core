@@ -7,11 +7,13 @@ import js from '../../src/methods/js.js';
  * Unit Tests
  */
 describe('JS Injector', () => {
-    it('should be called, getting error', async () => {
-        expect.assertions(2);
+    it('should be called, creating empty element', async () => {
+        expect.assertions(1);
 
         try {
-            await js();
+            const injected = await js();
+
+            expect(injected.tagName).toEqual('SCRIPT');
         } catch({ code, message }) {
             expect(code).toEqual(-1);
             expect(message).toEqual('injector:invalid-arguments');

@@ -24,7 +24,8 @@
     "url": "https://github.com/ingresse/js-core/issues"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "example": "cd example && python -m SimpleHTTPServer"
   },
   "dependencies": {
     "@ingresse/injector": "file:../injector"

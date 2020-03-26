@@ -41,14 +41,12 @@ function loginSuccess(email, userId) {
     }
 
     try {
-        const params = {
-            email,
-            userId,
+        const toGtag = {
             method: 'Ingresse',
         };
 
         return (
-            gtag('event', 'login', params) ||
+            gtag('event', 'login', toGtag) ||
             legiti('trackLogin', email, userId)
         );
 
@@ -92,14 +90,14 @@ function register(email, userId) {
     }
 
     try {
-        const params = {
+        const toGtag = {
             email,
             userId,
         };
 
         return (
             fbq('track', 'CompleteRegistration') ||
-            gtag('event', 'sign_up', params) ||
+            gtag('event', 'sign_up', toGtag) ||
             legiti('trackUserCreation', userId)
         );
 

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="theme-color" content="#00a5db" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>@ingresse/trackers</title>
+
+        <style type="text/css">
+            * {
+                box-sizing: border-box;
+            }
+
+            html,
+            body,
+            h1,
+            h2 {
+                margin : 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: "Roboto", "Ubuntu", sans-serif;
+                font-size  : 16px;
+                line-height: 20px;
+                text-align : center;
+            }
+
+            header,
+            section,
+            container {
+                display: block;
+            }
+
+            header {
+                padding: 85px 0;
+                background-color: #f8f8f8;
+            }
+
+            section {
+                padding: 45px 0;
+            }
+
+            container {
+                width    : 100%;
+                padding  : 0 20px;
+                max-width: 1080px;
+
+                margin-right: auto;
+                margin-left : auto;
+            }
+
+            h1,
+            h2 {
+                font-weight: bold;
+            }
+
+            h1 {
+                font-size  : 36px;
+                line-height: 50px;
+            }
+
+            h2 {
+                font-size  : 28px;
+                line-height: 40px;
+            }
+        </style>
+
+        <script>
+            function onTrackersLoad() {
+                console.log('@ingresse/trackers JS can be used now', window.trackers);
+            }
+        </script>
+        <script
+            onload="onTrackersLoad()"
+            src="https://cdn.ingresse.com/trackers/trackers.js">
+        </script>
+    </head>
+    <body>
+        <header>
+            <container>
+                <h1>
+                    @ingresse/trackers browser example
+                </h1>
+            </container>
+        </header>
+        <section>
+            <container>
+                <h2>
+                    Open browser's console and type:
+                </h2>
+            </container>
+        </section>
+        <section>
+            <container>
+                <code>
+                    <pre>trackers({ fbq: 'your-facebook-pixel-id', gtag: 'your-ga-id', legiti: 'your-legiti-key' })</pre>
+                </code>
+            </container>
+        </section>
+    </body>
+</html>

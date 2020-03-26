@@ -70,6 +70,7 @@ gtag.init = function(optionsOrKey) {
             delay,
             onload,
             onerror,
+            ...rest
         } = (options || {});
 
         if (!key) {
@@ -160,17 +161,16 @@ gtag.init = function(optionsOrKey) {
  * @param {any} [arg1]
  * @param {any} [arg2]
  * @param {any} [arg3]
- * @param {any} [arg4]
  *
  * @returns {boolean|object}
  */
-gtag.trigger = function(arg1, arg2, arg3, arg4) {
+gtag.trigger = function(arg1, arg2, arg3) {
     if (!gtag.running()) {
         return false;
     }
 
     try {
-        window.gtag(arg1, arg2, arg3, arg4);
+        window.gtag(arg1, arg2, arg3);
 
         return true;
 

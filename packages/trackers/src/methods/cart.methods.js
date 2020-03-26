@@ -12,9 +12,7 @@ import {
  *
  * @param {object} basket
  * @param {string} basket.tid      - transaction id
- * @param {number} basket.tax      - transaction tax
  * @param {number} basket.value    - transaction value
- * @param {string} basket.coupon   - discount coupon
  * @param {string} basket.currency - currency
  *
  * @param {array}  basket.items            - sold items
@@ -58,9 +56,7 @@ function add(basket) {
  *
  * @param {object} basket
  * @param {string} basket.tid      - transaction id
- * @param {number} basket.tax      - transaction tax
  * @param {number} basket.value    - transaction value
- * @param {string} basket.coupon   - discount coupon
  * @param {string} basket.currency - currency
  *
  * @param {array}  basket.items            - sold items
