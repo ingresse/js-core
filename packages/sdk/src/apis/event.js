@@ -116,6 +116,7 @@ function get(
                 .then((attributesResponse) => {
                     eventAttributes = (attributesResponse || null);
                 })
+                .catch(() => {})
             );
         }
 
@@ -141,6 +142,7 @@ function get(
                     eventCrew    = (crew.length ? crew : null);
                     eventCrewIds = (crewIds.length ? crewIds : null);
                 })
+                .catch(() => {})
             )
         }
 

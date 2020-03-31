@@ -6,12 +6,12 @@ import { js } from '@ingresse/injector';
 /**
  * Local values
  */
-const prefix = 'trackers:gtag:';
+const prefix = 'trackers:legiti:';
 
 /**
- * Google Analytics
+ * Legiti Anti-Fraud
  */
-let gtag = {
+let legiti = {
     key: '',
 };
 
@@ -20,9 +20,9 @@ let gtag = {
  *
  * @returns {boolean}
  */
-gtag.running = function() {
+legiti.running = function() {
     try {
-        return (typeof window.gtag === 'function');
+        return window.legiti.sharedInstance().isConfigured();
     } catch (e) {
         return false;
     }
@@ -33,19 +33,18 @@ gtag.running = function() {
  *
  * @param {object|string} optionsOrKey
  *
- * @param {object}
+ * @returns {Promise}
  */
-gtag.init = function(optionsOrKey) {
+legiti.init = function(optionsOrKey) {
     return new Promise((resolve, reject) => {
         let options = {
             key    : '',
-            id     : 'gtag-js',
+            id     : 'legiti-js',
             target : 'head',
-            delay  : 5000,
+            delay  : 10000,
             onload : undefined,
             onerror: undefined,
-            src    : '',
-            content: '',
+            src    : 'https://files.lgtcdn.net/legiti-js/v1/legiti.min.js',
         };
 
         if (optionsOrKey) {
@@ -80,16 +79,10 @@ gtag.init = function(optionsOrKey) {
             });
         }
 
-        if (key && (key === gtag.key)) {
-            return resolve();
-        }
-
-        const _src = (src || `https://www.googletagmanager.com/gtag/js?id=${key}`);
-
         /**
          * Error handler
          *
-         * @param {object} evt
+         * @param {object} [evt]
          */
         function handleError(evt) {
             reject({
@@ -118,13 +111,23 @@ gtag.init = function(optionsOrKey) {
         function handleLoad(evt) {
             clearTimeout(timeout);
 
-            gtag.key = key;
+            try {
+                legiti.key = key;
 
-            if (typeof onload === 'function') {
-                onload(evt);
+                window
+                .legiti
+                .sharedInstance()
+                .setup(key, false);
+
+                resolve(evt);
+
+                if (typeof onload === 'function') {
+                    onload(evt);
+                }
+
+            } catch(e) {
+                handleError(e);
             }
-
-            resolve(gtag);
         }
 
         /**
@@ -133,44 +136,35 @@ gtag.init = function(optionsOrKey) {
         js({
             id,
             target,
-            async  : true,
-            src    : _src,
+            async  : 1,
+            src    : src,
             onload : handleLoad,
             onerror: handleError,
-            ...(rest || {}),
-        })
-        .catch(handleError);
-
-        /**
-         * Injection: Initializer
-         */
-        const _content = `window.dataLayer=(window.dataLayer||[]);function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','${key}');${content}`;
-
-        js({
-            target,
-            id     : `${id}-init`,
-            content: _content,
-        })
-        .catch(handleError);
+            ...rest
+        });
     });
 }
 
 /**
  * Lib Trigger
  *
- * @param {any} [arg1]
- * @param {any} [arg2]
- * @param {any} [arg3]
+ * @param {string} method
+ * @param {any}    [arg1]
+ * @param {any}    [arg2]
+ * @param {any}    [arg3]
  *
  * @returns {boolean|object}
  */
-gtag.trigger = function(arg1, arg2, arg3) {
-    if (!gtag.running()) {
+legiti.trigger = function(method, arg1, arg2, arg3) {
+    if (!legiti.running()) {
         return false;
     }
 
     try {
-        window.gtag(arg1, arg2, arg3);
+        window
+        .legiti
+        .sharedInstance()
+        [method](arg1, arg2, arg3);
 
         return true;
 
@@ -182,4 +176,4 @@ gtag.trigger = function(arg1, arg2, arg3) {
 /**
  * Exporting
  */
-export default gtag;
+export default legiti;

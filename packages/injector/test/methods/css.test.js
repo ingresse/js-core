@@ -7,11 +7,14 @@ import css from '../../src/methods/css.js';
  * Unit Tests
  */
 describe('CSS Injector', () => {
-    it('should be called, getting error', async () => {
+    it('should be called, creating empty element', async () => {
         expect.assertions(2);
 
         try {
-            await css();
+            const inejectedElement = await css();
+
+            expect(inejectedElement).not.toBeDefined();
+
         } catch({ code, message }) {
             expect(code).toEqual(-1);
             expect(message).toEqual('injector:invalid-arguments');

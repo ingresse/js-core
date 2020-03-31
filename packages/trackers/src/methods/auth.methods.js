@@ -1,48 +1,117 @@
 /**
- * Analytics
+ * Triggers
  */
-import gtag from '../analytics/google.analytics';
+import {
+    fbq,
+    gtag,
+    legiti,
+} from '../triggers';
 
 /**
- * Anti-Fraud
- */
-import inspetor from '../fraud/inspetor.fraud';
-
-/**
- * Authentication Login
+ * Authentication Login Error
  *
- * @param {object} params
+ * @param {string} email - user email
+ *
+ * @returns {boolean|object}
  */
-function login(params = {}) {
-    return new Promise((resolve, reject) => {
-        try {
-            const {
-                email,
-                userId,
-            } = params;
+function loginError(email) {
+    if (!email) {
+        return false;
+    }
 
-            if (window.gtag) {
-                window.gtag('event', 'login', params);
-            }
+    try {
+        return legiti('trackLogin', email);
 
-            if (inspetor.running()) {
-                window
-                .inspetor
-                .sharedInstance()
-                .trackLogin(email, userId);
-            }
+    } catch (error) {
+        return error;
+    }
+}
 
-            resolve();
+/**
+ * Authentication Login Success
+ *
+ * @param {string} email
+ * @param {string} userId
+ *
+ * @returns {boolean|object}
+ */
+function loginSuccess(email, userId) {
+    if (!email || !userId) {
+        return false;
+    }
 
-        } catch(error) {
-            reject(error);
-        }
-    });
+    try {
+        const toGtag = {
+            method: 'Ingresse',
+        };
+
+        return (
+            gtag('event', 'login', toGtag) ||
+            legiti('trackLogin', email, userId)
+        );
+
+    } catch (error) {
+        return error;
+    }
+}
+
+/**
+ * Authentication Logout
+ *
+ * @param {string} email  - user email
+ * @param {string} userId - user id
+ *
+ * @returns {boolean|object}
+ */
+function logout(email, userId) {
+    if (!email || !userId) {
+        return false;
+    }
+
+    try {
+        return legiti('trackLogout', email, userId);
+
+    } catch (error) {
+        return error;
+    }
+}
+
+/**
+ * Authentication Register
+ *
+ * @param {string} email
+ * @param {string} userId
+ *
+ * @returns {boolean|object}
+ */
+function register(email, userId) {
+    if (!email || !userId) {
+        return false;
+    }
+
+    try {
+        const toGtag = {
+            email,
+            userId,
+        };
+
+        return (
+            fbq('track', 'CompleteRegistration') ||
+            gtag('event', 'sign_up', toGtag) ||
+            legiti('trackUserCreation', userId)
+        );
+
+    } catch (error) {
+        return error;
+    }
 }
 
 /**
  * Exporting
  */
 export const auth = {
-    login,
+    loginError,
+    loginSuccess,
+    logout,
+    register,
 };

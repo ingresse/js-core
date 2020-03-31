@@ -1,17 +1,17 @@
 /**
  * Core Packages
  */
-import { js } from '@ingresse/injector';
+import injector, { js } from '@ingresse/injector';
 
 /**
  * Local values
  */
-const prefix = 'trackers:gtag:';
+const prefix = 'trackers:fbq:';
 
 /**
- * Google Analytics
+ * Facebook Pixel
  */
-let gtag = {
+let fbq = {
     key: '',
 };
 
@@ -20,9 +20,9 @@ let gtag = {
  *
  * @returns {boolean}
  */
-gtag.running = function() {
+fbq.running = function() {
     try {
-        return (typeof window.gtag === 'function');
+        return (typeof window.fbq === 'function');
     } catch (e) {
         return false;
     }
@@ -35,17 +35,14 @@ gtag.running = function() {
  *
  * @param {object}
  */
-gtag.init = function(optionsOrKey) {
+fbq.init = function(optionsOrKey) {
     return new Promise((resolve, reject) => {
         let options = {
             key    : '',
-            id     : 'gtag-js',
+            id     : 'fbq-js',
             target : 'head',
             delay  : 5000,
-            onload : undefined,
-            onerror: undefined,
-            src    : '',
-            content: '',
+            version: '2.0',
         };
 
         if (optionsOrKey) {
@@ -65,12 +62,8 @@ gtag.init = function(optionsOrKey) {
             key,
             id,
             target,
-            src,
-            content,
             delay,
-            onload,
-            onerror,
-            ...rest
+            version,
         } = (options || {});
 
         if (!key) {
@@ -80,11 +73,11 @@ gtag.init = function(optionsOrKey) {
             });
         }
 
-        if (key && (key === gtag.key)) {
+        if (key && (key === fbq.key)) {
             return resolve();
         }
 
-        const _src = (src || `https://www.googletagmanager.com/gtag/js?id=${key}`);
+        const content = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='${version}';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '${key}');fbq('track', 'PageView');`;
 
         /**
          * Error handler
@@ -108,23 +101,43 @@ gtag.init = function(optionsOrKey) {
          */
         const timeout = setTimeout(() => {
             handleError();
+
+            /**
+             * Injection Fallback
+             */
+            try {
+                let img    = document.createElement('img');
+                img.width  = 1;
+                img.height = 1;
+                img.style  = 'display:none';
+                img.src    = `https://www.facebook.com/tr?id=${key}&ev=PageView&noscript=1`;
+
+                injector({
+                    id     : `${id}-noscript`,
+                    tag    : 'noscript',
+                    target : 'head',
+                    content: 'fbq',
+                })
+                .then((noscript) => {
+                    noscript.append(img);
+                })
+                .catch((error) => {
+                    console.warn(prefix.concat('noscript'), error);
+                });
+            } catch (error) {
+                console.warn(prefix.concat('noscript'), error);
+            }
         }, delay);
 
         /**
          * Load handler
-         *
-         * @param {object} evt
          */
-        function handleLoad(evt) {
+        function handleLoad() {
             clearTimeout(timeout);
 
-            gtag.key = key;
+            fbq.key = key;
 
-            if (typeof onload === 'function') {
-                onload(evt);
-            }
-
-            resolve(gtag);
+            resolve(fbq);
         }
 
         /**
@@ -133,23 +146,10 @@ gtag.init = function(optionsOrKey) {
         js({
             id,
             target,
-            async  : true,
-            src    : _src,
-            onload : handleLoad,
-            onerror: handleError,
-            ...(rest || {}),
+            content,
         })
-        .catch(handleError);
-
-        /**
-         * Injection: Initializer
-         */
-        const _content = `window.dataLayer=(window.dataLayer||[]);function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','${key}');${content}`;
-
-        js({
-            target,
-            id     : `${id}-init`,
-            content: _content,
+        .then(() => {
+            handleLoad();
         })
         .catch(handleError);
     });
@@ -161,16 +161,17 @@ gtag.init = function(optionsOrKey) {
  * @param {any} [arg1]
  * @param {any} [arg2]
  * @param {any} [arg3]
+ * @param {any} [arg4]
  *
  * @returns {boolean|object}
  */
-gtag.trigger = function(arg1, arg2, arg3) {
-    if (!gtag.running()) {
+fbq.trigger = function(arg1, arg2, arg3, arg4) {
+    if (!fbq.running()) {
         return false;
     }
 
     try {
-        window.gtag(arg1, arg2, arg3);
+        window.fbq(arg1, arg2, arg3, arg4);
 
         return true;
 
@@ -182,4 +183,4 @@ gtag.trigger = function(arg1, arg2, arg3) {
 /**
  * Exporting
  */
-export default gtag;
+export default fbq;

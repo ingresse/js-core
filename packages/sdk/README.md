@@ -3,14 +3,12 @@
 #### Facility to use [Ingresse's API](https://dev.ingresse.com/).
 
 
-## Usage
-
-#### Install as development dependency:
+## Install
 ```
-yarn add -D @ingresse/sdk
+npm i -S @ingresse/sdk
 ```
 
-#### Example
+#### Usage
 ```js
 import SDK, {
     /**

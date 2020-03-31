@@ -271,7 +271,7 @@ function _requestHandler(
             const exception = errorHandler(error);
             const { status, code } = (exception || {});
 
-            if (!retry && reqQuery.usertoken &&
+            if (!retry &&
                 ((code === 6065) || (status === 401))) {
                 return _renewAndRetry();
             }

@@ -4,10 +4,10 @@
 module.exports = {
     target: 'web',
     mode  : 'production',
-    entry : './src/index.js',
+    entry : './src/browser.js',
     output: {
         libraryTarget: 'umd',
-        filename     : 'sdk.js',
+        filename     : 'trackers.js',
         path         : (__dirname + '/dist'),
     },
     module: {
@@ -27,7 +27,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            '@ingresse/request': (__dirname + '/node_modules/@ingresse/request'),
+            '@ingresse/injector': (__dirname + '/node_modules/@ingresse/injector'),
         },
     },
 };
