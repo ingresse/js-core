@@ -1,6 +1,6 @@
 # `@ingresse/injector` ES Module
 
-#### Utility to make it easy to import 3th party libraries into HTML.
+#### Utility to make it easy to import 3rd party libraries into HTML.
 
 
 ## Usage
