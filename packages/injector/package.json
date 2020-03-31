@@ -1,6 +1,6 @@
 {
   "name": "@ingresse/injector",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Ingresse Script Injector utility",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -31,8 +31,8 @@
     "url": "https://github.com/ingresse/js-core/issues"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
-    "jest": "^25.1.0"
+    "@babel/plugin-transform-modules-commonjs": "^7.9.0",
+    "jest": "^25.2.4"
   },
   "scripts": {
     "unit": "jest --collectCoverage --no-cache --watch",
