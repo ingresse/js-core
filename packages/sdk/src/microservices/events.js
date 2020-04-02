@@ -3,6 +3,8 @@
  */
 import {
     get,
+    put,
+    post,
     generic,
 } from '../request/request.js';
 
@@ -116,6 +118,54 @@ function details(
 }
 
 /**
+ * Event Microservice Update
+ *
+ * @param {string} id         - event ID
+ * @param {object} body       - event data
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function update(
+    id,
+    body = {},
+    query,
+    settings
+) {
+    return put(
+        `/${id}`,
+        query,
+        body,
+        defaultSettings(settings)
+    );
+}
+
+/**
+ * Event Microservice Duplicate
+ *
+ * @param {string} id         - event ID
+ * @param {object} body       - event data
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function duplicate(
+    id,
+    body = {},
+    query,
+    settings
+) {
+    return post(
+        `/${id}/duplicate`,
+        query,
+        body,
+        defaultSettings(settings)
+    );
+}
+
+/**
  * Reference
  */
 const events = {
@@ -124,6 +174,8 @@ const events = {
 
     list,
     details,
+    update,
+    duplicate,
 };
 
 /**

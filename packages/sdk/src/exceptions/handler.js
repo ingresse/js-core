@@ -6,24 +6,58 @@ import translator from './translator.js';
 /**
  * Error handler
  *
- * @param {object}   error
+ * @param {object} error
  *
- * @param {object} adapted error
+ * @returns {Promise}
  */
 function handler(error) {
-    const {
-        code,
-        message,
-        status,
-        statusText,
-    } = (error || {});
+    return new Promise((resolve) => {
+        const {
+            code      : originalCode,
+            message   : originalMessage,
+            status    : originalStatus,
+            statusText: originalStatusText,
+        } = (error || {});
+        let simple = {
+            ...(error || {}),
+            status  : originalStatus,
+            original: (originalMessage || originalStatusText || ''),
+            message : translator((originalCode || originalStatus), (originalMessage || originalStatusText)),
+        };
 
-    return {
-        ...(error || {}),
-        original: (message || statusText || ''),
-        message : translator((code || status), (message || statusText)),
-        status,
-    };
+        if ((typeof error !== 'object') ||
+            (typeof error.json !== 'function')) {
+            return resolve(simple);
+        }
+
+        error
+        .json()
+        .then((details) => {
+            const {
+                code,
+                message,
+                status,
+                statusText,
+            } = (details || {});
+
+            resolve({
+                ...simple,
+                ...(details || {}),
+                status  : originalStatus,
+                original: (message || originalMessage || originalStatusText || ''),
+                message : translator(
+                    (code || originalCode || originalStatus),
+                    (message || statusText || originalMessage || originalStatusText)
+                ),
+            });
+        })
+        .catch((err) => {
+            resolve({
+                ...(err || {}),
+                ...simple,
+            });
+        });
+    });
 }
 
 /**

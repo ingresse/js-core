@@ -205,7 +205,7 @@ function _requestHandler(
         /**
          * Renew user token and retry the same original request
          */
-        function _renewAndRetry() {
+        function _renewAndRetry(exception) {
             _requestHandler('/login/renew-token', {
                 headers: {
                     method: 'GET',
@@ -222,7 +222,7 @@ function _requestHandler(
 
                 credentials.set('jwt', authToken);
 
-                _requestHandler(path, settings)
+                _requestHandler(path, settings, true)
                 .then(resolve)
                 .catch(reject);
             })
@@ -246,12 +246,17 @@ function _requestHandler(
                     message,
                 } = (responseError || {});
 
-                return reject(errorHandler({
+                errorHandler({
+                    ...(response || {}),
                     ...(responseError || {
                         code   : (code || -1),
                         message: (message || messageData || ''),
                     }),
-                }));
+                })
+                .then(reject)
+                .catch(reject);
+
+                return;
             }
 
             if (withFormatter &&
@@ -268,15 +273,20 @@ function _requestHandler(
             resolve(responseData || response);
         })
         .catch((error) => {
-            const exception = errorHandler(error);
-            const { status, code } = (exception || {});
+            errorHandler(error)
+            .then((exception) => {
+                const { status, code } = (exception || {});
+                const shouldRenew      = !!(!retry && authQuery.usertoken && (
+                    (code === 6065) || (status === 401)
+                ));
 
-            if (!retry &&
-                ((code === 6065) || (status === 401))) {
-                return _renewAndRetry();
-            }
+                if (shouldRenew) {
+                    return _renewAndRetry(exception);
+                }
 
-            reject(exception);
+                reject(exception);
+            })
+            .catch(reject);
         });
     });
 }
