@@ -41,10 +41,10 @@ function add(basket) {
             items,
         };
 
-        return (
-            fbq('track', 'AddToCart', toFbq) ||
-            gtag('event', 'add_to_cart', toGtag)
-        );
+        const _successFbq  = fbq('track', 'AddToCart', toFbq);
+        const _successGtag = gtag('event', 'add_to_cart', toGtag);
+
+        return (_successFbq || _successGtag);
 
     } catch (error) {
         return error;

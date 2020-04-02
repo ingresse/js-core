@@ -163,21 +163,16 @@ fbq.init = function(optionsOrKey) {
  * @param {any} [arg3]
  * @param {any} [arg4]
  *
- * @returns {boolean|object}
+ * @returns {boolean}
  */
 fbq.trigger = function(arg1, arg2, arg3, arg4) {
     if (!fbq.running()) {
         return false;
     }
 
-    try {
-        window.fbq(arg1, arg2, arg3, arg4);
+    window.fbq(arg1, arg2, arg3, arg4);
 
-        return true;
-
-    } catch (error) {
-        return error;
-    }
+    return true;
 }
 
 /**

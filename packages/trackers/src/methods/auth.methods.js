@@ -12,19 +12,14 @@ import {
  *
  * @param {string} email - user email
  *
- * @returns {boolean|object}
+ * @returns {boolean}
  */
 function loginError(email) {
     if (!email) {
         return false;
     }
 
-    try {
-        return legiti('trackLogin', email);
-
-    } catch (error) {
-        return error;
-    }
+    return legiti('trackLogin', email);
 }
 
 /**
@@ -33,26 +28,21 @@ function loginError(email) {
  * @param {string} email
  * @param {string} userId
  *
- * @returns {boolean|object}
+ * @returns {boolean}
  */
-function loginSuccess(email, userId) {
+function login(email, userId) {
     if (!email || !userId) {
         return false;
     }
 
-    try {
-        const toGtag = {
-            method: 'Ingresse',
-        };
+    const toGtag = {
+        method: 'Ingresse',
+    };
 
-        return (
-            gtag('event', 'login', toGtag) ||
-            legiti('trackLogin', email, userId)
-        );
+    const _successGtag   = gtag('event', 'login', toGtag);
+    const _successLegiti = legiti('trackLogin', email, userId);
 
-    } catch (error) {
-        return error;
-    }
+    return (_successGtag || _successLegiti);
 }
 
 /**
@@ -61,19 +51,14 @@ function loginSuccess(email, userId) {
  * @param {string} email  - user email
  * @param {string} userId - user id
  *
- * @returns {boolean|object}
+ * @returns {boolean}
  */
 function logout(email, userId) {
     if (!email || !userId) {
         return false;
     }
 
-    try {
-        return legiti('trackLogout', email, userId);
-
-    } catch (error) {
-        return error;
-    }
+    return legiti('trackLogout', email, userId);
 }
 
 /**
@@ -82,36 +67,36 @@ function logout(email, userId) {
  * @param {string} email
  * @param {string} userId
  *
- * @returns {boolean|object}
+ * @returns {boolean}
  */
 function register(email, userId) {
     if (!email || !userId) {
         return false;
     }
 
-    try {
-        const toGtag = {
-            email,
-            userId,
-        };
+    const toGtag = {
+        email,
+        userId,
+    };
 
-        return (
-            fbq('track', 'CompleteRegistration') ||
-            gtag('event', 'sign_up', toGtag) ||
-            legiti('trackUserCreation', userId)
-        );
+    const _successFbq    = fbq('track', 'CompleteRegistration');
+    const _successGtag   = gtag('event', 'sign_up', toGtag);
+    const _successLegiti = legiti('trackUserCreation', userId);
 
-    } catch (error) {
-        return error;
-    }
+    return (
+        _successFbq ||
+        _successGtag ||
+        _successLegiti
+    );
 }
 
 /**
  * Exporting
  */
 export const auth = {
+    login,
+    loginSuccess: login,
     loginError,
-    loginSuccess,
     logout,
     register,
 };

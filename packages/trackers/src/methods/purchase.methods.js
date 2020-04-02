@@ -38,10 +38,10 @@ function created(purchase) {
             items,
         };
 
-        return (
-            gtag('event', 'begin_checkout', toGtag) ||
-            legiti('trackOrderCreation', transaction_id)
-        );
+        const _successGtag   = gtag('event', 'begin_checkout', toGtag);
+        const _successLegiti = legiti('trackOrderCreation', transaction_id);
+
+        return (_successGtag || _successLegiti);
 
     } catch (error) {
         return error;

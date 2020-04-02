@@ -48,6 +48,7 @@ trackers({
     trackers.pageView();
 
     // Auth
+    trackers.auth.loginError('user@email.io');
     trackers.auth.login('user@email.io', 'user-id');
     trackers.auth.logout('user@email.io', 'user-id');
     trackers.auth.register('user@email.io', 'user-id');

@@ -72,10 +72,10 @@ function lead() {
  */
 function pageView() {
     try {
-        return (
-            fbq('track', 'PageView') ||
-            gtag('event', 'page_view')
-        );
+        const _successFbq  = fbq('track', 'PageView');
+        const _successGtag = gtag('event', 'page_view');
+
+        return (_successFbq || _successGtag);
 
     } catch (error) {
         return error;

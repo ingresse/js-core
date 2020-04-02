@@ -162,21 +162,16 @@ gtag.init = function(optionsOrKey) {
  * @param {any} [arg2]
  * @param {any} [arg3]
  *
- * @returns {boolean|object}
+ * @returns {boolean}
  */
 gtag.trigger = function(arg1, arg2, arg3) {
     if (!gtag.running()) {
         return false;
     }
 
-    try {
-        window.gtag(arg1, arg2, arg3);
+    window.gtag(arg1, arg2, arg3);
 
-        return true;
-
-    } catch (error) {
-        return error;
-    }
+    return true;
 }
 
 /**
