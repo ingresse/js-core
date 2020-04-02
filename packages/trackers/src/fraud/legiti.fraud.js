@@ -153,7 +153,7 @@ legiti.init = function(optionsOrKey) {
  * @param {any}    [arg2]
  * @param {any}    [arg3]
  *
- * @returns {boolean|object}
+ * @returns {boolean}
  */
 legiti.trigger = function(method, arg1, arg2, arg3) {
     if (!legiti.running()) {
@@ -169,7 +169,9 @@ legiti.trigger = function(method, arg1, arg2, arg3) {
         return true;
 
     } catch (error) {
-        return error;
+        console.error('JS Trackers Legiti trigger error', error);
+
+        return false;
     }
 }
 

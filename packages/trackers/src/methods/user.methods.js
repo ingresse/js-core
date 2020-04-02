@@ -18,12 +18,7 @@ import { auth } from './auth.methods';
  * @returns {boolean|object}
  */
 function updated(userId) {
-    try {
-        return legiti('trackUserUpdate', userId);
-
-    } catch (error) {
-        return error;
-    }
+    return legiti('trackUserUpdate', userId);
 }
 
 /**
