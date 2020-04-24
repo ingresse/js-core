@@ -6,6 +6,11 @@ import {
 } from '../request/request.js';
 
 /**
+ * Utilities
+ */
+import eventIdentifier from '../utils/eventIdentifier';
+
+/**
  * Event API Attributes Getter
  *
  * @param {string} id - Event Identifier
@@ -98,21 +103,27 @@ function get(
         let eventCrewIds    = null;
         let eventAttributes = null;
 
-        promises.push(
-            getter(`/event/${id}`, originalQuery, originalSettings)
-            .then((response) => {
-                eventResponse = response;
-            })
-            .catch((error) => {
-                hasError = error;
+        const callAttributes = !!(withAttributes || includeAttributes);
+        const callCrew       = !!(withCrew || includeCrew);
 
-                reject(error);
-            })
-        );
+        const eventById     = !!(eventIdentifier(id) === 'byId');
+        const eventEndpoint = (eventById ? `/event/${id}` : '/event');
+        const eventQuery    = (eventById ? originalQuery : {
+            method: 'identify',
+            link  : id,
+            ...(originalQuery || {}),
+        });
 
-        if (withAttributes || includeAttributes) {
-            promises.push(
-                attributes(id, originalQuery, settings)
+        /**
+         * Get Event Attributes
+         *
+         * @param {number} eventId
+         *
+         * @returns {Promise}
+         */
+        function _getAttributes(eventId) {
+            return (
+                attributes(eventId, originalQuery, settings)
                 .then((attributesResponse) => {
                     eventAttributes = (attributesResponse || null);
                 })
@@ -120,9 +131,16 @@ function get(
             );
         }
 
-        if (withCrew || includeCrew) {
-            promises.push(
-                crew(id, originalQuery, settings)
+        /**
+         * Get Event Crew
+         *
+         * @param {number} eventId
+         *
+         * @returns {Promise}
+         */
+        function _getCrew(eventId) {
+            return (
+                crew(eventId, originalQuery, settings)
                 .then(({ team }) => {
                     const crew    = [];
                     const crewIds = [];
@@ -143,7 +161,69 @@ function get(
                     eventCrewIds = (crewIds.length ? crewIds : null);
                 })
                 .catch(() => {})
-            )
+            );
+        }
+
+        /**
+         * Fetch Event by Link/Slug
+         */
+        if (!eventById) {
+            getter(eventEndpoint, eventQuery, originalSettings)
+            .then((response) => {
+                eventResponse = response;
+                const {
+                    id: responseId,
+                } = (eventResponse || {});
+
+                if (responseId && callAttributes) {
+                    promises.push(_getAttributes(responseId));
+                }
+
+                if (responseId && callCrew) {
+                    promises.push(_getCrew(responseId));
+                }
+
+                Promise
+                .all(promises)
+                .finally(() => {
+                    resolve({
+                        ...(eventResponse || {}),
+                        crew      : eventCrew,
+                        crewIds   : eventCrewIds,
+                        attributes: ((eventResponse || {}).attributes || eventAttributes || null),
+                    });
+                });
+            })
+            .catch((error) => {
+                hasError = error;
+
+                reject(error);
+            })
+
+            return;
+        }
+
+        /**
+         * Fetch Event by ID
+         */
+        promises.push(
+            getter(eventEndpoint, eventQuery, originalSettings)
+            .then((response) => {
+                eventResponse = response;
+            })
+            .catch((error) => {
+                hasError = error;
+
+                reject(error);
+            })
+        );
+
+        if (callAttributes) {
+            promises.push(_getAttributes(id));
+        }
+
+        if (callCrew) {
+            promises.push(_getCrew(id))
         }
 
         Promise
