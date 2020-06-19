@@ -88,10 +88,56 @@ function get(
 }
 
 /**
+ * User's Pending Tickets
+ *
+ * @param {string} id - User's ID
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function transfers(
+    id,
+    query,
+    settings
+) {
+    return getter(`/user/${id}/transfers`, {
+        status: 'pending',
+        ...(query || {}),
+    }, settings);
+}
+
+/**
+ * User's Wallet reference
+ */
+const wallet = {
+    transfers,
+    /**
+     * User's Tickets Wallet events
+     *
+     * @param {string} id - User's ID
+     * @param {object} [query]
+     * @param {object} [settings]
+     *
+     * @returns {Promise}
+     */
+    events: function (
+        id,
+        query,
+        settings
+    ) {
+        return getter(`/user/${id}/wallet`, query, settings);
+    },
+
+};
+
+/**
  * Reference
  */
 const user = {
     get,
+    transfers,
+    wallet,
 };
 
 /**
