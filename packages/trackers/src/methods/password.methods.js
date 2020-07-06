@@ -38,7 +38,7 @@ function reset(userId) {
     }
 
     try {
-        return legiti('trackPasswordRecovery', userId);
+        return legiti('trackPasswordReset', userId);
 
     } catch (error) {
         return error;
