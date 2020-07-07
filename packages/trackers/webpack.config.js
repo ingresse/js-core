@@ -4,10 +4,13 @@
 module.exports = {
     target: 'web',
     mode  : 'production',
-    entry : './src/browser.js',
+    entry : {
+        index   : './src/index.js',
+        trackers: './src/browser.js',
+    },
     output: {
         libraryTarget: 'umd',
-        filename     : 'trackers.js',
+        filename     : '[name].js',
         path         : (__dirname + '/dist'),
     },
     module: {
