@@ -1,14 +1,14 @@
 {
   "name": "@ingresse/trackers",
-  "version": "0.0.1",
-  "description": "Ingresse JS Analytics and Anti-fraud helpers",
+  "version": "0.0.2",
+  "description": "Ingresse JS Analytics and Anti-fraud helpers for browsers",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ingresse/js-core.git"
   },
   "author": "Ingresse <frontend@ingresse.com>",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "module": "src/index.js",
   "directories": {
     "lib": "src"
