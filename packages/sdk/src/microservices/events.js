@@ -135,8 +135,8 @@ function update(
 ) {
     return put(
         `/${id}`,
-        query,
         body,
+        query,
         defaultSettings(settings)
     );
 }
@@ -159,8 +159,8 @@ function duplicate(
 ) {
     return post(
         `/${id}/duplicate`,
-        query,
         body,
+        query,
         defaultSettings(settings)
     );
 }

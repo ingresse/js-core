@@ -43,11 +43,11 @@ function login(
 
         post(
             (!companyLogin ? '/login' : '/company-login'),
-            queryRest,
             {
                 email,
                 password,
             },
+            queryRest,
             settings
         )
         .then((response) => {
@@ -178,11 +178,11 @@ function companyLogin(
     return new Promise((resolve, reject) => {
         post(
             '/company-login',
-            query,
             {
                 email,
                 password,
             },
+            query,
             settings
         )
         .then((response) => {
@@ -225,12 +225,12 @@ function facebookLogin(
     return new Promise((resolve, reject) => {
         post(
             '/login/facebook',
-            query,
             {
                 email   : fbEmail,
                 fbToken : fbAccessToken,
                 fbUserId: fbUserId,
             },
+            query,
             settings
         )
         .catch(reject)
@@ -266,11 +266,11 @@ function register(
     query,
     settings
 ) {
-    return post('/user', query, body, settings);
+    return post('/user', body, query, settings);
 }
 
 /**
- *
+ * Validate if user's needs 2fa
  *
  * @returns {Promise}
  */
