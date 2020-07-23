@@ -1,4 +1,11 @@
 /**
+ * Core Packages
+ */
+import {
+    get as fetchGetter,
+} from '@ingresse/request';
+
+/**
  * Base
  */
 import credentials from '../credentials.js';
@@ -36,11 +43,11 @@ function login(
 
         post(
             (!companyLogin ? '/login' : '/company-login'),
-            queryRest,
             {
                 email,
                 password,
             },
+            queryRest,
             settings
         )
         .then((response) => {
@@ -171,11 +178,11 @@ function companyLogin(
     return new Promise((resolve, reject) => {
         post(
             '/company-login',
-            query,
             {
                 email,
                 password,
             },
+            query,
             settings
         )
         .then((response) => {
@@ -218,12 +225,12 @@ function facebookLogin(
     return new Promise((resolve, reject) => {
         post(
             '/login/facebook',
-            query,
             {
                 email   : fbEmail,
                 fbToken : fbAccessToken,
                 fbUserId: fbUserId,
             },
+            query,
             settings
         )
         .catch(reject)
@@ -236,7 +243,7 @@ function facebookLogin(
             if (typeof data !== 'object' || !data) {
                 return reject({
                     code   : -1,
-                    message: (message || 'Auth: Invalid company login response'),
+                    message: (message || 'Auth: Invalid facebook login response'),
                 });
             }
 
@@ -259,7 +266,18 @@ function register(
     query,
     settings
 ) {
-    return post('/user', query, body, settings);
+    return post('/user', body, query, settings);
+}
+
+/**
+ * Validate if user's needs 2fa
+ *
+ * @returns {Promise}
+ */
+function needsTwoFactor(userId = '') {
+    return fetchGetter(
+        `https://c4m0r56ikk.execute-api.us-east-1.amazonaws.com/prod?id=${userId}`
+    );
 }
 
 /**
@@ -272,6 +290,7 @@ const auth = {
     companyLogin,
     facebookLogin,
     register,
+    needsTwoFactor,
 };
 
 /**

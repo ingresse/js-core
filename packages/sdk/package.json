@@ -1,6 +1,6 @@
 {
   "name": "@ingresse/sdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Ingresse plataform Javascript SDK",
   "main": "dist/sdk.js",
   "module": "src/index.js",
@@ -43,6 +43,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.1.0",
+    "dayjs": "^1.8.30",
     "jest": "^25.2.4",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"

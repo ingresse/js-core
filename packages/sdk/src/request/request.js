@@ -319,8 +319,8 @@ function get(
  * Request POST
  *
  * @param {string} path
- * @param {object} query
  * @param {object} body
+ * @param {object} query
  * @param {object} settings
  *
  * @returns {Promise}
@@ -346,16 +346,16 @@ function post(
  * Request PUT
  *
  * @param {string} path
- * @param {object} query
  * @param {object} body
+ * @param {object} query
  * @param {object} settings
  *
  * @returns {Promise}
  */
 function put(
     path     = '',
-    query    = {},
     body     = {},
+    query    = {},
     settings = {}
 ) {
     return _requestHandler(
@@ -374,16 +374,16 @@ function put(
  *
  * @param {string} path
  * @param {object} query
- * @param {object} body
  * @param {object} settings
+ * @param {object} body
  *
  * @returns {Promise}
  */
 function del(
     path     = '',
     query    = {},
-    body     = {},
-    settings = {}
+    settings = {},
+    body     = {}
 ) {
     return _requestHandler(
         path,
@@ -400,16 +400,16 @@ function del(
  * Request JSONP
  *
  * @param {string} path
- * @param {object} query
  * @param {object} body
+ * @param {object} query
  * @param {object} settings
  *
  * @returns {Promise}
  */
 function jsonp(
     path     = '',
-    query    = {},
     body     = {},
+    query    = {},
     settings = {}
 ) {
     return _requestHandler(

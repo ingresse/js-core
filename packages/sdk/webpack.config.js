@@ -6,6 +6,7 @@ module.exports = {
     mode  : 'production',
     entry : './src/index.js',
     output: {
+        globalObject : 'this',
         libraryTarget: 'umd',
         filename     : 'sdk.js',
         path         : (__dirname + '/dist'),

@@ -1,7 +1,7 @@
 /**
  * Formatters
  */
-import { pagination } from './pagination.formatter';
+import { pagination } from './pagination';
 
 /**
  * Events List Formatter

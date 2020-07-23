@@ -1,6 +1,7 @@
 /**
  * Formatters
  */
-export * from './events.formatter.js';
-export * from './pagination.formatter.js';
-export * from './user.formatter.js';
+export * from './coupons.js';
+export * from './events.js';
+export * from './pagination.js';
+export * from './user.js';

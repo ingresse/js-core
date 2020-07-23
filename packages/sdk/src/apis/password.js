@@ -21,10 +21,10 @@ function recover(
 ) {
     return post(
         '/recover-password',
-        query,
         {
             email,
         },
+        query,
         settings,
     );
 }
