@@ -327,8 +327,8 @@ function get(
  */
 function post(
     path     = '',
-    query    = {},
     body     = {},
+    query    = {},
     settings = {}
 ) {
     return _requestHandler(

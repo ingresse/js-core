@@ -1,6 +1,6 @@
 {
   "name": "@ingresse/sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Ingresse plataform Javascript SDK",
   "main": "dist/sdk.js",
   "module": "src/index.js",
