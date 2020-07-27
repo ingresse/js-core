@@ -1,6 +1,6 @@
 {
   "name": "@ingresse/trackers",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Ingresse JS Analytics and Anti-fraud helpers for browsers",
   "repository": {
     "type": "git",
@@ -25,7 +25,8 @@
   },
   "scripts": {
     "build": "webpack",
-    "example": "cd example && python -m SimpleHTTPServer"
+    "example": "cd example && python -m SimpleHTTPServer",
+    "deploy": "npm run build && npm publish"
   },
   "dependencies": {
     "@ingresse/injector": "^0.0.2"
