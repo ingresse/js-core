@@ -171,12 +171,10 @@ function response(response) {
  * Coupon Item Save adapter
  *
  * @param {object} coupon
- * @param {string} eventId
- * @param {string} companyId
  *
  * @returns {object}
  */
-function save(coupon, eventId, companyId) {
+function save(coupon) {
     if (!coupon ||
         (typeof coupon !== 'object')) {
         return coupon;
@@ -191,6 +189,7 @@ function save(coupon, eventId, companyId) {
         usageLimit,
         startUsage,
         endUsage,
+        companyId,
         targetEvents,
     } = coupon;
     let adapted = {
@@ -201,11 +200,7 @@ function save(coupon, eventId, companyId) {
         type,
         usageLimit,
         discount,
-        targetEvents: targetEvents || [
-            {
-                eventId,
-            }
-        ],
+        targetEvents,
     };
 
     if (startUsage) {
