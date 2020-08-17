@@ -1,4 +1,9 @@
 /**
+ * Base
+ */
+import options from '../options.js';
+
+/**
  * Numbers Utility
  * Format as a readble number
  *
@@ -9,12 +14,15 @@
  */
 function numbers(
     num    = 0,
-    locale = 'pt-BR',
+    locale = '',
 ) {
-    return new Intl.NumberFormat(locale).format(num);
+    const _options = options.get();
+    const _locale  = (locale || _options.locale);
+
+    return new Intl.NumberFormat(_locale).format(num);
 }
 
 /**
  * Exporting
  */
-export default numbers;
+export { numbers };

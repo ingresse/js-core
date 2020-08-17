@@ -1,7 +1,7 @@
 /**
  * Utilities
  */
-import orderObject from '../utils/order.js';
+import { orderObject } from '../utils';
 
 /**
  * User Formatter

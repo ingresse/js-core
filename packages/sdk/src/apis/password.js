@@ -1,9 +1,7 @@
 /**
  * Base
  */
-import {
-    post,
-} from '../request/request.js';
+import { post } from '../request/request.js';
 
 /**
  * Forgot Password

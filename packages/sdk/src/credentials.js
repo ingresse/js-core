@@ -1,8 +1,7 @@
 /**
  * Utilities
  */
-import cookies from './utils/cookies.js';
-import storage from './utils/storage.js';
+import { cookies, storage } from './utils';
 
 /**
  * Authentication Credentials

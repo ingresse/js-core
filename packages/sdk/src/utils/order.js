@@ -23,4 +23,4 @@ function orderObject(unordered) {
 /**
  * Exporting
  */
-export default orderObject;
+export { orderObject };

@@ -22,4 +22,4 @@ function parseJWT (jwt = '') {
 /**
  * Exporting
  */
-export default parseJWT;
+export { parseJWT };

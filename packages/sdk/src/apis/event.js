@@ -1,14 +1,12 @@
 /**
  * Base
  */
-import {
-    get as getter,
-} from '../request/request.js';
+import { get as getter } from '../request/request.js';
 
 /**
  * Utilities
  */
-import eventIdentifier from '../utils/eventIdentifier';
+import { eventIdentifier } from '../utils';
 
 /**
  * Event API Attributes Getter

@@ -1,19 +1,14 @@
 /**
  * Core Packages
  */
-import {
-    get as fetchGetter,
-} from '@ingresse/request';
+import { get as fetchGetter } from '@ingresse/request';
 
 /**
  * Base
  */
 import credentials from '../credentials.js';
-import storage from '../utils/storage.js';
-import {
-    get,
-    post,
-} from '../request/request.js';
+import { storage } from '../utils';
+import { get, post } from '../request/request.js';
 
 /**
  * Auth API Login

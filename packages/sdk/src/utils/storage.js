@@ -1,7 +1,7 @@
 /**
  * Base
  */
-import getKey from './key.js';
+import { keyBuilder } from './key.js';
 
 /**
  * Get storage item
@@ -11,7 +11,7 @@ import getKey from './key.js';
  * @param {boolean} operation status
  */
 function get(key = '') {
-    const _key = getKey(key);
+    const _key = keyBuilder(key);
 
     if (!_key) {
         return null;
@@ -31,7 +31,7 @@ function get(key = '') {
  * @param {boolean} operation status
  */
 function set(key = '', content = null) {
-    const _key = getKey(key);
+    const _key = keyBuilder(key);
 
     if (!_key || !content) {
         return false;
@@ -54,7 +54,7 @@ function set(key = '', content = null) {
  */
 function remove(key = '') {
     localStorage.removeItem(
-        getKey(key)
+        keyBuilder(key)
     );
 
     return true;
@@ -84,4 +84,4 @@ const storage = {
 /**
  * Exporting
  */
-export default storage;
+export { storage };

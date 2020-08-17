@@ -10,11 +10,9 @@ import {
 } from '../request/request.js';
 
 /**
- * Formatter
+ * Adapters
  */
-import {
-    coupons as formatters,
-} from '../formatters';
+import { coupons as adapters } from '../adapters';
 
 /**
  * Get Microservice Default Settings
@@ -63,7 +61,7 @@ function list(
         '/coupons',
         query,
         defaultSettings({
-            withFormatter: formatters.response,
+            withAdapter: 'coupons.list',
             ...settings
         })
     );
@@ -87,7 +85,7 @@ function get(
         `/coupons/${couponId}`,
         query,
         defaultSettings({
-            withFormatter: formatters.item,
+            withAdapter: 'coupons.item',
             ...settings
         })
     );
@@ -109,10 +107,10 @@ function create(
 ) {
     return post(
         '/coupons',
-        formatters.save(coupon),
+        adapters.save(coupon),
         query,
         defaultSettings({
-            withFormatter: formatters.item,
+            withAdapter: 'coupons.item',
             ...settings
         })
     );
@@ -136,10 +134,10 @@ function update(
 ) {
     return put(
         `/coupons/${couponId}`,
-        formatters.save(coupon),
+        adapters.save(coupon),
         query,
         defaultSettings({
-            withFormatter: formatters.item,
+            withAdapter: 'coupons.item',
             ...settings
         })
     );

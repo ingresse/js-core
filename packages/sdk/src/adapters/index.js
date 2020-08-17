@@ -1,5 +1,5 @@
 /**
- * Formatters
+ * Adapters
  */
 export * from './coupons.js';
 export * from './events.js';

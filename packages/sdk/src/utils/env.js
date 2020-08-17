@@ -28,4 +28,4 @@ const envURLBuilder = (resource = 'api', env = '') => {
 /**
  * Exporting
  */
-export default envURLBuilder;
+export { envURLBuilder };

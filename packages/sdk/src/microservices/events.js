@@ -9,11 +9,11 @@ import {
 } from '../request/request.js';
 
 /**
- * Formatters
+ * Adapters
  */
 import {
-    events as listFormatter,
-} from '../formatters';
+    events as adapters,
+} from '../adapters';
 
 /**
  * Get Microservice Default Settings
@@ -71,7 +71,7 @@ function list(
 
     function formatter(_response) {
         try {
-            return listFormatter(
+            return adapters.list(
                 _response,
                 _offset,
                 _size
@@ -90,7 +90,7 @@ function list(
             size  : _size,
         },
         defaultSettings({
-            withFormatter: formatter,
+            withAdapter: formatter,
             ...(settings || {}),
         })
     );

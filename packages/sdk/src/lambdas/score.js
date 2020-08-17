@@ -2,10 +2,7 @@
  * Base
  */
 import options from '../options';
-import {
-    get,
-    generic,
-} from '../request/request.js';
+import { generic } from '../request/request.js';
 
 /**
  * Get Lambda Default Settings

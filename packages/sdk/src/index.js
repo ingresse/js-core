@@ -7,9 +7,8 @@ import credentials from './credentials.js';
  * Utilities
  */
 import request from './request/request.js';
-import cookies from './utils/cookies.js';
-import storage from './utils/storage.js';
-import parseJWT from './utils/jwt.js';
+import { cookies, storage } from './utils';
+import * as utils from './utils';
 
 /**
  * Options
@@ -45,9 +44,9 @@ import purchases from './lambdas/purchases.js';
 import score from './lambdas/score.js';
 
 /**
- * Formatters
+ * Adapters
  */
-import * as formatters from './formatters/index.js';
+import * as adapters from './adapters/index.js';
 
 /**
  * Initializer
@@ -73,12 +72,18 @@ export {
     options,
 
     /**
-     * Extras
+     * Utilities
      */
     cookies,
     request,
     storage,
-    parseJWT,
+    utils,
+
+    /**
+     * Adapters
+     */
+    adapters,
+    adapters as formatters,
 
     /**
      * APIs
@@ -104,11 +109,7 @@ export {
     /**
      * Lambdas as APIs
      */
+    finance,
     purchases,
     score,
-
-    /**
-     * Formatters
-     */
-    formatters,
 };

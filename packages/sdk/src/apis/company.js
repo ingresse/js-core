@@ -1,9 +1,7 @@
 /**
  * Base
  */
-import {
-    get as getter,
-} from '../request/request.js';
+import { get as getter } from '../request/request.js';
 
 /**
  * Company API Getter

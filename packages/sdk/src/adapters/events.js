@@ -1,5 +1,5 @@
 /**
- * Formatters
+ * Adapters
  */
 import { pagination } from './pagination';
 
@@ -11,7 +11,7 @@ import { pagination } from './pagination';
  *
  * @returns {object}
  */
-function events(
+function list(
     response,
     offset   = 0,
     pageSize = 10,
@@ -91,6 +91,6 @@ function events(
 /**
  * Exporting
  */
-export {
-    events,
+export const events = {
+    list,
 };
