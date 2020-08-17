@@ -18,6 +18,7 @@ function pagination(
 
     return {
         current : current,
+        next    : next,
         pageSize: size,
         size    : size,
         pages   : pages,
@@ -28,6 +29,4 @@ function pagination(
 /**
  * Exporting
  */
-export {
-    pagination,
-};
+export { pagination };

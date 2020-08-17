@@ -17,4 +17,4 @@ function eventIdentifier(id) {
 /**
  * Exporting
  */
-export default eventIdentifier;
+export { eventIdentifier };

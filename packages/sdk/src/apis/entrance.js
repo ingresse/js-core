@@ -1,9 +1,7 @@
 /**
  * Base
  */
-import {
-    get,
-} from '../request/request.js';
+import { get } from '../request/request.js';
 
 /**
  * Entrance List

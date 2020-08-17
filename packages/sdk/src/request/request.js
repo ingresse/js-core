@@ -12,8 +12,7 @@ import credentials from '../credentials.js';
 /**
  * Utilities
  */
-import parseJWT from '../utils/env.js';
-import envURLBuilder from '../utils/env.js';
+import { envURLBuilder } from '../utils';
 
 /**
  * Helpers
@@ -21,9 +20,9 @@ import envURLBuilder from '../utils/env.js';
 import errorHandler from '../exceptions/handler.js';
 
 /**
- * Formatters
+ * Adapters
  */
-import * as formatters from '../formatters/index.js';
+import * as adapters from '../adapters';
 
 /**
  * Get Resource URL
@@ -91,8 +90,6 @@ function _requestURL(
 
     return `${resourceURL}${path}${!params ? '' : '?'}${params}`;
 }
-
-
 
 /**
  * Request's Authentication parameteres
@@ -168,7 +165,7 @@ function _requestHandler(
             headers,
             query,
             microservice,
-            withFormatter,
+            withAdapter,
             withoutApiKey,
             withoutUserToken,
             ...rest
@@ -259,15 +256,20 @@ function _requestHandler(
                 return;
             }
 
-            if (withFormatter &&
-                (typeof withFormatter === 'function') ||
-                (typeof formatters[withFormatter] === 'function')) {
+            const isAdapterFunc         = (typeof withAdapter === 'function');
+            const isAdapterName         = (typeof withAdapter === 'string');
+            const adapterNameSplitted   = (!isAdapterName ? [] : withAdapter.split('.'));
+            const adapterModuleName     = adapterNameSplitted[0];
+            const adapterModuleFuncName = adapterNameSplitted[1];
+            const adapterRef            = (isAdapterFunc ? withAdapter : (
+                adapters[withAdapter] || (
+                    (adapters[adapterModuleName] && adapters[adapterModuleName][adapterModuleFuncName]) ? 
+                        adapters[adapterModuleName][adapterModuleFuncName] : null
+                )
+            ));
 
-                return resolve(
-                    typeof withFormatter === 'function' ?
-                        withFormatter(responseData || response) :
-                            formatters[withFormatter](responseData || response)
-                );
+            if (typeof adapterRef === 'function') {
+                return resolve(adapterRef(responseData || response));
             }
 
             resolve(responseData || response);

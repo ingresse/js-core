@@ -124,46 +124,30 @@ function item(coupon) {
 /**
  * Coupon List adapter
  *
- * @param {array} coupons
- *
- * @returns {object}
- */
-function list(coupons) {
-    if (!coupons ||
-        (typeof coupons !== 'object') ||
-        !coupons.length) {
-        return coupons;
-    }
-
-    let couponsList = [];
-
-    coupons.map((coupon) => {
-        couponsList.push(item(coupon));
-
-        return true;
-    });
-
-    return couponsList;
-}
-
-
-/**
- * Coupon List Response adapter
- *
  * @param {object} response
  *
  * @returns {object}
  */
-function response(response) {
+function list(response) {
     const { data, pagination } = (response || {});
 
-    if (!data || !pagination) {
+    if (!data ||
+        (typeof data !== 'object') ||
+        !data.length) {
         return response;
     }
 
+    let coupons = [];
+
+    data.map((coupon) => {
+        coupons.push(item(coupon));
+
+        return true;
+    });
+
     return {
         pagination,
-        data: list(data),
+        data: coupons,
     };
 }
 
@@ -226,7 +210,6 @@ function save(coupon) {
  * Exporting
  */
 export const coupons = {
-    response,
     list,
     item,
     save,

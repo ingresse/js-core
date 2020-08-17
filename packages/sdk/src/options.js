@@ -1,12 +1,13 @@
 /**
- * Application options
+ * Application default options
  */
 let options = {
     apiKey  : '',
     env     : '',
     company : '',
     appName : '',
-    locale  : 'pt-br',
+    currency: 'BRL',
+    locale  : 'pt-BR',
     prefix  : 'ing',
     junction: '_',
 };

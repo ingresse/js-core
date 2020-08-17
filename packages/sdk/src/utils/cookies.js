@@ -1,7 +1,7 @@
 /**
  * Base
  */
-import key from './key.js';
+import { keyBuilder } from './key.js';
 
 /**
  * Concat cookie name
@@ -11,7 +11,7 @@ import key from './key.js';
  * @returns {string}
  */
 function _cookieName(cname) {
-    return key(encodeURIComponent(cname || ''));
+    return keyBuilder(encodeURIComponent(cname || ''));
 }
 
 /**
@@ -122,4 +122,4 @@ const cookies = {
 /**
  * Exporting
  */
-export default cookies;
+export { cookies };

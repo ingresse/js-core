@@ -33,4 +33,4 @@ function keyBuilder(key = '') {
 /**
  * Exporting
  */
-export default keyBuilder;
+export { keyBuilder };

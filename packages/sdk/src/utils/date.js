@@ -20,4 +20,4 @@ const date = dayjs;
 /**
  * Exporting
  */
-export default date;
+export { date };

@@ -18,12 +18,12 @@ import SDK, {
     options,
 
     /**
-     * Extras
+     * Utilities
      */
     cookies,
     request,
     storage,
-    parseJWT,
+    utils,
 
     /**
      * Use API endpoints
@@ -49,8 +49,9 @@ import SDK, {
     /**
      * Lambdas as Subdomains
      */
-    purchases, // consume 'https://my-transactions.ingresse.com' without env support
-    score,     // consume 'https://beta-score.ingresse.com' without env support
+    finance,    // consume 'https://finance.ingresse.com', without env support
+    purchases,  // consume 'https://my-transactions.ingresse.com', without env support
+    score,      // consume 'https://beta-score.ingresse.com', without env support
 } from '@ingresse/sdk';
 
 /**
@@ -60,14 +61,15 @@ SDK({
     /**
      * Required
      */
-    apiKey: 'your-api-key',
+    apiKey : 'your-api-key',
+    company: 1,
 
     /**
      * Optionals
      */
-    company   : 1,
     appName   : 'backoffice', // help to don't mess with user's session
-    locale    : 'pt-br',
+    currency  : 'BRL',
+    locale    : 'pt-BR',
     env       : 'integration',
     exceptions: {
         '6061': 'Não foi possível autenticar o usuário.',
@@ -76,8 +78,9 @@ SDK({
     /**
      * Optionals Lambdas Keys
      */
-    purchasesKey: 'your-purchases-lambda-x-api-key',
-    scoreKey    : 'your-score-lambda-basic-authorization-key',
+    financeKey  : 'finance-lambda-x-api-key',
+    purchasesKey: 'purchases-lambda-x-api-key',
+    scoreKey    : 'score-lambda-basic-authorization-key',
 });
 ```
 

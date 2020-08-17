@@ -1,9 +1,7 @@
 /**
  * Base
  */
-import {
-    get as getter,
-} from '../request/request.js';
+import { get as getter } from '../request/request.js';
 
 /**
  * Helpers
@@ -31,7 +29,7 @@ function get(
         } = (settings || {});
 
         getter(`/user/${id}`, query, {
-            withFormatter: 'user',
+            withAdapter: 'user',
             ...(originalSettings || {}),
         })
         .then((response) => {
