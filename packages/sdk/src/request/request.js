@@ -12,7 +12,7 @@ import credentials from '../credentials.js';
 /**
  * Utilities
  */
-import { envURLBuilder } from '../utils';
+import { envURLBuilder, objectValidator } from '../utils';
 
 /**
  * Helpers
@@ -171,10 +171,10 @@ function _requestHandler(
             ...rest
         } = (settings || {});
 
-        let reqQuery = {
+        let reqQuery = objectValidator({
             ...(authQuery || {}),
             ...(query || {})
-        };
+        });
 
         if (withoutApiKey) {
             delete reqQuery.apikey;
@@ -186,9 +186,8 @@ function _requestHandler(
 
         const reqUrl      = _requestURL(path, reqQuery, microservice);
         const reqHeaders  = {
-            'Accept'       : '*/*',
-            'Cache-Control': 'no-cache',
-            'Content-Type' : 'application/json',
+            'Accept': '*/*',
+            'Content-Type': 'application/json',
             ...(authHeader || {}),
             ...(headers || {})
         };

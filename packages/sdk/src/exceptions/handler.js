@@ -36,7 +36,6 @@ function handler(error) {
             const {
                 code,
                 message,
-                status,
                 statusText,
             } = (details || {});
 

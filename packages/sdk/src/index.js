@@ -33,13 +33,13 @@ import users from './apis/users.js';
 import checkin from './microservices/checkin.js';
 import coupons from './microservices/coupons.js';
 import events from './microservices/events.js';
+import finance from './microservices/finance.js';
 import shop from './microservices/shop.js';
 import tickets from './microservices/tickets.js';
 
 /**
  * Lambdas as APIs
  */
-import finance from './lambdas/finance.js';
 import purchases from './lambdas/purchases.js';
 import score from './lambdas/score.js';
 

@@ -62,11 +62,11 @@ SDK({
      * Required
      */
     apiKey : 'your-api-key',
-    company: 1,
 
     /**
      * Optionals
      */
+    company   : 1,
     appName   : 'backoffice', // help to don't mess with user's session
     currency  : 'BRL',
     locale    : 'pt-BR',
@@ -78,7 +78,6 @@ SDK({
     /**
      * Optionals Lambdas Keys
      */
-    financeKey  : 'finance-lambda-x-api-key',
     purchasesKey: 'purchases-lambda-x-api-key',
     scoreKey    : 'score-lambda-basic-authorization-key',
 });
@@ -230,12 +229,12 @@ request(endpoint, settings)
 | checkin      | `checkin.ingresse.com` |
 | coupons      | `coupon.ingresse.com`  |
 | events       | `event.ingresse.com`   |
+| finance      | `finance.ingresse.com` |
 | shop         | `shop.ingresse.com`    |
 | tickets      | `ticket.ingresse.com`  |
 
 | Lambda    | Subdomain                      |
 | ----------| ------------------------------ |
-| finance   | `finance.ingresse.com`         |
 | purchases | `my-transactions.ingresse.com` |
 | score     | `beta-score.ingresse.com`      |
 
@@ -277,4 +276,5 @@ purchases.request(endpoint, settings)
 ```
 </details>
 
-
+## Development 
+[More details to local development and publish steps](https://github.com/ingresse/js-core/packages/sdk/README_DEV.md)
