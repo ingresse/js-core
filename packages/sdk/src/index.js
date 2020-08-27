@@ -33,7 +33,7 @@ import users from './apis/users.js';
 import checkin from './microservices/checkin.js';
 import coupons from './microservices/coupons.js';
 import events from './microservices/events.js';
-import finance from './microservices/finance.js';
+import financeProducers from './microservices/finance.producers.js';
 import shop from './microservices/shop.js';
 import tickets from './microservices/tickets.js';
 
@@ -103,13 +103,13 @@ export {
     checkin,
     coupons,
     events,
+    financeProducers,
     shop,
     tickets,
 
     /**
      * Lambdas as APIs
      */
-    finance,
     purchases,
     score,
 };
