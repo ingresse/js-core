@@ -37,7 +37,7 @@
     "deploy": "npm run build && npm publish"
   },
   "dependencies": {
-    "@ingresse/request": "^0.0.3"
+    "@ingresse/request": "^0.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
