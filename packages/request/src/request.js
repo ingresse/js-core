@@ -2,7 +2,7 @@
  * Utilities
  */
 import URLBuilder from './helpers/url';
-import transformer from './handlers/response';
+import responseHandler from './handlers/response';
 
 /**
  * Requests Handler
@@ -51,7 +51,7 @@ function request(
 
         fetch(requestURL, requestSettings)
         .then((response) => {
-            return transformer(
+            return responseHandler(
                 (type || transform),
                 reject,
                 response
