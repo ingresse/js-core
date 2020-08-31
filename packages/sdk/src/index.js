@@ -34,6 +34,7 @@ import checkin from './microservices/checkin.js';
 import coupons from './microservices/coupons.js';
 import events from './microservices/events.js';
 import financeProducers from './microservices/finance.producers.js';
+import financeTransfers from './microservices/finance.transfers.js';
 import shop from './microservices/shop.js';
 import tickets from './microservices/tickets.js';
 
@@ -104,6 +105,7 @@ export {
     coupons,
     events,
     financeProducers,
+    financeTransfers,
     shop,
     tickets,
 
