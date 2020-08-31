@@ -1,44 +1,8 @@
 /**
  * Base
  */
-import {
-    del,
-    get,
-    post,
-    put,
-    generic,
-} from '../request/request.js';
-
-/**
- * Get Default Settings
- *
- * @param {object} settings
- *
- * @returns {object}
- */
-function defaultSettings(settings = {}) {
-    return {
-        microservice: 'finance',
-        withoutApiKey: true,
-        withoutUserToken: true,
-        ...settings,
-    };
-}
-
-/**
- * Generic Requests
- *
- * @param {string} path
- * @param {object} settings
- *
- * @returns {Promise}
- */
-function request(
-    path,
-    settings
-) {
-    return generic(path, defaultSettings(settings));
-}
+import { del, get, post, put } from '../../request/request.js';
+import { defaultSettings, request } from './base.js';
 
 /**
  * Create Producer
@@ -218,7 +182,7 @@ function removeTeam(
  * Update Producer
  *
  * @param {string} producerId
- * @param {object} coupon
+ * @param {object} producer
  * @param {object} [query]
  * @param {object} [settings]
  *
@@ -241,7 +205,7 @@ function update(
 /**
  * Reference
  */
-const financeProducers = {
+const producers = {
     defaultSettings,
     request,
 
@@ -259,4 +223,4 @@ const financeProducers = {
 /**
  * Exporting
  */
-export default financeProducers;
+export default producers;

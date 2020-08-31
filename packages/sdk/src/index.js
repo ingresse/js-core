@@ -4,16 +4,16 @@
 import credentials from './credentials.js';
 
 /**
+ * Options
+ */
+import options from './options.js';
+
+/**
  * Utilities
  */
 import request from './request/request.js';
 import { cookies, storage } from './utils';
 import * as utils from './utils';
-
-/**
- * Options
- */
-import options from './options.js';
 
 /**
  * APIs
@@ -30,24 +30,23 @@ import users from './apis/users.js';
 /**
  * Microservices
  */
-import checkin from './microservices/checkin.js';
-import coupons from './microservices/coupons.js';
-import events from './microservices/events.js';
-import financeProducers from './microservices/finance.producers.js';
-import financeTransfers from './microservices/finance.transfers.js';
-import shop from './microservices/shop.js';
-import tickets from './microservices/tickets.js';
+import checkin from './microservices/checkin';
+import coupons from './microservices/coupons';
+import events from './microservices/events';
+import finance from './microservices/finance';
+import shop from './microservices/shop';
+import tickets from './microservices/tickets';
 
 /**
  * Lambdas as APIs
  */
-import purchases from './lambdas/purchases.js';
-import score from './lambdas/score.js';
+import purchases from './lambdas/purchases';
+import score from './lambdas/score';
 
 /**
  * Adapters
  */
-import * as adapters from './adapters/index.js';
+import * as adapters from './adapters';
 
 /**
  * Initializer
@@ -104,8 +103,7 @@ export {
     checkin,
     coupons,
     events,
-    financeProducers,
-    financeTransfers,
+    finance,
     shop,
     tickets,
 

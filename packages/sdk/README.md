@@ -34,22 +34,22 @@ import SDK, {
     event,
     password,
     sales,
-    user,
+    user, // will be deprecated soon
     users,
 
     /**
      * Use Microservices Endpoints
      */
-    checkin,
-    coupons,
-    events,
-    shop,
-    tickets,
+    checkin,            // reference to 'https://checkin.ingresse.com'
+    coupons,            // reference to 'https://coupon.ingresse.com'
+    events,             // reference to 'https://event.ingresse.com'
+    financeTransfers,   // reference to 'https://finance.ingresse.com', without env support
+    shop,               // reference to 'https://shop.ingresse.com'
+    tickets,            // reference to 'https://ticket.ingresse.com'
 
     /**
      * Lambdas as Subdomains
      */
-    finance,    // consume 'https://finance.ingresse.com', without env support
     purchases,  // consume 'https://my-transactions.ingresse.com', without env support
     score,      // consume 'https://beta-score.ingresse.com', without env support
 } from '@ingresse/sdk';
@@ -61,16 +61,16 @@ SDK({
     /**
      * Required
      */
-    apiKey : 'your-api-key',
+    apiKey: 'your-api-key',
 
     /**
      * Optionals
      */
-    company   : 1,
-    appName   : 'backoffice', // help to don't mess with user's session
+    company   : 1,              // recommended
+    appName   : 'backoffice',   // help to don't mess with user's session
     currency  : 'BRL',
     locale    : 'pt-BR',
-    env       : 'integration',
+    env       : 'integration',  // postfix/prefix to api and microservices: 'api-integration.ingresse.com' / 'integration-ticket.ingresse.com'
     exceptions: {
         '6061': 'Não foi possível autenticar o usuário.',
     },
@@ -105,7 +105,7 @@ auth.login(userEmail, userPassword)
         fields: 'id,name,email,pictures',
     };
 
-    user.get(userId, userQuery)
+    users.get(userId, userQuery)
     .then((userResponse) => {
         console.info(`Success on fetch User ${userId} data`, userResponse);
     })
@@ -205,11 +205,12 @@ import { request } from '@ingresse/sdk';
 const endpoint = '/not-covered-endpoint/subpath-if-needed';
 const settings = {
     method: 'POST',
-    query : {
+    query: {
         term: 'no need to use encoders, the SDK do this for you',
     },
     body: {
         title: 'Example, yo!',
+        description: 'no need to use "JSON.parse" to the body data, the SDK do this for us',
     },
 };
 

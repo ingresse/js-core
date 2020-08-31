@@ -1,9 +1,7 @@
 /**
  * Base
  */
-import {
-    generic,
-} from '../request/request.js';
+import { generic } from '../../request/request.js';
 
 /**
  * Get Microservice Default Settings
@@ -12,10 +10,10 @@ import {
  *
  * @returns {object}
  */
-function defaultSettings(settings = {}) {
+export function defaultSettings(settings = {}) {
     return {
-        microservice    : 'shop',
-        withoutApiKey   : true,
+        microservice: 'event',
+        withoutApiKey: true,
         withoutUserToken: true,
         ...settings,
     };
@@ -29,22 +27,6 @@ function defaultSettings(settings = {}) {
  *
  * @returns {Promise}
  */
-function request(
-    path,
-    settings
-) {
+export function request(path, settings) {
     return generic(path, defaultSettings(settings));
 }
-
-/**
- * Reference
- */
-const shop = {
-    defaultSettings,
-    request,
-};
-
-/**
- * Exporting
- */
-export default shop;

@@ -1,29 +1,8 @@
 /**
  * Base
  */
-import {
-    del,
-    get,
-    post,
-    put,
-    generic,
-} from '../request/request.js';
-
-/**
- * Get Default Settings
- *
- * @param {object} settings
- *
- * @returns {object}
- */
-function defaultSettings(settings = {}) {
-    return {
-        microservice: 'finance',
-        withoutApiKey: true,
-        withoutUserToken: true,
-        ...settings,
-    };
-}
+import { get, post, put } from '../../request/request.js';
+import { defaultSettings, request } from './base.js';
 
 /**
  * Approve Transfer
@@ -71,8 +50,8 @@ function create(
 /**
  * Decline Transfer
  *
- * @param {object} id
- * @param {object} reason
+ * @param {string} id
+ * @param {string} reason
  * @param {object} [query]
  * @param {object} [settings]
  *
@@ -156,8 +135,9 @@ function recipe(
 /**
  * Reference
  */
-const financeTransfers = {
+const transfers = {
     defaultSettings,
+    request,
     
     approve,
     create,
@@ -170,4 +150,4 @@ const financeTransfers = {
 /**
  * Exporting
  */
-export default financeTransfers;
+export default transfers;
