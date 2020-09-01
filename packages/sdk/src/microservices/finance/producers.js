@@ -2,7 +2,7 @@
  * Base
  */
 import { del, get, post, put } from '../../request/request.js';
-import { defaultSettings, request } from './base.js';
+import { defaultSettings } from './base.js';
 
 /**
  * Create Producer
@@ -207,7 +207,6 @@ function update(
  */
 const producers = {
     defaultSettings,
-    request,
 
     create,
     createTeam,
