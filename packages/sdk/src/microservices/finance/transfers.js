@@ -20,6 +20,7 @@ function approve(
 ) {
     return post(
         `/transfers/${id}/approve`,
+        {},
         query,
         defaultSettings(settings)
     );

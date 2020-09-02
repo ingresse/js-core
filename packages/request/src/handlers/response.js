@@ -10,9 +10,9 @@
 async function responseHandler(
     transform = 'json',
     reject    = undefined,
-    response  = {}
+    response
 ) {
-    const { status }    = response;
+    const { status }    = response || {};
     const inStatusRange = ((status >= 200) && (status < 400));
 
     if (!inStatusRange) {
@@ -30,6 +30,7 @@ async function responseHandler(
     let body;
 
     try {
+        debugger
         body = await response.text();
 
         if (body.length && (transform === 'json')) {

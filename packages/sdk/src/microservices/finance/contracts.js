@@ -42,7 +42,7 @@ function createFile(
 ) {
     return post(
         `/contracts/${id}/file`,
-        contract,
+        {},
         query,
         defaultSettings(settings)
     );
