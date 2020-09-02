@@ -5,7 +5,7 @@ import { get } from '../../request/request.js';
 import { defaultSettings } from './base.js';
 
 /**
- * Get Full Banks List
+ * Get Liquidation Options List
  *
  * @param {object} [query]
  * @param {object} [settings]
@@ -17,7 +17,7 @@ function list(
     settings
 ) {
     return get(
-        '/banks',
+        '/liquidation',
         query,
         defaultSettings(settings)
     );
@@ -26,7 +26,7 @@ function list(
 /**
  * Reference
  */
-const banks = {
+const liquidation = {
     defaultSettings,
 
     list
@@ -35,4 +35,4 @@ const banks = {
 /**
  * Exporting
  */
-export default banks;
+export default liquidation;

@@ -5,50 +5,48 @@ import { del, get, post } from '../../request/request.js';
 import { defaultSettings } from './base.js';
 
 /**
- * Create Bank Account to Producer
+ * Create Contract Type
  *
- * @param {object} bankAccount
+ * @param {object} contractType
  * @param {object} [query]
  * @param {object} [settings]
  *
  * @returns {Promise}
  */
 function create(
-    bankAccount,
+    contractType,
     query,
     settings = {}
 ) {
     return post(
-        '/bank-accounts',
-        bankAccount,
+        '/contract-types',
+        contractType,
         query,
         defaultSettings(settings)
     );
 }
 
 /**
- * Get A Producer's Bank Accounts List
+ * Get All Contract Types
  *
- * @param {object} id
  * @param {object} [query]
  * @param {object} [settings]
  *
  * @returns {Promise}
  */
 function list(
-    id,
     query,
     settings
 ) {
     return get(
-        `/producers/${id}/bank-accounts`,
+        `/contract-types`,
         query,
         defaultSettings(settings)
     );
 }
 
 /**
- * Remove Bank Account
+ * Remove Contract Type
  *
  * @param {string} id
  * @param {object} [query]
@@ -62,7 +60,7 @@ function remove(
     settings
 ) {
     return del(
-        `/bank-accounts/${id}`,
+        `/contract-types/${id}`,
         query,
         defaultSettings(settings)
     );
@@ -71,7 +69,7 @@ function remove(
 /**
  * Reference
  */
-const bankAccounts = {
+const contractTypes = {
     defaultSettings,
 
     create,
@@ -82,4 +80,4 @@ const bankAccounts = {
 /**
  * Exporting
  */
-export default bankAccounts;
+export default contractTypes;

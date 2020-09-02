@@ -1,78 +1,55 @@
 /**
  * Base
  */
-import { get, post, put } from '../../request/request.js';
+import { del, get, post } from '../../request/request.js';
 import { defaultSettings } from './base.js';
 
 /**
- * Approve Transfer
+ * Create Contract
  *
- * @param {object} id
- * @param {object} [query]
- * @param {object} [settings]
- *
- * @returns {Promise}
- */
-function approve(
-    id,
-    query,
-    settings = {}
-) {
-    return post(
-        `/transfers/${id}/approve`,
-        query,
-        defaultSettings(settings)
-    );
-}
-
-/**
- * Create Transfer
- *
- * @param {object} transfer
+ * @param {object} contract
  * @param {object} [query]
  * @param {object} [settings]
  *
  * @returns {Promise}
  */
 function create(
-    transfer,
+    contract,
     query,
     settings = {}
 ) {
     return post(
-        '/transfers',
-        transfer,
+        '/contracts',
+        contract,
         query,
         defaultSettings(settings)
     );
 }
 
 /**
- * Decline Transfer
+ * Create Contract File
  *
  * @param {string} id
- * @param {string} reason
  * @param {object} [query]
  * @param {object} [settings]
  *
  * @returns {Promise}
  */
-function decline(
+function createFile(
     id,
-    reason,
     query,
     settings = {}
 ) {
-    return put(
-        `/transfers/${id}/decline`,
-        reason,
+    return post(
+        `/contracts/${id}/file`,
+        contract,
         query,
         defaultSettings(settings)
     );
 }
 
 /**
- * Get Transfer Details
+ * Get Contract Details
  *
  * @param {string} id
  * @param {object} [query]
@@ -86,33 +63,14 @@ function details(
     settings
 ) {
     return get(
-        `/transfers/${id}`,
+        `/contracts/${id}`,
         query,
         defaultSettings(settings)
     );
 }
 
 /**
- * Get Transfers List
- *
- * @param {object} [query]
- * @param {object} [settings]
- *
- * @returns {Promise}
- */
-function list(
-    query,
-    settings
-) {
-    return get(
-        '/transfers',
-        query,
-        defaultSettings(settings)
-    );
-}
-
-/**
- * Get Transfer Recipe
+ * Get Contract File Details
  *
  * @param {string} id
  * @param {object} [query]
@@ -120,13 +78,79 @@ function list(
  *
  * @returns {Promise}
  */
-function recipe(
+function detailsFile(
     id,
     query,
     settings
 ) {
     return get(
-        `/transfers/${id}/recipe`,
+        `/contracts/${id}/file`,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
+ * Get All Contracts From Producer
+ *
+ * @param {string} producerId
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function list(
+    producerId,
+    query,
+    settings
+) {
+    return get(
+        `/producers/${producerId}/contracts`,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
+ * Remove Contract
+ *
+ * @param {string} id
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function remove(
+    id,
+    query,
+    settings
+) {
+    return del(
+        `/contracts/${id}`,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
+ * Update Contract
+ *
+ * @param {string} id
+ * @param {object} contract
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function update(
+    id,
+    contract,
+    query,
+    settings = {}
+) {
+    return put(
+        `/contracts/${id}`,
+        contract,
         query,
         defaultSettings(settings)
     );
@@ -135,18 +159,19 @@ function recipe(
 /**
  * Reference
  */
-const transfers = {
+const contracts = {
     defaultSettings,
-    
-    approve,
+
     create,
-    decline,
+    createFile,
     details,
+    detailsFile,
     list,
-    recipe
+    remove,
+    update
 };
 
 /**
  * Exporting
  */
-export default transfers;
+export default contracts;
