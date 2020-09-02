@@ -14,7 +14,7 @@ describe('Handler: Response', () => {
             const response  = undefined;
             const result    = await responseHandler(transform, reject, response);
 
-            expect(result).toEqual({});
+            expect(result).toEqual(undefined);
         });
 
         it('with valid response argument', async () => {

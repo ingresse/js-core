@@ -30,7 +30,6 @@ async function responseHandler(
     let body;
 
     try {
-        debugger
         body = await response.text();
 
         if (body.length && (transform === 'json')) {
