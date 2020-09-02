@@ -36,12 +36,13 @@
     "dev": "cd docs && npm start",
     "deploy": "npm run build && npm publish"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@ingresse/request": "0.0.5"
+  },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-transform-modules-commonjs": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
-    "@ingresse/request": "file:../request",
     "babel-loader": "^8.1.0",
     "dayjs": "^1.8.30",
     "jest": "^25.2.4",
