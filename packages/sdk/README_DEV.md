@@ -58,7 +58,7 @@ $ npm run deploy
 ```
 
 ## Final version: publishing / distributing
-When the release candidate version or your consume-project is accepted by the Quality Assurance's team, just need to remove the `-rc` postfix, __put back the `main` prop to `dist/sdk.js`__, merge, create the git release and publish to NPM:
+When the release candidate version or your consume-project is accepted by the Quality Assurance's team, just need to remove from `package.json` the `-rc` postfix, __put back the `main` prop to `dist/sdk.js`__, commit, merge, create the git release and publish to NPM:
 
 ```shell
 $ cd ~/projects/js-core/packages/sdk
