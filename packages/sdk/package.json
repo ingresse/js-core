@@ -1,6 +1,6 @@
 {
   "name": "@ingresse/sdk",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Ingresse plataform Javascript SDK",
   "main": "dist/sdk.js",
   "module": "src/index.js",
@@ -37,7 +37,7 @@
     "deploy": "npm run build && npm publish"
   },
   "dependencies": {
-    "@ingresse/request": "^0.0.3"
+    "@ingresse/request": "0.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

@@ -1,50 +1,13 @@
 /**
  * Base
  */
-import {
-    get,
-    put,
-    post,
-    generic,
-} from '../request/request.js';
+import { get, put, post } from '../../request/request.js';
+import { defaultSettings, request } from './base.js';
 
 /**
  * Adapters
  */
-import {
-    events as adapters,
-} from '../adapters';
-
-/**
- * Get Microservice Default Settings
- *
- * @param {object} settings
- *
- * @returns {object}
- */
-function defaultSettings(settings = {}) {
-    return {
-        microservice    : 'event',
-        withoutApiKey   : true,
-        withoutUserToken: true,
-        ...settings,
-    };
-}
-
-/**
- * Generic MS Requests
- *
- * @param {string} path
- * @param {object} settings
- *
- * @returns {Promise}
- */
-function request(
-    path,
-    settings
-) {
-    return generic(path, defaultSettings(settings));
-}
+import { events as adapters } from '../../adapters';
 
 /**
  * Event Microservice List Getter

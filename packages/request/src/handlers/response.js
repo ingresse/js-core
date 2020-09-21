@@ -7,12 +7,12 @@
  *
  * @return {object|function}
  */
-function responseHandler(
+async function responseHandler(
     transform = 'json',
     reject    = undefined,
-    response  = {}
+    response
 ) {
-    const { status }    = response;
+    const { status }    = response || {};
     const inStatusRange = ((status >= 200) && (status < 400));
 
     if (!inStatusRange) {
@@ -27,7 +27,17 @@ function responseHandler(
         return response;
     }
 
-    return response[transform]();
+    let body;
+
+    try {
+        body = await response.text();
+
+        if (body.length && (transform === 'json')) {
+            body = JSON.parse(body);
+        }
+    } catch (e) {}
+
+    return body;
 }
 
 /**

@@ -1,49 +1,13 @@
 /**
  * Base
  */
-import {
-    generic,
-    get as getter,
-    post,
-    put,
-    del,
-} from '../request/request.js';
+import { get as getter, post, put, del } from '../../request/request.js';
+import { defaultSettings, request } from './base.js';
 
 /**
  * Adapters
  */
-import { coupons as adapters } from '../adapters';
-
-/**
- * Get Microservice Default Settings
- *
- * @param {object} settings
- *
- * @returns {object}
- */
-function defaultSettings(settings = {}) {
-    return {
-        microservice    : 'coupon',
-        withoutApiKey   : true,
-        withoutUserToken: true,
-        ...settings,
-    };
-}
-
-/**
- * Generic MS Requests
- *
- * @param {string} path
- * @param {object} settings
- *
- * @returns {Promise}
- */
-function request(
-    path,
-    settings
-) {
-    return generic(path, defaultSettings(settings));
-}
+import { coupons as adapters } from '../../adapters';
 
 /**
  * Coupons List
