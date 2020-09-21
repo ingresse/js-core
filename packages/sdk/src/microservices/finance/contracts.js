@@ -1,7 +1,7 @@
 /**
  * Base
  */
-import { del, get, post } from '../../request/request.js';
+import { del, get, post, put } from '../../request/request.js';
 import { defaultSettings } from './base.js';
 
 /**
