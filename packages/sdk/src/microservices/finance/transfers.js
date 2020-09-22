@@ -1,8 +1,8 @@
 /**
  * Base
  */
-import { get, post, put } from "../../request/request.js";
-import { defaultSettings } from "./base.js";
+import { get, post, put } from '../../request/request.js';
+import { defaultSettings } from './base.js';
 
 /**
  * Approve Transfer
@@ -14,7 +14,12 @@ import { defaultSettings } from "./base.js";
  * @returns {Promise}
  */
 function approve(id, query, settings = {}) {
-  return post(`/transfers/${id}/approve`, {}, query, defaultSettings(settings));
+    return post(
+        `/transfers/${id}/approve`,
+        {},
+        query,
+        defaultSettings(settings)
+    );
 }
 
 /**
@@ -27,7 +32,7 @@ function approve(id, query, settings = {}) {
  * @returns {Promise}
  */
 function create(transfer, query, settings = {}) {
-  return post("/transfers", transfer, query, defaultSettings(settings));
+    return post('/transfers', transfer, query, defaultSettings(settings));
 }
 
 /**
@@ -41,12 +46,12 @@ function create(transfer, query, settings = {}) {
  * @returns {Promise}
  */
 function decline(id, reason, query, settings = {}) {
-  return put(
-    `/transfers/${id}/decline`,
-    reason,
-    query,
-    defaultSettings(settings)
-  );
+    return put(
+        `/transfers/${id}/decline`,
+        reason,
+        query,
+        defaultSettings(settings)
+    );
 }
 
 /**
@@ -59,7 +64,7 @@ function decline(id, reason, query, settings = {}) {
  * @returns {Promise}
  */
 function details(id, query, settings = {}) {
-  return get(`/transfers/${id}`, query, defaultSettings(settings));
+    return get(`/transfers/${id}`, query, defaultSettings(settings));
 }
 
 /**
@@ -71,7 +76,7 @@ function details(id, query, settings = {}) {
  * @returns {Promise}
  */
 function list(query, settings = {}) {
-  return get("/transfers", query, defaultSettings(settings));
+    return get('/transfers', query, defaultSettings(settings));
 }
 
 /**
@@ -84,7 +89,7 @@ function list(query, settings = {}) {
  * @returns {Promise}
  */
 function recipe(id, query, settings = {}) {
-  return get(`/transfers/${id}/recipe`, query, defaultSettings(settings));
+    return get(`/transfers/${id}/recipe`, query, defaultSettings(settings));
 }
 
 /**
@@ -97,22 +102,22 @@ function recipe(id, query, settings = {}) {
  * @returns {Promise}
  */
 function exportTransfers(query, settings = {}) {
-  return get(`/export/transfers`, query, defaultSettings(settings));
+    return get(`/export/transfers`, query, defaultSettings(settings));
 }
 
 /**
  * Reference
  */
 const transfers = {
-  defaultSettings,
+    defaultSettings,
 
-  approve,
-  create,
-  decline,
-  details,
-  exportTransfers,
-  list,
-  recipe,
+    approve,
+    create,
+    decline,
+    details,
+    exportTransfers,
+    list,
+    recipe
 };
 
 /**
