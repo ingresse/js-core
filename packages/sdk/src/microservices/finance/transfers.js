@@ -13,11 +13,7 @@ import { defaultSettings } from './base.js';
  *
  * @returns {Promise}
  */
-function approve(
-    id,
-    query,
-    settings = {}
-) {
+function approve(id, query, settings = {}) {
     return post(
         `/transfers/${id}/approve`,
         {},
@@ -35,17 +31,8 @@ function approve(
  *
  * @returns {Promise}
  */
-function create(
-    transfer,
-    query,
-    settings = {}
-) {
-    return post(
-        '/transfers',
-        transfer,
-        query,
-        defaultSettings(settings)
-    );
+function create(transfer, query, settings = {}) {
+    return post('/transfers', transfer, query, defaultSettings(settings));
 }
 
 /**
@@ -58,12 +45,7 @@ function create(
  *
  * @returns {Promise}
  */
-function decline(
-    id,
-    reason,
-    query,
-    settings = {}
-) {
+function decline(id, reason, query, settings = {}) {
     return put(
         `/transfers/${id}/decline`,
         reason,
@@ -81,16 +63,8 @@ function decline(
  *
  * @returns {Promise}
  */
-function details(
-    id,
-    query,
-    settings
-) {
-    return get(
-        `/transfers/${id}`,
-        query,
-        defaultSettings(settings)
-    );
+function details(id, query, settings = {}) {
+    return get(`/transfers/${id}`, query, defaultSettings(settings));
 }
 
 /**
@@ -101,15 +75,8 @@ function details(
  *
  * @returns {Promise}
  */
-function list(
-    query,
-    settings
-) {
-    return get(
-        '/transfers',
-        query,
-        defaultSettings(settings)
-    );
+function list(query, settings = {}) {
+    return get('/transfers', query, defaultSettings(settings));
 }
 
 /**
@@ -121,16 +88,21 @@ function list(
  *
  * @returns {Promise}
  */
-function recipe(
-    id,
-    query,
-    settings
-) {
-    return get(
-        `/transfers/${id}/recipe`,
-        query,
-        defaultSettings(settings)
-    );
+function recipe(id, query, settings = {}) {
+    return get(`/transfers/${id}/recipe`, query, defaultSettings(settings));
+}
+
+/**
+ * Export Transfers
+ *
+ * @param {string} id
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function exportTransfers(query, settings = {}) {
+    return get(`/export/transfers`, query, defaultSettings(settings));
 }
 
 /**
@@ -138,11 +110,12 @@ function recipe(
  */
 const transfers = {
     defaultSettings,
-    
+
     approve,
     create,
     decline,
     details,
+    exportTransfers,
     list,
     recipe
 };
