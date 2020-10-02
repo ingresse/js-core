@@ -3,7 +3,6 @@
  */
 const onlyProd = [
     'beta-score',
-    'finance',
     'my-transactions',
 ];
 
