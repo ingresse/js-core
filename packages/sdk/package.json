@@ -2,7 +2,7 @@
   "name": "@ingresse/sdk",
   "version": "0.2.0",
   "description": "Ingresse plataform Javascript SDK",
-  "main": "dist/sdk.js",
+  "main": "src/index.js",
   "module": "src/index.js",
   "keywords": [
     "ingresse",
@@ -37,14 +37,14 @@
     "deploy": "npm run build && npm publish"
   },
   "dependencies": {
-    "@ingresse/request": "0.0.5"
+    "@ingresse/request": "0.0.5",
+    "dayjs": "^1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-transform-modules-commonjs": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.1.0",
-    "dayjs": "^1.8.30",
     "jest": "^25.2.4",
     "prettier": "^2.1.2",
     "webpack": "^4.42.1",

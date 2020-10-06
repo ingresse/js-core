@@ -55,10 +55,16 @@ function user(response) {
      * Roles
      */
     const roles = {
+        userAdmin: (type === 1),
+        userPro  : (type === 2),
+        userFree : (type === 3),
+        userSalesGroupMember : false,
+        userSalesGroupManager: false,
+
+        // Legacy
         user_admin: (type === 1),
         user_pro  : (type === 2),
         user_free : (type === 3),
-
         user_sales_group_member : false,
         user_sales_group_manager: false,
     };
