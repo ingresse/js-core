@@ -1,20 +1,24 @@
 /**
  * Adapters
  */
-import { pagination } from './pagination';
+import { pagination } from '../pagination';
+import { details } from './details';
 
 /**
  * Events List Formatter
  *
  * @param {object} response
  * @param {number} offset
+ * @param {number} pageSize
+ * @param {object} user
  *
  * @returns {object}
  */
-function list(
+export function list(
     response,
     offset   = 0,
     pageSize = 10,
+    user,
 ) {
     if (!response ||
         (typeof response !== 'object')) {
@@ -33,7 +37,12 @@ function list(
     } = (data || {});
 
     /**
+     * Fill Events List array
      *
+     * @param {Array} results
+     * @param {Array} target
+     *
+     * @returns {Array}
      */
     function fill(results, target = []) {
         if (!results || ((typeof results !== 'object') && !results.length)) {
@@ -48,7 +57,7 @@ function list(
                 return false;
             }
 
-            target.push(filteredItem);
+            target.push(details(filteredItem, user));
 
             return true;
         });
@@ -67,30 +76,47 @@ function list(
             list = [];
 
             fill(hits, list);
+
+        } else {
+            let tempAggretated = {};
+
+            try {
+                for (const aggr in hits) {
+                    let results       = [];
+                    const aggregation = hits[aggr];
+
+                    if (aggregation && aggregation.length) {
+                        tempAggretated[aggr] = fill(aggregation, results);
+                    }
+                }
+            } catch (e) {}
+
+            const {
+                today,
+                week,
+                month,
+                year,
+                others,
+            } = tempAggretated;
+
+            aggregated = {
+                today,
+                week,
+                month,
+                year,
+                others,
+            };
         }
-
-        try {
-            aggregated = {};
-
-            for (const aggr in hits) {
-                let results       = [];
-                const aggregation = hits[aggr];
-                aggregated[aggr]  = fill(aggregation, results);
-            }
-        } catch (e) {}
     }
 
+    const hasList = !!list;
+    const hasAggregated = !!aggregated;
+
     return {
+        empty     : !!(!hasList && !hasAggregated),
         original  : response,
         list      : list,
         aggregated: aggregated,
         pagination: pagination(offset, pageSize, total),
     };
 }
-
-/**
- * Exporting
- */
-export const events = {
-    list,
-};

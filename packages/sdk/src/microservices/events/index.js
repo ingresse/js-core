@@ -14,12 +14,14 @@ import { events as adapters } from '../../adapters';
  *
  * @param {object} [query]
  * @param {object} [settings]
+ * @param {object} [user]
  *
  * @returns {Promise}
  */
 function list(
     query,
-    settings
+    settings,
+    user
 ) {
     const {
         size,
@@ -37,7 +39,8 @@ function list(
             return adapters.list(
                 _response,
                 _offset,
-                _size
+                _size,
+                user
             );
 
         } catch (e) {
@@ -46,7 +49,7 @@ function list(
     }
 
     return get(
-        `/search/producer`,
+        '/search/producer',
         {
             ...rest,
             offset: _offset,
@@ -65,18 +68,27 @@ function list(
  * @param {string} id - Event ID
  * @param {object} [query]
  * @param {object} [settings]
+ * @param {object} [user]
  *
  * @returns {Promise}
  */
 function details(
     id,
     query,
-    settings
+    settings,
+    user
 ) {
+    function detailsAdapter(eventResponse) {
+        return adapters.details(eventResponse, user);
+    }
+
     return get(
         `/${id}`,
         query,
-        defaultSettings(settings)
+        defaultSettings({
+            withAdapter: detailsAdapter,
+            ...(settings || {})
+        })
     );
 }
 

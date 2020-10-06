@@ -11,6 +11,7 @@ import options from './options.js';
 /**
  * Utilities
  */
+import display from './display/index.js';
 import request from './request/request.js';
 import { cookies, storage } from './utils';
 import * as utils from './utils';
@@ -75,6 +76,7 @@ export {
      * Utilities
      */
     cookies,
+    display,
     request,
     storage,
     utils,
