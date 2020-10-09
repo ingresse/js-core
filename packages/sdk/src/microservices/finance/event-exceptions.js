@@ -1,7 +1,7 @@
 /**
  * Base
  */
-import { get, post } from '../../request/request.js';
+import { get, post, put } from '../../request/request.js';
 import { defaultSettings } from './base.js';
 
 /**
@@ -25,6 +25,24 @@ function create(producerId, eventId, body, query, settings = {}) {
 }
 
 /**
+ * Get Event Exception Details
+ *
+ * @param {object} producerId
+ * @param {object} eventId
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function details(producerId, eventId, query, settings = {}) {
+    return get(
+        `/event-exceptions/${producerId}/event/${eventId}`,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
  * List all event negotiation exceptions.
  *
  * @param {number} producerId
@@ -42,13 +60,35 @@ function list(producerId, query, settings = {}) {
 }
 
 /**
+ * Update Event Exception
+ *
+ * @param {object} producerId
+ * @param {object} eventId
+ * @param {object} body
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function update(producerId, eventId, body, query, settings = {}) {
+    return put(
+        `/event-exceptions/${producerId}/event/${eventId}`,
+        body,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
  * Reference
  */
 const eventExceptions = {
     defaultSettings,
 
     create,
-    list
+    details,
+    list,
+    update
 };
 
 /**
