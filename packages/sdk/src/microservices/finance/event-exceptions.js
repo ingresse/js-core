@@ -80,6 +80,24 @@ function update(producerId, eventId, body, query, settings = {}) {
 }
 
 /**
+ * Get transfer value for event.
+ *
+ * @param {object} producerId
+ * @param {object} eventId
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function summary(producerId, eventId, query, settings = {}) {
+    return get(
+        `/event-exceptions/${producerId}/event/${eventId}/transfers`,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
  * Reference
  */
 const eventExceptions = {
@@ -88,7 +106,8 @@ const eventExceptions = {
     create,
     details,
     list,
-    update
+    update,
+    summary
 };
 
 /**
