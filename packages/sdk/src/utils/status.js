@@ -1,13 +1,14 @@
 import options from '../options.js';
 
+export const eventStatusUnknown = {
+    id      : 0,
+    color   : '#7a8085',
+    name    : 'Unknown',
+    original: 'Unknown',
+    'pt-BR' : 'Desconhecido',
+};
+
 export const eventStatus = {
-    unknown: {
-        id      : 0,
-        color   : '#7a8085',
-        name    : 'Unknown',
-        original: 'Unknown',
-        'pt-BR' : 'Desconhecido',
-    },
     draft: {
         id      : 1,
         color   : '#7a8085',
@@ -62,12 +63,6 @@ export const eventSessionStatus = {
         original: 'Unavailable',
         'pt-BR' : 'Indisponível',
     },
-    unknown: {
-        color   : '#7a8085',
-        name    : 'Unknown',
-        original: 'Unknown',
-        'pt-BR' : 'Desconhecido',
-    },
 };
 
 /**
@@ -79,7 +74,7 @@ export const eventSessionStatus = {
  */
 export function getEventStatus(status = '') {
     const { locale } = options.get();
-    const selected   = (eventStatus[(typeof status === 'object') ? status.name : status] || eventStatus.unknown);
+    const selected   = (eventStatus[(typeof status === 'object') ? status.name : status] || eventStatusUnknown);
 
     return {
         ...selected,
@@ -96,7 +91,7 @@ export function getEventStatus(status = '') {
  */
 export function getEventSessionStatus(status = '') {
     const { locale } = options.get();
-    const selected   = (eventSessionStatus[status] || eventSessionStatus.unknown);
+    const selected   = (eventSessionStatus[status] || eventStatusUnknown);
 
     return {
         ...selected,

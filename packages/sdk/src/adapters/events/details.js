@@ -55,7 +55,13 @@ export function details(
         sessions       : eventSessions,
         date           : eventDates,
         description    : eventDescription,
+        updatedAt      : eventUpdatedAt,
     } = (eventData || eventResponse || {});
+
+    /**
+     * Helpers
+     */
+    const qTimestamp = `?timestamp=${eventUpdatedAt}`;
 
     /**
      * Status
@@ -70,13 +76,18 @@ export function details(
     /**
      * Poster
      */
-    const poster = ((
-        eventPoster && (typeof eventPoster === 'object')
-    ) ? eventPoster : {
-        small : eventPoster,
-        medium: eventPoster,
-        large : eventPoster,
-    });
+    const {
+        small,
+        medium,
+        large,
+        xLarge,
+    } = (eventPoster || {});
+    const poster = {
+        small : `${small || eventPoster || ''}${qTimestamp}`,
+        medium: `${medium || eventPoster || ''}${qTimestamp}`,
+        large : `${large || eventPoster || ''}${qTimestamp}`,
+        xLarge: `${xLarge || eventPoster || ''}${qTimestamp}`,
+    };
 
     /**
      * Sessions
@@ -96,13 +107,8 @@ export function details(
             time: dtTime,
         } = (sessionDateTime || {});
 
-        let datetime = (!dtDate ? sessionDateTime : '');
-
-        if (dtDate && dtTime) {
-            datetime = date((dtDate + ' ' + dtTime), 'DD/MM/YYYY HH:mm').format();
-        }
-
-        const datetimeRef = date(datetime);
+        const datetime    = ((dtDate && dtTime) ? date((dtDate + ' ' + dtTime), 'DD/MM/YYYY HH:mm:ss').format() : sessionDateTime);
+        const datetimeRef = date(datetime).utc();
         const sessionRef  = {
             ...rest,
             datetime,
@@ -156,6 +162,7 @@ export function details(
         eventSponsor         : false,
         eventOperator        : false,
         eventSalesManager    : false,
+        eventSalesOperator   : false,
         eventFreepass        : false,
         eventEntranceManager : false,
         eventEntranceOperator: false,
@@ -166,12 +173,21 @@ export function details(
         entrance_manager : staffEntranceManager,
         entrance_operator: staffEntranceOperator,
         sales_manager    : staffSalesManager,
+        sales_operator   : staffSalesOperator,
     } = (eventStaff || {});
 
     roles.eventOwner = !!((userAdmin || (eventOwnerId === userId)));
     roles.eventAdmin = !!(
         roles.eventOwner ||
         (staffAdmin && staffAdmin.includes(userId))
+    );
+    roles.eventEntranceManager = !!(
+        roles.eventAdmin ||
+        (staffEntranceManager && staffEntranceManager.includes(userId))
+    );
+    roles.eventEntranceOperator = !!(
+        roles.eventAdmin || roles.eventEntranceManager ||
+        (staffEntranceOperator && staffEntranceOperator.includes(userId))
     );
     roles.eventSeller = !!(
         roles.eventAdmin ||
@@ -183,13 +199,9 @@ export function details(
         (staffSalesManager && staffSalesManager.includes(userId)) ||
         (roles.eventSeller && userSalesGroupManager)
     );
-    roles.eventEntranceManager = !!(
+    roles.eventSalesOperator = !!(
         roles.eventAdmin ||
-        (staffEntranceManager && staffEntranceManager.includes(userId))
-    );
-    roles.eventEntranceOperator = !!(
-        roles.eventAdmin || roles.eventEntranceManager ||
-        (staffEntranceOperator && staffEntranceOperator.includes(userId))
+        (staffSalesOperator && staffSalesOperator.includes(userId))
     );
     roles.eventSponsor = !!(
         roles.eventAdmin ||

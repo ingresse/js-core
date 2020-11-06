@@ -217,6 +217,7 @@ function _requestHandler(
                 }
 
                 credentials.set('jwt', authToken);
+                credentials.renewCallback({ jwt: authToken });
 
                 _requestHandler(path, settings, true)
                 .then(resolve)
@@ -262,7 +263,7 @@ function _requestHandler(
             const adapterModuleFuncName = adapterNameSplitted[1];
             const adapterRef            = (isAdapterFunc ? withAdapter : (
                 adapters[withAdapter] || (
-                    (adapters[adapterModuleName] && adapters[adapterModuleName][adapterModuleFuncName]) ? 
+                    (adapters[adapterModuleName] && adapters[adapterModuleName][adapterModuleFuncName]) ?
                         adapters[adapterModuleName][adapterModuleFuncName] : null
                 )
             ));

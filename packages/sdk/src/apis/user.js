@@ -28,15 +28,15 @@ function get(
             ...originalSettings
         } = (settings || {});
 
-        getter(`/user/${id}`, query, {
+        getter(`/users/${id}`, query, {
             withAdapter: 'user',
             ...(originalSettings || {}),
         })
         .then((response) => {
-            const { roles }      = (response || {});
-            const { user_admin } = (roles || {});
+            const { roles } = (response || {});
+            const { userAdmin } = (roles || {});
 
-            if (!withSalesGroup || user_admin) {
+            if (!withSalesGroup || userAdmin) {
                 return resolve(response);
             }
 
@@ -71,8 +71,8 @@ function get(
                     ...(response || {}),
                     roles: {
                         ...(roles || {}),
-                        user_sales_group_member : !!(salesGroups && salesGroups.length),
-                        user_sales_group_manager: !!isSGManager,
+                        userSalesGroupMember : !!(salesGroups && salesGroups.length),
+                        userSalesGroupManager: !!isSGManager,
                     },
                     salesGroups,
                 });
