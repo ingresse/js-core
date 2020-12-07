@@ -10,6 +10,10 @@ let options = {
     locale  : 'pt-BR',
     prefix  : 'ing',
     junction: '_',
+    cookies : [
+        'path=/',
+        'SameSite=Strict',
+    ],
 };
 const methods = [
     'get',

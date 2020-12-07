@@ -15,6 +15,8 @@ const methods = [
     'get',
     'set',
     'clear',
+    'renewCallback',
+    'setRenewCallback',
 ];
 
 /**
@@ -134,6 +136,15 @@ credentials.clear = () => {
     });
 
     return credentials.get();
+};
+
+credentials.renewCallback = () => {};
+credentials.setRenewCallback = (callback) => {
+    if (typeof callback !== 'function') {
+        return;
+    }
+
+    credentials.renewCallback = callback;
 };
 
 /**

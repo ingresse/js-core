@@ -1,6 +1,7 @@
 /**
  * Base
  */
+import options from '../options.js';
 import { keyBuilder } from './key.js';
 
 /**
@@ -41,7 +42,7 @@ function _cookieSET(cname, cvalue, exdays) {
             encodeURIComponent(cvalue) + ';' +
             expires + ';' +
             'domain=' + domain + ';' +
-            'path=/'
+            options.get().cookies.join(';')
         );
     } catch (e) {}
 }

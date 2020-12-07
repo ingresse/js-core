@@ -29,6 +29,7 @@ module.exports = {
     resolve: {
         alias: {
             '@ingresse/request': (__dirname + '/node_modules/@ingresse/request'),
+            'dayjs': (__dirname + '/node_modules/dayjs'),
         },
     },
 };

@@ -2,6 +2,7 @@
  * Utilities
  */
 import { orderObject } from '../utils';
+import { definePictures } from './pictures';
 
 /**
  * User Formatter
@@ -23,6 +24,7 @@ function user(response) {
         lastname: originalLastname,
         pictures: originalPictures,
         type    : originalType,
+        planner : originalPlanner,
     } = (response || {});
 
     /**
@@ -35,18 +37,6 @@ function user(response) {
     const initials  = (firstname.charAt(0) + lastname.charAt(0)).trim().toUpperCase();
 
     /**
-     * Photo
-     */
-    const pictures = (
-        (!originalPictures || originalPictures.hasOwnProperty('length')) ?
-            {} : originalPictures
-    );
-    const {
-        medium: pictureMedium,
-    } = pictures;
-    const photo = (pictureMedium || '');
-
-    /**
      * Type
      */
     const type = parseInt(originalType, 10);
@@ -55,12 +45,19 @@ function user(response) {
      * Roles
      */
     const roles = {
-        user_admin: (type === 1),
-        user_pro  : (type === 2),
-        user_free : (type === 3),
+        userAdmin: (type === 1),
+        userPro  : (type === 2),
+        userFree : (type === 3),
+        userSalesGroupMember : false,
+        userSalesGroupManager: false,
+    };
 
-        user_sales_group_member : false,
-        user_sales_group_manager: false,
+    /**
+     * Planner
+     */
+    const planner = {
+        ...(originalPlanner || {}),
+        ...definePictures((originalPlanner || {}).pictures),
     };
 
     /**
@@ -68,13 +65,12 @@ function user(response) {
      */
     const userFormatted = {
         ...response,
+        ...definePictures(originalPictures),
         name,
         firstname,
         lastname,
         initials,
-
-        photo,
-        pictures,
+        planner,
         type,
         roles,
     };
