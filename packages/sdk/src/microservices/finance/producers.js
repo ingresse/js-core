@@ -179,6 +179,27 @@ function removeTeam(
 }
 
 /**
+ * Get User's Producers List
+ *
+ * @param {string} user
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function ofUser(
+    userId,
+    query,
+    settings
+) {
+    return get(
+        `/users/${userId}/producers`,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
  * Update Producer
  *
  * @param {string} producerId
@@ -216,6 +237,7 @@ const producers = {
     list,
     listClassification,
     listTeam,
+    ofUser,
     update,
 };
 

@@ -6,6 +6,7 @@ import { get as getter } from '../request/request.js';
 /**
  * Utilities
  */
+import { events as adapters } from '../adapters';
 import { eventIdentifier } from '../utils';
 
 /**
@@ -184,12 +185,12 @@ function get(
                 Promise
                 .all(promises)
                 .finally(() => {
-                    resolve({
+                    resolve(adapters.details({
                         ...(eventResponse || {}),
                         crew      : eventCrew,
                         crewIds   : eventCrewIds,
                         attributes: ((eventResponse || {}).attributes || eventAttributes || null),
-                    });
+                    }));
                 });
             })
             .catch((error) => {
@@ -231,12 +232,12 @@ function get(
                 return reject(hasError);
             }
 
-            resolve({
+            resolve(adapters.details({
                 ...(eventResponse || {}),
                 crew      : eventCrew,
                 crewIds   : eventCrewIds,
                 attributes: ((eventResponse || {}).attributes || eventAttributes || null),
-            });
+            }));
         });
     });
 }

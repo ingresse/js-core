@@ -17,11 +17,7 @@ import sales from './sales';
  *
  * @returns {Promise}
  */
-function get(
-    id,
-    query,
-    settings
-) {
+function get(id, query, settings) {
     return new Promise((resolve, reject) => {
         const {
             withSalesGroup,
@@ -86,6 +82,41 @@ function get(
 }
 
 /**
+ * Get User public profile by ID
+ *
+ * @param {string} id - User's ID
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function getPublic(id, query, settings) {
+    return getter(`/users/${id}`, query, {
+        withAdapter: 'user',
+        ...(settings || {})
+    });
+}
+
+/**
+ * Search of Users to Transfer
+ *
+ * @param {string} term
+ * @param {number} size - results limit
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function search(term, size = 10, query, settings) {
+    return getter('/search/transfer/user', {
+        ...(query || {}),
+        size,
+        term,
+    },
+    settings );
+}
+
+/**
  * User's Pending Tickets
  *
  * @param {string} id - User's ID
@@ -94,11 +125,7 @@ function get(
  *
  * @returns {Promise}
  */
-function transfers(
-    id,
-    query,
-    settings
-) {
+function transfers(id, query, settings) {
     return getter(`/user/${id}/transfers`, {
         status: 'pending',
         ...(query || {}),
@@ -113,20 +140,15 @@ const wallet = {
     /**
      * User's Tickets Wallet events
      *
-     * @param {string} id - User's ID
+     * @param {string} userId - User's ID
      * @param {object} [query]
      * @param {object} [settings]
      *
      * @returns {Promise}
      */
-    events: function (
-        id,
-        query,
-        settings
-    ) {
-        return getter(`/user/${id}/wallet`, query, settings);
+    events: function (userId, query, settings) {
+        return getter(`/user/${userId}/wallet`, query, settings);
     },
-
 };
 
 /**
@@ -134,6 +156,8 @@ const wallet = {
  */
 const user = {
     get,
+    getPublic,
+    search,
     transfers,
     wallet,
 };

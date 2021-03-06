@@ -2,48 +2,7 @@
  * Base
  */
 import { keyBuilder } from './key.js';
-
-/**
- * Get storage item
- *
- * @param {string} key
- *
- * @param {boolean} operation status
- */
-function get(key = '') {
-    const _key = keyBuilder(key);
-
-    if (!_key) {
-        return null;
-    }
-
-    return JSON.parse(
-        localStorage.getItem(_key)
-    );
-}
-
-/**
- * Set storage item
- *
- * @param {string} key
- * @param {any} content
- *
- * @param {boolean} operation status
- */
-function set(key = '', content = null) {
-    const _key = keyBuilder(key);
-
-    if (!_key || !content) {
-        return false;
-    }
-
-    localStorage.setItem(
-        _key,
-        JSON.stringify(content)
-    );
-
-    return true;
-}
+import { date } from './date.js';
 
 /**
  * Remove Item
@@ -61,11 +20,66 @@ function remove(key = '') {
 }
 
 /**
+ * Get storage item
+ *
+ * @param {string} key
+ *
+ * @returns {any}
+ */
+function get(key = '') {
+    if (!key) {
+        return null;
+    }
+
+    const _key                    = keyBuilder(key);
+    const inCache                 = JSON.parse(localStorage.getItem(_key));
+    const { content, validUntil } = (inCache || {});
+    const notPresent              = typeof content === 'undefined';
+    const notValid                = !!(validUntil && date().isAfter(date(validUntil)));
+
+    if (notPresent || notValid) {
+      localStorage.removeItem(_key);
+
+      return undefined;
+    }
+
+    return content;
+}
+
+/**
+ * Set storage item
+ *
+ * @param {string} key
+ * @param {any} content
+ *
+ * @returns {boolean} operation status
+ */
+function set(key = '', content = null, validTime, validUnit = 'days') {
+    const _key       = keyBuilder(key);
+    const validUntil = ((typeof validTime !== 'number') ? '' : date().add(validTime, validUnit).format());
+    const toStorage  = {
+      content,
+      validUntil,
+    };
+
+    if (!_key || !content) {
+        return false;
+    }
+
+    localStorage.setItem(
+        _key,
+        JSON.stringify(toStorage)
+    );
+
+    return true;
+}
+
+/**
  * Clear all items
  *
- * @param {boolean} operation status
+ * @returns {boolean} operation status
  */
-function clear(key = '') {
+function clear() {
     localStorage.clear();
 
     return true;
@@ -74,14 +88,9 @@ function clear(key = '') {
 /**
  * Reference
  */
-const storage = {
+export const storage = {
     get,
     set,
     remove,
     clear,
 };
-
-/**
- * Exporting
- */
-export { storage };
