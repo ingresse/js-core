@@ -22,6 +22,10 @@ function numbers(
     return new Intl.NumberFormat(_locale).format(num);
 }
 
+numbers.strip = function (value) {
+    return JSON.stringify(value || '').replace(/\D/g, '');
+};
+
 /**
  * Exporting
  */

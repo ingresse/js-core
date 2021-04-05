@@ -2,7 +2,7 @@
  * Base
  */
 import { del, get, post } from '../../request/request.js';
-import { defaultSettings } from './base.js';
+import { defaultSettings, producerPath } from './base.js';
 
 /**
  * Create Bank Account to Producer
@@ -29,19 +29,19 @@ function create(
 /**
  * Get A Producer's Bank Accounts List
  *
- * @param {object} id
+ * @param {object} producerId
  * @param {object} [query]
  * @param {object} [settings]
  *
  * @returns {Promise}
  */
 function list(
-    id,
+    producerId,
     query,
     settings
 ) {
     return get(
-        `/producers/${id}/bank-accounts`,
+        `${producerPath(producerId)}/bank-accounts`,
         query,
         defaultSettings(settings)
     );
@@ -50,19 +50,45 @@ function list(
 /**
  * Remove Bank Account
  *
- * @param {string} id
+ * @param {string} accountId
+ * @param {string} [producerId]
  * @param {object} [query]
  * @param {object} [settings]
  *
  * @returns {Promise}
  */
 function remove(
-    id,
+    accountId,
+    producerId,
     query,
     settings
 ) {
     return del(
-        `/bank-accounts/${id}`,
+        `${producerPath(producerId)}/bank-accounts/${accountId}`,
+        query,
+        defaultSettings(settings)
+    );
+}
+
+/**
+ * Update Bank Account
+ *
+ * @param {string} accountId
+ * @param {object} account
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function update(
+    accountId,
+    account,
+    query,
+    settings = {}
+) {
+    return put(
+        `/bank-accounts/${accountId}`,
+        account,
         query,
         defaultSettings(settings)
     );
@@ -76,7 +102,8 @@ const bankAccounts = {
 
     create,
     list,
-    remove
+    remove,
+    update,
 };
 
 /**
