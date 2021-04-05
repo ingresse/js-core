@@ -65,6 +65,59 @@ export const eventSessionStatus = {
     },
 };
 
+export function financeStatus(isPayment = false) {
+    return {
+        scheduled: {
+            color   : '#fca311',
+            id      : 'scheduled',
+            name    : 'Scheduled',
+            'pt-BR' : `Agendad${isPayment ? 'o' : 'a'}`,
+        },
+        complete: {
+            color   : '#60c659',
+            id      : 'complete',
+            name    : 'Complete',
+            'pt-BR' : isPayment ? 'Pago' : 'Efetuada',
+        },
+        approved: {
+            color   : '#3cc2a5',
+            id      : 'approved',
+            name    : 'Approved',
+            'pt-BR' : `Aprovad${isPayment ? 'o' : 'a'}`,
+        },
+        'partially-approved': {
+            color   : '#ffc61e',
+            id      : 'partially-approved',
+            name    : 'Partially Approved',
+            'pt-BR' : `Parcialmente Aprovad${isPayment ? 'o' : 'a'}`,
+        },
+        declined: {
+            color   : '#ef3c3e',
+            id      : 'declined',
+            name    : 'Declined',
+            'pt-BR' : `Reprovad${isPayment ? 'o' : 'a'}`,
+        },
+        error: {
+            color   : '#ef3c3e',
+            id      : 'error',
+            name    : 'Error',
+            'pt-BR' : `Falha ao ${isPayment ? 'Pagar' : 'Transferir'}`,
+        },
+    };
+}
+
+export function financeActionStatus(isPayment = false) {
+    return {
+        ...financeStatus(isPayment),
+        created: {
+            color   : '#fca311',
+            id      : 'created',
+            name    : 'Created',
+            'pt-BR' : `Agendad${isPayment ? 'o' : 'a'}`,
+        },
+    };
+}
+
 /**
  * Event's Status helper
  *
@@ -96,5 +149,30 @@ export function getEventSessionStatus(status = '') {
     return {
         ...selected,
         name: (selected[locale] || selected.original),
+    };
+}
+
+/**
+ * Finance Status helper
+ *
+ * @param {object|string} status
+ * @param {boolean} isPayment
+ *
+ * @returns {object}
+ */
+export function getFinanceStatus(status = '', isPayment = false) {
+    const { locale } = options.get();
+    const selected   = (
+        financeStatus(isPayment)[status] ||
+        financeActionStatus(isPayment)[status] ||
+        eventStatusUnknown
+    );
+    const name = (selected[locale] || selected.name);
+    const text = name;
+
+    return {
+        ...selected,
+        name,
+        text,
     };
 }

@@ -107,8 +107,8 @@ export function details(
             time: dtTime,
         } = (sessionDateTime || {});
 
-        const datetime    = ((dtDate && dtTime) ? date((dtDate + ' ' + dtTime), 'DD/MM/YYYY HH:mm:ss').format() : sessionDateTime);
-        const datetimeRef = date(datetime).utc();
+        const datetime    = ((dtDate && dtTime) ? date.utc((dtDate + ' ' + dtTime), 'DD/MM/YYYY HH:mm:ss').format() : sessionDateTime);
+        const datetimeRef = date.utc(datetime);
         const sessionRef  = {
             ...rest,
             datetime,

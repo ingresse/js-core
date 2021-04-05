@@ -8,6 +8,7 @@ import { defaultSettings, request } from './base.js';
  */
 import bankAccounts from './bank-accounts.js';
 import banks from './banks.js';
+import boletos from './boletos.js';
 import contractTypes from './contract-types.js';
 import contracts from './contracts.js';
 import eventExceptions from './event-exceptions.js';
@@ -25,6 +26,7 @@ const finance = {
 
     bankAccounts,
     banks,
+    boletos,
     contractTypes,
     contracts,
     eventExceptions,

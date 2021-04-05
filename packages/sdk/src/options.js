@@ -6,6 +6,7 @@ let options = {
     env     : '',
     company : '',
     appName : '',
+    producer: '',
     currency: 'BRL',
     locale  : 'pt-BR',
     prefix  : 'ing',

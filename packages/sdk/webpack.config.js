@@ -28,7 +28,10 @@ module.exports = {
     },
     resolve: {
         alias: {
+            '@fnando/cnpj': (__dirname + '/node_modules/@fnando/cnpj'),
+            '@fnando/cpf': (__dirname + '/node_modules/@fnando/cpf'),
             '@ingresse/request': (__dirname + '/node_modules/@ingresse/request'),
+            'broleto': (__dirname + '/node_modules/broleto'),
             'dayjs': (__dirname + '/node_modules/dayjs'),
         },
     },

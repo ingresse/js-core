@@ -3,6 +3,7 @@
  */
 import dayjs from 'dayjs';
 import dayjsUTC from 'dayjs/plugin/utc';
+import dayjsRelativeTime from 'dayjs/plugin/relativeTime';
 import dayjsCustomParseFormat from 'dayjs/plugin/customParseFormat';
 import options from '../options.js';
 
@@ -10,23 +11,17 @@ import options from '../options.js';
  * Plugins
  */
 dayjs.extend(dayjsUTC);
+dayjs.extend(dayjsRelativeTime);
 dayjs.extend(dayjsCustomParseFormat);
 
 /**
  * Init
  */
-try {
-    const { locale: sdkLocale }  = options.get();
-    const locale = (sdkLocale || '').toLowerCase();
+const { locale }  = options.get();
+const localeLower = (locale || 'pt-BR').toLowerCase();
+const localeFile  = require(`dayjs/locale/${localeLower}.js`);
 
-    if (locale && (locale !== 'en')) {
-        require(`dayjs/locale/${locale}.js`);
-        dayjs.locale(locale);
-    }
-
-} catch(error) {
-    console.error('Ingresse SDK Date Utility init error', error);
-}
+dayjs.locale(localeFile);
 
 /**
  * Exporting

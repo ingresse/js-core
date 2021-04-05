@@ -1,7 +1,18 @@
 /**
  * Base
  */
+import options from '../../options';
 import { generic } from '../../request/request.js';
+
+/**
+ * Define the initial path with the producer identifier
+ *
+ * @param {string} producerId
+ * @returns {string}
+ */
+export function producerPath(producerId = '') {
+    return `/producers/${producerId || options.get('producer') || ''}`;
+}
 
 /**
  * Get Microservice Default Settings
