@@ -1,6 +1,9 @@
 /**
  * Utilities
  */
+import credentials from '../credentials.js';
+import options from '../options.js';
+import { getURL } from '../request/request.js';
 import { orderObject } from '../utils';
 import { definePictures } from './pictures';
 
@@ -20,12 +23,17 @@ function user(response) {
      * User values
      */
     const {
+        schema_id,
+        ...data
+    } = (response || {});
+    const {
+        id      : originalId,
         name    : originalName,
         lastname: originalLastname,
         pictures: originalPictures,
         type    : originalType,
         planner : originalPlanner,
-    } = (response || {});
+    } = (data || {});
 
     /**
      * Name
@@ -61,15 +69,23 @@ function user(response) {
     };
 
     /**
+     * Public Photo URL
+     */
+    const { apiKey } = options.get();
+    const { token }  = credentials.get();
+    const photoURL   = `${getURL()}/user/${originalId}/picture?apikey=${apiKey}&usertoken=${token}`;
+
+    /**
      * Ordering
      */
     const userFormatted = {
-        ...response,
+        ...data,
         ...definePictures(originalPictures),
         name,
         firstname,
         lastname,
         initials,
+        photoURL,
         planner,
         type,
         roles,

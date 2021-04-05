@@ -1,12 +1,12 @@
 /**
  * Base
  */
- import { finance as financeAdapters } from '../../adapters';
+import { finance as financeAdapters } from '../../adapters';
 import { get, post, put } from '../../request/request.js';
 import { defaultSettings, producerPath } from './base.js';
 
 /**
- * Approve Transfer
+ * Approve Boleto
  *
  * @param {object} id
  * @param {object} [query]
@@ -16,7 +16,7 @@ import { defaultSettings, producerPath } from './base.js';
  */
 function approve(id, query, settings = {}) {
     return post(
-        `/transfers/${id}/approve`,
+        `/boletos/${id}/approve`,
         {},
         query,
         defaultSettings(settings)
@@ -24,25 +24,36 @@ function approve(id, query, settings = {}) {
 }
 
 /**
- * Create Transfer
+ * Create Boleto
  *
- * @param {object} transfer
+ * @param {object} data
  * @param {object} [query]
  * @param {object} [settings]
  *
  * @returns {Promise}
  */
-function create(transfer, query, settings = {}) {
+function create(data, query, settings = {}) {
+    const content = (data || {});
+    const {
+        barcode: boletoBarcode,
+        document: boletoDocument,
+    } = content;
+    const boleto = {
+        ...content,
+        barcode : (boletoBarcode || '').replace(/\D/g, ''),
+        document: (boletoDocument || '').replace(/\D/g, ''),
+    };
+
     return post(
-        '/transfers',
-        transfer,
+        '/boletos',
+        boleto,
         query,
         defaultSettings(settings)
     );
 }
 
 /**
- * Decline Transfer
+ * Decline Boleto
  *
  * @param {string} id
  * @param {string} reason
@@ -53,7 +64,7 @@ function create(transfer, query, settings = {}) {
  */
 function decline(id, reason, query, settings = {}) {
     return put(
-        `/transfers/${id}/decline`,
+        `/boletos/${id}/decline`,
         reason,
         query,
         defaultSettings(settings)
@@ -61,7 +72,7 @@ function decline(id, reason, query, settings = {}) {
 }
 
 /**
- * Get Transfer Details
+ * Get Boleto Details
  *
  * @param {string} id
  * @param {object} [query]
@@ -71,17 +82,17 @@ function decline(id, reason, query, settings = {}) {
  */
 function details(id, query, settings = {}) {
     return get(
-        `/transfers/${id}`,
+        `/boletos/${id}`,
         query,
         defaultSettings({
-            withAdapter: financeAdapters.transfers.details,
+            withAdapter: financeAdapters.boletos.details,
             ...settings
         })
     );
 }
 
 /**
- * Export Transfers
+ * Export Boletos
  *
  * @param {string} id
  * @param {object} [query]
@@ -91,36 +102,36 @@ function details(id, query, settings = {}) {
  */
 function _export(query, settings = {}) {
     return get(
-        `${producerPath()}/export/transfers`,
+        `${producerPath()}/export/boletos`,
         query,
         defaultSettings(settings)
     );
 }
 
 /**
- * Get Transfers List
+ * Get Boletos List
  *
  * @param {object} [query]
  * @param {object} [settings]
  *
  * @returns {Promise}
  */
-function list(query, settings = {}) {
+function list(query = {}, settings = {}) {
     const pageSize = (query.pageSize || 50);
     query.pageSize = pageSize;
 
     return get(
-        `${producerPath()}/transfers`,
+        `${producerPath()}/boletos`,
         query,
         defaultSettings({
-            withAdapter: (response) => financeAdapters.transfers.list(response, pageSize),
+            withAdapter: (response) => financeAdapters.boletos.list(response, pageSize),
             ...settings
         })
     );
 }
 
 /**
- * Get Transfer Recipe
+ * Get Boleto Recipe
  *
  * @param {string} id
  * @param {object} [query]
@@ -130,7 +141,7 @@ function list(query, settings = {}) {
  */
 function recipe(id, query, settings = {}) {
     return get(
-        `/transfers/${id}/recipe`,
+        `/boletos/${id}/recipe`,
         query,
         defaultSettings(settings)
     );
@@ -139,7 +150,7 @@ function recipe(id, query, settings = {}) {
 /**
  * Reference
  */
-const transfers = {
+const boletos = {
     defaultSettings,
 
     approve,
@@ -155,4 +166,4 @@ const transfers = {
 /**
  * Exporting
  */
-export default transfers;
+export default boletos;
