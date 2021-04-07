@@ -54,7 +54,7 @@ function create(transfer, query, settings = {}) {
 function decline(id, reason, query, settings = {}) {
     return put(
         `/transfers/${id}/decline`,
-        reason,
+        { reason, status: 'declined' },
         query,
         defaultSettings(settings)
     );

@@ -279,7 +279,7 @@ function _requestHandler(
             .then((exception) => {
                 const { status, code } = (exception || {});
                 const shouldRenew      = !!(!retry && authQuery.usertoken && (
-                    (code === 6065) || (status === 401)
+                    (code === 2006) || (code === 6065) || (status === 401)
                 ));
 
                 if (shouldRenew) {

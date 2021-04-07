@@ -11,7 +11,9 @@ import { generic } from '../../request/request.js';
  * @returns {string}
  */
 export function producerPath(producerId = '') {
-    return `/producers/${producerId || options.get('producer') || ''}`;
+    const _producerId = producerId || options.get('producer') || '';
+
+    return !_producerId ? '' : `/producers/${_producerId}`;
 }
 
 /**

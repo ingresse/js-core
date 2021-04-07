@@ -4,6 +4,7 @@ import {
     display as displayUtil,
     getFinanceStatus,
     isObject,
+    sortByProperty,
 } from '../../utils';
 import { details as eventDetailsAdapter } from '../events/details.js';
 
@@ -55,12 +56,13 @@ export function common(response, isBoleto = false) {
     /**
      * Dates
      */
-    const createdAt   = date.utc(transactionCreatedAt);
-    const scheduledTo = date.utc(transactionScheduledTo);
+    const createdAt   = date(transactionCreatedAt);
+    const scheduledTo = date(transactionScheduledTo);
 
     /**
      * Status Booleans
      */
+    const isActionable        = statusActionable.includes(transactionStatus);
     const isApproved          = transactionStatus === 'approved';
     const isApprovable        = statusActionable.includes(transactionStatus);
     const isCancellable       = statusActionable.includes(transactionStatus);
@@ -92,7 +94,7 @@ export function common(response, isBoleto = false) {
     /**
      * History
      */
-    const history = (transactionHistory || []).map((historyItem, index) => {
+    const history = sortByProperty(transactionHistory || [], 'created_at').map((historyItem, index) => {
         const order = (index + 1);
         const { action, created_at } = historyItem;
 
@@ -101,11 +103,11 @@ export function common(response, isBoleto = false) {
             order,
             display: {
                 action: getFinanceStatus(action, isBoleto),
-                created_at: date.utc(created_at).format(displayUtil('dateTimeFull')),
+                created_at: date(created_at).format(displayUtil('dateTimeFull')),
                 order,
             },
         };
-    });
+    }).reverse();
 
     return {
         ...transaction,
@@ -114,6 +116,7 @@ export function common(response, isBoleto = false) {
         eventDetails,
         fee,
         history,
+        isActionable,
         isApproved,
         isApprovable,
         isCancellable,
