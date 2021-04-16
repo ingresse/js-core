@@ -2,7 +2,7 @@
  * Base
  */
 import { finance as financeAdapters } from '../../adapters';
-import { get, post, put } from '../../request/request.js';
+import { get, post } from '../../request/request.js';
 import { defaultSettings, producerPath } from './base.js';
 
 /**
@@ -63,9 +63,9 @@ function create(data, query, settings = {}) {
  * @returns {Promise}
  */
 function decline(id, reason, query, settings = {}) {
-    return put(
+    return post(
         `/boletos/${id}/decline`,
-        reason,
+        { reason, status: 'declined' },
         query,
         defaultSettings(settings)
     );

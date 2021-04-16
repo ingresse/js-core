@@ -9,6 +9,8 @@ module.exports = {
     dateTimeExtended: 'dddd[, ]MM/DD/YYYY[, ]HH:mm:ss',
     dateWeekday     : 'dddd',
 
-    summaryWireTransfers  : '#qtty wire transfers totaling #amount',
-    summaryPaymentsBoletos: '#qtty boletos totaling #amount',
+    summaryWireTransfers        : '#qtty wire transfers totaling #amount',
+    summaryWireTransfersSimple  : '#qtty wire transfers',
+    summaryPaymentsBoletos      : '#qtty boletos totaling #amount',
+    summaryPaymentsBoletosSimple: '#qtty boletos',
 };

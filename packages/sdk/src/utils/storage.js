@@ -56,13 +56,13 @@ function get(key = '') {
  */
 function set(key = '', content = null, validTime, validUnit = 'days') {
     const _key       = keyBuilder(key);
-    const validUntil = ((typeof validTime !== 'number') ? '' : date().add(validTime, validUnit).format());
+    const validUntil = ((typeof validTime !== 'number') ? undefined : date().add(validTime, validUnit).format());
     const toStorage  = {
       content,
       validUntil,
     };
 
-    if (!_key || !content) {
+    if (!_key || typeof content === 'undefined') {
         return false;
     }
 

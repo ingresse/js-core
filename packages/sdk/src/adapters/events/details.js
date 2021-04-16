@@ -61,7 +61,7 @@ export function details(
     /**
      * Helpers
      */
-    const qTimestamp = `?timestamp=${eventUpdatedAt}`;
+    const qTimestamp = !eventUpdatedAt ? '' : `?timestamp=${eventUpdatedAt}`;
 
     /**
      * Status
