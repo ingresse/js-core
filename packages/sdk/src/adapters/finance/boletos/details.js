@@ -30,8 +30,8 @@ export function details(response) {
     /**
      * Dates
      */
-    const expiresAt   = date(boletoExpiresAt);
-    const scheduledTo = date(boletoScheduledTo);
+    const expiresAt   = date.utc(boletoExpiresAt);
+    const scheduledTo = date.utc(boletoScheduledTo);
 
     /**
      * Helpers
@@ -46,13 +46,13 @@ export function details(response) {
     const documentType = documents.type(boletoDocument);
     const display = {
         ...boletoDisplay,
-        document            : documents.format(boletoDocument),
+        document          : documents.format(boletoDocument),
         documentType,
         expiredDays,
         expiredDaysCount,
-        expires_at          : expiresAt.format(displayUtil('date')),
-        expires_at_ext      : expiresAt.format(displayUtil('dateTimeExtended')),
-        expires_at_weekday  : expiresAt.format(displayUtil('dateWeekday')),
+        expires_at        : expiresAt.format(displayUtil('date')),
+        expires_at_ext    : expiresAt.format(displayUtil('dateTimeExtended')),
+        expires_at_weekday: expiresAt.format(displayUtil('dateWeekday')),
     };
 
     return {

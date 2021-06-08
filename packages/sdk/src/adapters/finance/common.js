@@ -57,7 +57,7 @@ export function common(response, isBoleto = false) {
      * Dates
      */
     const createdAt   = date(transactionCreatedAt);
-    const scheduledTo = date(transactionScheduledTo);
+    const scheduledTo = date.utc(transactionScheduledTo);
 
     /**
      * Status Booleans
