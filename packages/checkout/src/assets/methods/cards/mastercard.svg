@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+    <defs>
+        <rect id="eeha3r8dka" width="40" height="30" x="0" y="0" rx="2.667"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <path d="M0 0H40V40H0z" transform="translate(-121.000000, -415.000000) translate(121.000000, 415.000000)"/>
+                <g>
+                    <g fill="#2D2D2D" fill-rule="nonzero" transform="translate(-121.000000, -415.000000) translate(121.000000, 415.000000) translate(0.000000, 5.000000)">
+                        <rect width="40" height="30" rx="2.667"/>
+                    </g>
+                    <g transform="translate(-121.000000, -415.000000) translate(121.000000, 415.000000) translate(0.000000, 5.000000)">
+                        <mask id="7pzhvqv34b" fill="#fff">
+                            <use xlink:href="#eeha3r8dka"/>
+                        </mask>
+                        <g mask="url(#7pzhvqv34b)">
+                            <g fill-rule="nonzero" transform="translate(4.666667, 6.000000) translate(-0.000000, 0.000000)">
+                                <ellipse cx="9.25" cy="8.997" fill="#EE0005" rx="9.25" ry="8.997"/>
+                                <ellipse cx="20.741" cy="8.997" fill="#F9A000" rx="9.25" ry="8.997"/>
+                                <path fill="#FF6300" d="M11.492 8.997c0 2.857 1.369 5.403 3.504 7.05 2.134-1.648 3.503-4.193 3.503-7.05s-1.369-5.402-3.503-7.05c-2.135 1.648-3.504 4.193-3.504 7.05z"/>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

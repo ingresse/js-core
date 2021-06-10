@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+    <defs>
+        <rect id="aaggtzz45a" width="40" height="30" x="0" y="0" rx="2.667"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <path d="M0 0H40V40H0z" transform="translate(-361.000000, -415.000000) translate(361.000000, 415.000000)"/>
+                <g>
+                    <g fill="#00529E" fill-rule="nonzero" transform="translate(-361.000000, -415.000000) translate(361.000000, 415.000000) translate(0.000000, 5.000000)">
+                        <rect width="40" height="30" rx="2.667"/>
+                    </g>
+                    <g transform="translate(-361.000000, -415.000000) translate(361.000000, 415.000000) translate(0.000000, 5.000000)">
+                        <mask id="yzsk3lgbib" fill="#fff">
+                            <use xlink:href="#aaggtzz45a"/>
+                        </mask>
+                        <g mask="url(#yzsk3lgbib)">
+                            <g>
+                                <path fill="#FFF" d="M15.217 19.956c5.625.027 10.759-4.448 10.759-9.892C25.976 4.113 20.84-.002 15.217 0h-4.84C4.686-.002 0 4.114 0 10.064c0 5.445 4.686 9.919 10.377 9.892h4.84z" transform="translate(7.000000, 4.666666)"/>
+                                <path fill="#00529E" fill-rule="nonzero" d="M12.6 15.41V4.6c2.24.833 3.83 2.937 3.833 5.404-.004 2.467-1.594 4.57-3.833 5.404m-8.105-5.404c.004-2.466 1.592-4.568 3.83-5.404v10.807c-2.238-.835-3.826-2.937-3.83-5.403M10.463.87c-5.2 0-9.416 4.09-9.417 9.135.001 5.045 4.216 9.132 9.417 9.134 5.202-.002 9.418-4.09 9.418-9.134 0-5.045-4.216-9.134-9.418-9.135" transform="translate(7.000000, 4.666666)"/>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+    <defs>
+        <rect id="4bi9896l4a" width="40" height="30" x="0" y="0" rx="2.667"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <path d="M0 0H40V40H0z" transform="translate(-682.000000, -415.000000) translate(682.000000, 415.000000)"/>
+                <g>
+                    <g fill="#6798E5" fill-rule="nonzero" transform="translate(-682.000000, -415.000000) translate(682.000000, 415.000000) translate(0.000000, 5.000000)">
+                        <rect width="40" height="30" rx="2.667"/>
+                    </g>
+                    <g transform="translate(-682.000000, -415.000000) translate(682.000000, 415.000000) translate(0.000000, 5.000000)">
+                        <mask id="jkjappzeib" fill="#fff">
+                            <use xlink:href="#4bi9896l4a"/>
+                        </mask>
+                        <g mask="url(#jkjappzeib)">
+                            <path fill="#FFF" fill-rule="nonzero" d="M9.389 0H7.944C3.502.37 0 4.11 0 8.657s3.502 8.287 7.944 8.656H9.39c4.441-.369 7.944-4.109 7.944-8.656C17.333 4.109 13.83.369 9.39 0zm0 4.373c2.046.345 3.61 2.135 3.61 4.284s-1.564 3.938-3.61 4.284v-1.483c1.244-.323 2.166-1.455 2.166-2.802s-.922-2.478-2.166-2.8V4.372zm-.723 5.732h-.722v5.756c-3.644-.365-6.5-3.456-6.5-7.204 0-3.748 2.856-6.84 6.5-7.205V7.21h.722c.797 0 1.445.65 1.445 1.448 0 .798-.648 1.448-1.445 1.448zm.723 5.756V14.4c2.845-.358 5.055-2.794 5.055-5.742 0-2.949-2.21-5.385-5.055-5.743V1.452c3.644.365 6.5 3.456 6.5 7.205 0 3.748-2.856 6.84-6.5 7.204z" transform="translate(11.333333, 6.000000)"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

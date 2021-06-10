@@ -1,0 +1,28 @@
+{
+  "name": "@ingresse/checkout",
+  "version": "1.0.0",
+  "description": "Ingresse's Checkout Utilities, builded to simplify payment assets and helpers usage",
+  "repository": "https://github.com/ingresse/js-core.git",
+  "author": "@udimberto",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "source": "src/index.js",
+  "exports": "./dist/checkout.modern.js",
+  "main": "./dist/checkout.js",
+  "module": "./dist/checkout.module.js",
+  "unpkg": "./dist/checkout.js",
+  "custom": {
+    "cdn": "https://cdn.ingresse.com/checkout",
+    "windowRefKey": "ingresseCheckout"
+  },
+  "scripts": {
+    "build": "microbundle-crl",
+    "dev": "microbundle-crl watch",
+    "test": "jest --collectCoverage"
+  },
+  "devDependencies": {
+    "jest": "^27.0.4",
+    "microbundle-crl": "^0.13.11"
+  }
+}
