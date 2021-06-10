@@ -1,0 +1,29 @@
+{
+  "name": "@ingresse/tools",
+  "version": "1.0.0",
+  "description": "Ingresse's Utilities, builded to simplify platform shared rules, assets and helpers usage.",
+  "repository": "https://github.com/ingresse/js-core.git",
+  "author": "@udimberto",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "source": "src/index.js",
+  "exports": "./dist/tools.modern.js",
+  "main": "./dist/tools.js",
+  "module": "./dist/tools.module.js",
+  "unpkg": "./dist/tools.js",
+  "scripts": {
+    "dev": "microbundle-crl watch",
+    "dev:test": "jest --collectCoverage --watchAll",
+    "test": "jest --collectCoverage",
+    "assets": "cp -R src/assets dist/assets",
+    "build": "rm -rf dist && microbundle-crl && npm run assets"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "babel-jest": "^27.0.2",
+    "jest": "^27.0.4",
+    "microbundle-crl": "^0.13.11"
+  }
+}
