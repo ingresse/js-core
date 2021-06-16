@@ -1,7 +1,7 @@
 /**
  * Base
  */
-import { get } from '../../request/request.js';
+import { get, post } from '../../request/request.js';
 import { defaultSettings } from './base.js';
 
 /**
@@ -12,12 +12,23 @@ import { defaultSettings } from './base.js';
  *
  * @returns {Promise}
  */
-function list(
-    query,
-    settings
-) {
-    return get(
-        '/finance-team',
+function list(query, settings) {
+    return get('/finance-team', query, defaultSettings(settings));
+}
+
+/**
+ * Add team member.
+ *
+ * @param {object} [profile]
+ * @param {object} [query]
+ * @param {object} [settings]
+ *
+ * @returns {Promise}
+ */
+function add(id, profile, query, settings) {
+    return post(
+        '/finance-team/' + id,
+        profile,
         query,
         defaultSettings(settings)
     );
@@ -29,6 +40,7 @@ function list(
 const permissions = {
     defaultSettings,
 
+    add,
     list
 };
 
