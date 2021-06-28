@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [13.x]
+        node-version: [14.x]
 
     steps:
         - uses: actions/checkout@v1
@@ -41,3 +41,15 @@ jobs:
           with:
             name: coverage@request
             path: packages/request/coverage
+
+        - name: Package | Tools | Tests
+          run: |
+            cd packages/tools
+            npm install
+            npm test
+
+        - name: Package | Tools | Archive code coverage results
+          uses: actions/upload-artifact@v1
+          with:
+            name: coverage@tools
+            path: packages/tools/coverage
