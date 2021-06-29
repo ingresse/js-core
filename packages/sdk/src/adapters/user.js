@@ -3,8 +3,7 @@
  */
 import credentials from '../credentials.js';
 import options from '../options.js';
-import { getURL } from '../request/request.js';
-import { orderObject } from '../utils';
+import { getURL, orderObject } from '../utils';
 import { definePictures } from './pictures';
 
 /**

@@ -2,6 +2,13 @@
  * Base
  */
 import options from '../options.js';
+import ptBR from './pt-BR.js';
+import en from './en.js';
+
+const availables = {
+    en,
+    'pt-BR': ptBR,
+};
 
 /**
  * Display Format
@@ -22,15 +29,14 @@ function display(property = '') {
     };
 
     try {
-        const fromSDK = require(`./${locale}.js`);
-        language      = {
-            ...fromSDK,
+        language = {
+            ...(availables[locale] || {}),
             ...language,
         };
 
     } catch (e) {}
 
-    return (language[property]);
+    return (language[property]) || '';
 }
 
 /**

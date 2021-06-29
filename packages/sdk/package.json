@@ -1,9 +1,7 @@
 {
   "name": "@ingresse/sdk",
-  "version": "0.4.4",
+  "version": "0.5.0",
   "description": "Ingresse plataform Javascript SDK",
-  "main": "dist/sdk.js",
-  "module": "src/index.js",
   "keywords": [
     "ingresse",
     "sdk"
@@ -28,12 +26,17 @@
   "bugs": {
     "url": "https://github.com/ingresse/js-core/issues"
   },
+  "type": "module",
+  "main": "./dist/tools.js",
+  "module": "./dist/tools.module.js",
+  "source": "src/index.js",
+  "exports": "./dist/tools.modern.js",
+  "unpkg": "./dist/tools.js",
   "scripts": {
-    "build": "webpack",
-    "unit": "jest --collectCoverage --no-cache --watch",
-    "test": "CI=1 jest --collectCoverage --no-cache",
-    "predev": "cd docs && npm i && clear",
-    "dev": "cd docs && npm start",
+    "dev": "microbundle-crl watch",
+    "dev:test": "jest --collectCoverage --watchAll",
+    "test": "jest --collectCoverage",
+    "build": "rm -rf dist && microbundle-crl",
     "deploy": "npm run build && npm publish"
   },
   "dependencies": {
@@ -49,9 +52,8 @@
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.1.0",
     "jest": "^25.2.4",
-    "prettier": "^2.1.2",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "microbundle-crl": "^0.13.11",
+    "prettier": "^2.1.2"
   },
   "jest": {
     "automock": false,

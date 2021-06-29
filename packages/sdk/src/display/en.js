@@ -1,7 +1,7 @@
 /**
  * Display Options: English
  */
-module.exports = {
+export default {
     date            : 'MM/DD/YYYY',
     dateExtended    : 'dddd[, ]MM/DD/YYYY',
     dateTime        : 'MM/DD/YYYY[ - ]HH:mm',

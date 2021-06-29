@@ -1,7 +1,7 @@
 /**
  * Display Options: Brazil
  */
-module.exports = {
+export default {
     date            : 'DD/MM/YYYY',
     dateExtended    : 'dddd[, ]DD/MM/YYYY',
     dateTime        : 'DD/MM/YYYY[ - ]HH:mm',

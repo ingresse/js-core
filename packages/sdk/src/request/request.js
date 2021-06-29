@@ -12,7 +12,7 @@ import credentials from '../credentials.js';
 /**
  * Utilities
  */
-import { envURLBuilder, objectValidator } from '../utils';
+import { envURLBuilder, getURL, objectValidator } from '../utils';
 
 /**
  * Helpers
@@ -23,24 +23,6 @@ import errorHandler from '../exceptions/handler.js';
  * Adapters
  */
 import * as adapters from '../adapters';
-
-/**
- * Get Resource URL
- *
- * @param {string} resource - platform resource
- * @param {string} env      - pltaform environment
- *
- * @returns {string}
- */
-function getURL(
-    resource = 'api',
-    env      = ''
-) {
-    return (
-        options.get('url') ||
-        envURLBuilder(resource, (env || options.get('env') || ''))
-    );
-}
 
 /**
  * Set Resource URL

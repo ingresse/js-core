@@ -19,4 +19,5 @@ export * from './sort.js';
 export * from './status.js';
 export * from './storage.js';
 export * from './text.js'
+export * from './url.js'
 export * from './validators.js';
