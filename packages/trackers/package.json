@@ -1,6 +1,6 @@
 {
   "name": "@ingresse/trackers",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Ingresse JS Analytics and Anti-fraud helpers for browsers",
   "repository": {
     "type": "git",
@@ -35,7 +35,7 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.1.0",
-    "webpack": "^4.42.1",
+    "webpack": "^5.41.1",
     "webpack-cli": "^3.3.11"
   }
 }
