@@ -67,8 +67,8 @@ const brands = {
     name: 'Mastercard',
     icon: urlIcon('cards/mastercard'),
     keys: [
-      'mastercard',
       'master',
+      'mastercard',
       'creditcard_master',
       'creditcard_mastercard'
     ]
