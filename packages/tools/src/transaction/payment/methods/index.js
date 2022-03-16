@@ -78,10 +78,12 @@ export function formatter(transaction = {}, paymentMethod = other) {
     ofTransaction: methodIdentifier,
   } = paymentMethod
   const filteredTransaction = methodIdentifier ? methodIdentifier(transaction) : transaction
-  const { payment } = filteredTransaction
+  const { sale, payment } = filteredTransaction
+  const { payment: salePayment } = sale || {}
+  const finalPayment = salePayment || payment
 
   return {
-    ...(!payment ? {} : {
+    ...(!finalPayment ? {} : {
       paymentMethod: {
         name,
         icon,
@@ -105,15 +107,18 @@ export function adapter(transaction) {
     return transaction
   }
 
-  const { payment } = transaction
+  const { payment, sale } = transaction
+  const { payment: salePayment } = sale || {}
   const {
     acquirer,
+    bank,
     bankBillet,
     creditCard,
     free,
+    method,
     type,
     wireTransfer
-  } = payment || {}
+  } = salePayment || payment || {}
 
   if (free) {
     return formatter(transaction, freepass)
@@ -127,11 +132,11 @@ export function adapter(transaction) {
     return formatter(transaction, credit)
   }
 
-  if (wireTransfer) {
+  if (bank || wireTransfer) {
     return formatter(transaction, transfer)
   }
 
-  const identifiedByType = getByKey(type)
+  const identifiedByType = getByKey(method || type)
 
   /**
    * Ticketbooth Transactions with specific offline methods

@@ -83,6 +83,14 @@ describe('Transaction Payment Methods', () => {
       expect(transactionAdapted.paymentMethod.name).toBe(methods.freepass.name)
     })
 
+    test('a "free" transaction', () => {
+      const fakeTransaction = { sale: { payment: { free: true } } }
+      const transactionAdapted = adapter(fakeTransaction)
+
+      expect(transactionAdapted.checkoutMethod.name).toBe(methods.freepass.name)
+      expect(transactionAdapted.paymentMethod.name).toBe(methods.freepass.name)
+    })
+
     test('a "boleto" transaction', () => {
       const fakeTransaction = { payment: { bankBillet: {} } }
       const transactionAdapted = adapter(fakeTransaction)

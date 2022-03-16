@@ -74,13 +74,15 @@ function getBankByCode(bankCode = '', banksObject = banks) {
  * @returns {Object}
  */
 function ofTransaction(transaction = {}) {
-  const { payment } = transaction
-  const { wireTransfer: paymentTransfer, type } = payment || {}
+  const { payment, sale } = transaction
+  const { payment: salePayment } = sale || {}
+  const { bank, wireTransfer: paymentTransfer, method, type } = salePayment || payment || {}
   const { bank: paymentTransferBank } = paymentTransfer || {}
-  const { code: bankCode } = paymentTransferBank || {}
+  const { code: bankCode } = bank || paymentTransferBank || {}
+  const paymentType = method || type
   const paymentTransferBankFound = getBankByCode(bankCode)
   const paymentTransferBankBrand = paymentTransferBankFound || (
-    type !== 'wiretransfer' ? null : {
+    !['wiretransfer', 'wireTransfer'].includes(paymentType) ? null : {
       name: transfer.name,
       icon: transfer.icon,
       iconInverse: transfer.iconInverse,

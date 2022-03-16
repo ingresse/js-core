@@ -90,6 +90,7 @@ describe('Transaction Payment Method: Credit Card', () => {
             brand: 'not-mapped-brand',
             cardLast: '9999',
             crazyPossibleProperty: 'ahoy',
+            installments: 1,
             masked: '6666 **** **88 9999',
           }
         }
