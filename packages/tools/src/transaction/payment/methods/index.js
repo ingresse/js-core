@@ -146,7 +146,8 @@ export function adapter(transaction) {
     return formatter(transaction, identifiedByType)
   }
 
-  const { name: acquirerName } = acquirer || {}
+  const { name: acquirerObjName } = acquirer || {}
+  const acquirerName = acquirerObjName || acquirer
 
   /**
    * Default case.

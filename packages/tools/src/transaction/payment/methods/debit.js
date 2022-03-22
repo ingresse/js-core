@@ -66,6 +66,7 @@ const keys = [
   'debit',
   'debito',
   'debitcard',
+  'debitCard',
   'debit-card',
   'cartaodebito'
 ]
