@@ -93,14 +93,16 @@ const debit = base('debit', {
  * @returns {Object}
  */
 function ofTransaction(transaction = {}) {
-  const { payment } = transaction
-  const { type } = payment || {}
+  const { payment, sale } = transaction
+  const { payment: salePayment } = sale || {}
+  const { debitCard: paymentCard, method, type } = salePayment || payment || {}
+  const paymentType = method || type
 
-  if (!String(type).includes('debit')) {
+  if (!String(paymentType).includes('debit')) {
     return transaction
   }
 
-  const paymentCardBrand = getBrandByKey(type, brands) || null
+  const paymentCardBrand = getBrandByKey(paymentType, brands) || null
   const { name, icon } = paymentCardBrand || debit
 
   const checkoutMethod = {
@@ -111,6 +113,7 @@ function ofTransaction(transaction = {}) {
   return {
     ...transaction,
     checkoutMethod,
+    paymentCard,
     paymentCardBrand,
     paymentMethod: checkoutMethod,
   }
