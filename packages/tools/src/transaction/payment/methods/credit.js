@@ -153,23 +153,26 @@ const credit = base('credit', {
  * @returns {Object}
  */
 function ofTransaction(transaction = {}, brandsObject) {
-  const { payment } = transaction
-  const { creditCard: paymentCard, type } = payment || {}
-  const { brand, cardLast, installments, masked } = paymentCard || {}
-  const paymentCardBrand = getBrandByKey(brand || type, brandsObject) || null
+  const { payment, sale } = transaction
+  const { payment: salePayment } = sale || {}
+  const { creditCard: paymentCard, method, type } = salePayment || payment || {}
+  const { brand, cardLast, installments, lastDigits, masked } = paymentCard || {}
+  const paymentType = method || type
+  const paymentCardBrand = getBrandByKey(brand || paymentType, brandsObject) || null
 
-  if (!brand && !type) {
+  if (!brand && !paymentType) {
     return transaction
   }
 
   const { name, icon } = paymentCardBrand || credit
+  const installmentsSummary = !installments ? '' : `${installments > 1 ? `em ${installments}x` : 'à vista'}`
+  const cardLastDigits = cardLast || lastDigits
+  const details = `de final ${cardLastDigits} ${installmentsSummary}`
   const checkoutMethod = {
     name: paymentCardBrand ? `${credit.name} - ${name}` : name,
     icon,
-    ...(!cardLast || !masked ? {} : {
-      masked,
-      details: `de final ${cardLast} ${installments > 1 ? `em ${installments}x` : 'à vista'}`,
-    }),
+    ...(!cardLastDigits ? {} : { details }),
+    ...(!masked ? {} : { masked })
   }
 
   return {

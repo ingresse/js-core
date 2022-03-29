@@ -11,7 +11,7 @@ const status = {
     color: '#3cc2a5',
   },
   'cancelled': {
-    text: 'Cancelada',
+    text: 'Carrinho Abandonado',
     color: '#7a8085',
   },
   'declined': {
@@ -101,9 +101,11 @@ function adapter(transaction) {
     return transaction
   }
 
-  const { status: tStatus } = transaction
+  const { sale, status: tStatus } = transaction
+  const { status: saleStatus } = sale || {}
   const { current: statusCurrent, history: statusHistory = [] } = tStatus || {}
-  const { name: statusCurrentName } = statusCurrent || {}
+  const { name } = statusCurrent || {}
+  const statusCurrentName = saleStatus || name
   const history = []
   const currentIdentified = getByKey(statusCurrentName)
   const current = {

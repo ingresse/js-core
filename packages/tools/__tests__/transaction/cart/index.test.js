@@ -20,6 +20,19 @@ describe('Transaction CART', () => {
     expect(result.totalQuantity).toEqual(expected.totalQuantity)
   })
 
+  test('should return a valid quantity count, with existing quantity', () => {
+    const fakeTransaction = {
+      assure: 'its-a-test',
+      extras: [{ quantity: 2 }, { quantity: ''}, { quantity: 1, externalId: 'ing-coupon' }],
+      tickets: [{ quantity: 2 }, { quantity: 'asd' }],
+      items: { quantity: 3 },
+    }
+    const result = cart.adapter(fakeTransaction)
+    const expected = { totalQuantity: 7 }
+
+    expect(result.totalQuantity).toEqual(expected.totalQuantity)
+  })
+
   test('should return "cart" property', () => {
     const result = cart.adapter()
 

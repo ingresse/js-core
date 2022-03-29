@@ -6,12 +6,13 @@
  * @returns {Object}
  */
 function adapter(transaction = {}) {
-  let totalQuantity = 0
-  const { extras, tickets } = transaction
+  const { extras, items, tickets } = transaction
+  const { quantity } = items || {}
   const cart = [
     ...(tickets || []),
     ...(extras || []),
   ]
+  let totalQuantity = quantity || 0
 
   /**
    * Items quantity sum
