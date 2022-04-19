@@ -116,9 +116,9 @@ function renewJWT(
     settings
 ) {
     return new Promise((resolve, reject) => {
-        const userToken = (token || credentials.get('token'));
+        const usertoken = (token || credentials.get('token'));
 
-        if (!userToken) {
+        if (!usertoken) {
             return reject({
                 code   : -1,
                 message: 'Auth: Missing user token to renew',
@@ -128,8 +128,8 @@ function renewJWT(
         get(
             '/login/renew-token',
             {
+                usertoken,
                 ...query,
-                token: userToken,
             },
             settings
         )
@@ -143,9 +143,12 @@ function renewJWT(
                 });
             }
 
+            const userId = credentials.get('userId');
+
             credentials.set({
+                ...(!userId ? {} : { userId }),
                 jwt  : authToken,
-                token: userToken,
+                token: usertoken,
             });
 
             resolve(credentials.get());

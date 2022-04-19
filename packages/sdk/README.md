@@ -1,4 +1,4 @@
-# `@ingresse/sdk` ES Module
+# `@ingresse/sdk`
 
 #### Facility to use [Ingresse's API](https://dev.ingresse.com/).
 
@@ -277,5 +277,5 @@ purchases.request(endpoint, settings)
 ```
 </details>
 
-## Development 
+## Development
 [More details to local development and publish steps](https://github.com/ingresse/js-core/packages/sdk/README_DEV.md)

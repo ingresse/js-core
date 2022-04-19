@@ -1,7 +1,7 @@
 {
   "name": "@ingresse/sdk",
-  "version": "0.4.4",
-  "description": "Ingresse plataform Javascript SDK",
+  "version": "0.4.5",
+  "description": "Ingresse platform Javascript SDK",
   "main": "dist/sdk.js",
   "module": "src/index.js",
   "keywords": [
@@ -29,6 +29,7 @@
     "url": "https://github.com/ingresse/js-core/issues"
   },
   "scripts": {
+    "deps": "npm i",
     "build": "webpack",
     "unit": "jest --collectCoverage --no-cache --watch",
     "test": "CI=1 jest --collectCoverage --no-cache",
@@ -40,18 +41,18 @@
     "@fnando/cnpj": "^1.0.2",
     "@fnando/cpf": "^1.0.2",
     "@ingresse/request": "0.0.5",
-    "broleto": "0.0.10",
-    "dayjs": "^1.9.1"
+    "broleto": "0.0.12",
+    "dayjs": "^1.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/plugin-transform-modules-commonjs": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
-    "babel-loader": "^8.1.0",
-    "jest": "^25.2.4",
+    "babel-loader": "^8.2.4",
+    "jest": "^27.5.1",
     "prettier": "^2.1.2",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   },
   "jest": {
     "automock": false,
