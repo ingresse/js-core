@@ -1,8 +1,10 @@
 import { ame } from './ame.js'
+import { applepay } from './applepay.js'
 import { boleto } from './boleto.js'
 import { credit } from './credit.js'
 import { debit } from './debit.js'
 import { freepass } from './freepass.js'
+import { googlepay } from './googlepay.js'
 import { money } from './money.js'
 import { other } from './other.js'
 import { paypal } from './paypal.js'
@@ -11,10 +13,12 @@ import { pix } from './pix.js'
 import { transfer } from './transfer.js'
 export {
   ame,
+  applepay,
   boleto,
   credit,
   debit,
   freepass,
+  googlepay,
   money,
   other,
   paypal,
@@ -25,10 +29,12 @@ export {
 
 const methods = {
   ame,
+  applepay,
   boleto,
   credit,
   debit,
   freepass,
+  googlepay,
   paypal,
   picpay,
   pix,
