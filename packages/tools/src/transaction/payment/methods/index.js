@@ -2,6 +2,7 @@ import { ame } from './ame.js'
 import { applepay } from './applepay.js'
 import { boleto } from './boleto.js'
 import { credit } from './credit.js'
+import { clicktopay } from './clicktopay.js'
 import { debit } from './debit.js'
 import { freepass } from './freepass.js'
 import { googlepay } from './googlepay.js'
@@ -16,6 +17,7 @@ export {
   applepay,
   boleto,
   credit,
+  clicktopay,
   debit,
   freepass,
   googlepay,
@@ -32,6 +34,7 @@ const methods = {
   applepay,
   boleto,
   credit,
+  clicktopay,
   debit,
   freepass,
   googlepay,
