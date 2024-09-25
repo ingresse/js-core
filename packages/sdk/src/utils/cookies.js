@@ -42,6 +42,8 @@ function _cookieSET(cname, cvalue, exdays) {
             encodeURIComponent(cvalue) + ';' +
             expires + ';' +
             'domain=' + domain + ';' +
+            'secure; ' +
+            'samesite=strict; ' +
             options.get().cookies.join(';')
         );
     } catch (e) {}
