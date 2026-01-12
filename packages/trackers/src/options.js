@@ -9,7 +9,6 @@ import services from './services';
 let options = {
     fbq   : undefined,
     gtag  : undefined,
-    legiti: undefined,
 };
 const methods = [
     'get',

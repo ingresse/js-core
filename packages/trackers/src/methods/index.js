@@ -4,7 +4,6 @@
 import {
     fbq,
     gtag,
-    legiti,
 } from '../triggers';
 
 /**
@@ -31,7 +30,6 @@ const methods = {
 
     fbq,
     gtag,
-    legiti,
 };
 
 /**

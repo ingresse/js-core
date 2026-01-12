@@ -4,7 +4,6 @@
 import {
     fbq,
     gtag,
-    legiti,
 } from '../triggers';
 
 /**
@@ -38,10 +37,7 @@ function created(purchase) {
             items,
         };
 
-        const _successGtag   = gtag('event', 'begin_checkout', toGtag);
-        const _successLegiti = legiti('trackOrderCreation', transaction_id);
-
-        return (_successGtag || _successLegiti);
+        return gtag('event', 'begin_checkout', toGtag);
 
     } catch (error) {
         return error;
@@ -92,9 +88,8 @@ function success(basket) {
 
         const _fbq    = fbq('track', 'Purchase', toFbq);
         const _gtag   = gtag('event', 'purchase', toGtag);
-        const _legiti = legiti('trackOrderCreation', tid);
 
-        return (_fbq || _gtag || _legiti);
+        return (_fbq || _gtag);
 
     } catch (error) {
         return error;

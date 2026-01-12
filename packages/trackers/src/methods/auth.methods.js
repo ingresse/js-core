@@ -4,7 +4,6 @@
 import {
     fbq,
     gtag,
-    legiti,
 } from '../triggers';
 
 /**
@@ -19,7 +18,7 @@ function loginError(email) {
         return false;
     }
 
-    return legiti('trackLogin', email);
+    return false;
 }
 
 /**
@@ -39,10 +38,7 @@ function login(email, userId) {
         method: 'Ingresse',
     };
 
-    const _successGtag   = gtag('event', 'login', toGtag);
-    const _successLegiti = legiti('trackLogin', email, userId);
-
-    return (_successGtag || _successLegiti);
+    return gtag('event', 'login', toGtag);
 }
 
 /**
@@ -58,7 +54,7 @@ function logout(email, userId) {
         return false;
     }
 
-    return legiti('trackLogout', email, userId);
+    return false;
 }
 
 /**
@@ -81,12 +77,10 @@ function register(email, userId) {
 
     const _successFbq    = fbq('track', 'CompleteRegistration');
     const _successGtag   = gtag('event', 'sign_up', toGtag);
-    const _successLegiti = legiti('trackUserCreation', userId);
 
     return (
         _successFbq ||
-        _successGtag ||
-        _successLegiti
+        _successGtag
     );
 }
 

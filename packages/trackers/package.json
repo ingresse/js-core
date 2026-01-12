@@ -1,7 +1,7 @@
 {
   "name": "@ingresse/trackers",
-  "version": "0.0.4",
-  "description": "Ingresse JS Analytics and Anti-fraud helpers for browsers",
+  "version": "0.0.5",
+  "description": "Ingresse JS Analytics helpers for browsers",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ingresse/js-core.git"
@@ -34,8 +34,8 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.2.4",
     "webpack": "^5.41.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^6.0.1"
   }
 }
