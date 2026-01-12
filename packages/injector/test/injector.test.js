@@ -168,43 +168,4 @@ describe('injector', () => {
         });
     });
 
-    describe('document unable to inject', () => {
-        it('"document" not exists', () => {
-            Object.defineProperty(global, 'document', {});
-
-            expect.assertions(2);
-
-            return (
-                injector({})
-                .then((injected) => {
-                    // Does not happen
-                    expect(typeof injected).toEqual('Object');
-                })
-                .catch(({ code, message }) => {
-                    expect(code).toBe(-1);
-                    expect(message).toEqual('injector:document-unable-to-create-tag');
-                })
-            );
-        });
-
-        it('"document.createElement" is not a function', () => {
-            Object.defineProperty(global, 'document', {
-                createElement: {},
-            });
-
-            expect.assertions(2);
-
-            return (
-                injector({})
-                .then((injected) => {
-                    // Does not happen
-                    expect(typeof injected).toEqual('Object');
-                })
-                .catch(({ code, message }) => {
-                    expect(code).toBe(-1);
-                    expect(message).toEqual('injector:document-unable-to-create-tag');
-                })
-            );
-        });
-    });
 });

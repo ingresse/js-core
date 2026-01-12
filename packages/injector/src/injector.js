@@ -82,7 +82,7 @@ function injector(options) {
 
             resolve(elementRef, targetRef);
 
-        } catch (erro) {
+        } catch (error) {
             reject(error);
         }
     });
