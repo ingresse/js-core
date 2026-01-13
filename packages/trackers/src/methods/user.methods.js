@@ -1,11 +1,4 @@
 /**
- * Triggers
- */
-import {
-    legiti,
-} from '../triggers';
-
-/**
  * Common
  */
 import { auth } from './auth.methods';
@@ -18,7 +11,7 @@ import { auth } from './auth.methods';
  * @returns {boolean|object}
  */
 function updated(userId) {
-    return legiti('trackUserUpdate', userId);
+    return false;
 }
 
 /**

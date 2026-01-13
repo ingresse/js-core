@@ -1,6 +1,6 @@
 # `@ingresse/trackers`
 
-### Facility to inject 3rd party services as [Facebook Pixel](https://developers.facebook.com/docs/facebook-pixel), [Google Analytics](https://developers.google.com/gtagjs/reference/api) and [Legiti](https://docs.legiti.com/ticketing-api/frontend-collection-sdks) inside your HTML page.
+### Facility to inject 3rd party services as [Facebook Pixel](https://developers.facebook.com/docs/facebook-pixel) and [Google Analytics](https://developers.google.com/gtagjs/reference/api) inside your HTML page.
 
 
 ## [npm](https://www.npmjs.com/package/@ingresse/trackers) install
@@ -41,7 +41,6 @@ import trackers from '@ingresse/trackers';
 trackers({
     fbq   : 'facebook-pixel-id',
     gtag  : 'google-analytics-id',
-    legiti: 'legiti-api-key',
 })
 .then(() => {
     // Generic
@@ -117,12 +116,10 @@ trackers({
     // Simplified Usage
     trackers.fbq('track', 'AddToCart', { ... });
     trackers.gtag('event', 'an awesome action', { ... });
-    trackers.legiti('trackUserLogin', 'user@email.io', 'user-id');
 
     // Root Usage
     window.fbq('track', 'AddToCart', { ... });
     window.gtag('event', 'an awesome action', { ... });
-    window.legiti.sharedInstance().trackUserLogin('user@email.io', 'user-id');
 })
 .catch((error) => {
     console.warn('Trackers Injection failed', error);

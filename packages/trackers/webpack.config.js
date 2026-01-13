@@ -30,7 +30,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            '@ingresse/injector': (__dirname + '/node_modules/@ingresse/injector'),
+            '@ingresse/injector': require.resolve('@ingresse/injector'),
         },
     },
 };

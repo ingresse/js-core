@@ -4,7 +4,6 @@
 import {
     fbq,
     gtag,
-    legiti,
 } from '../triggers';
 
 /**

@@ -1,11 +1,4 @@
 /**
- * Triggers
- */
-import {
-    legiti,
-} from '../triggers';
-
-/**
  * Password Recovery
  *
  * @param {string} email - user email
@@ -18,7 +11,7 @@ function recovery(email) {
     }
 
     try {
-        return legiti('trackPasswordRecovery', email);
+        return false;
 
     } catch (error) {
         return error;
@@ -38,7 +31,7 @@ function reset(userId) {
     }
 
     try {
-        return legiti('trackPasswordReset', userId);
+        return false;
 
     } catch (error) {
         return error;
